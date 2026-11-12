@@ -1,0 +1,11 @@
+node_modules
+.expo
+dist
+ios
+android
+package-lock.json
+assets
+docs
+README.md
+AGENTS.md
+expo-env.d.ts
