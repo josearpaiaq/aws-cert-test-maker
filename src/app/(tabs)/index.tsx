@@ -9,6 +9,18 @@ import { DUE_TARGET, loadDueQuestions, WEAKEST_TARGET } from '@/data/practice-qu
 import { getQuestionBank } from '@/data/question-bank';
 import { useRepository } from '@/db/use-repository';
 
+let startupMarked = false;
+
+/**
+ * Logs once per launch when the Study tab has its data. scripts/measure-android.sh uses this
+ * line to time a cold start to an interactive Study tab.
+ */
+function markStudyInteractive() {
+  if (startupMarked) return;
+  startupMarked = true;
+  console.info('[cloudprep] study-interactive');
+}
+
 function startPractice(target: string) {
   void Haptics.selectionAsync();
   router.push({ pathname: '/practice', params: { target } });
@@ -25,7 +37,9 @@ export default function StudyScreen() {
       let cancelled = false;
       loadDueQuestions(repo, Date.now())
         .then((due) => {
-          if (!cancelled) setDueCount(due.length);
+          if (cancelled) return;
+          setDueCount(due.length);
+          markStudyInteractive();
         })
         .catch(() => {
           if (!cancelled) setDueCount(null);
@@ -102,6 +116,17 @@ export default function StudyScreen() {
           </Text>
           <Text className="mt-1 text-base text-sky-100">
             Questions from the domains you score lowest in
+          </Text>
+        </Pressable>
+
+        <Pressable
+          accessibilityRole="button"
+          accessibilityHint="Lists every question with its answer"
+          onPress={() => router.push('/browse')}
+          className="py-2 active:opacity-60"
+        >
+          <Text className="text-base font-semibold text-sky-700 dark:text-sky-400">
+            Browse all {bank.length} questions
           </Text>
         </Pressable>
 
