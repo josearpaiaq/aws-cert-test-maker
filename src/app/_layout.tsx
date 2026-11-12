@@ -1,9 +1,9 @@
 import '@/global.css';
 
-import { DarkTheme, DefaultTheme, ThemeProvider } from 'expo-router';
-import { NativeTabs } from 'expo-router/native-tabs';
+import { DarkTheme, DefaultTheme, Stack, ThemeProvider } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
 import { useColorScheme } from 'react-native';
+import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { migrate } from '@/db/migrations';
 
@@ -11,29 +11,15 @@ export default function RootLayout() {
   const colorScheme = useColorScheme();
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <SQLiteProvider databaseName="cloudprep.db" onInit={migrate}>
-        <NativeTabs>
-          <NativeTabs.Trigger name="index">
-            <NativeTabs.Trigger.Label>Study</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon
-              sf={{ default: 'book', selected: 'book.fill' }}
-              md="menu_book"
-            />
-          </NativeTabs.Trigger>
-          <NativeTabs.Trigger name="exam">
-            <NativeTabs.Trigger.Label>Exam</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon sf="timer" md="timer" />
-          </NativeTabs.Trigger>
-          <NativeTabs.Trigger name="progress">
-            <NativeTabs.Trigger.Label>Progress</NativeTabs.Trigger.Label>
-            <NativeTabs.Trigger.Icon
-              sf={{ default: 'chart.bar', selected: 'chart.bar.fill' }}
-              md="bar_chart"
-            />
-          </NativeTabs.Trigger>
-        </NativeTabs>
-      </SQLiteProvider>
-    </ThemeProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
+        <SQLiteProvider databaseName="cloudprep.db" onInit={migrate}>
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen name="(tabs)" />
+            <Stack.Screen name="practice" />
+          </Stack>
+        </SQLiteProvider>
+      </ThemeProvider>
+    </GestureHandlerRootView>
   );
 }
