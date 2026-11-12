@@ -61,7 +61,8 @@
     "e2e": "maestro test .maestro",
     "android:release": "expo run:android --variant release",
     "measure:android": "scripts/measure-android.sh",
-    "install:apk": "adb install -r dist/CloudPrep-1.0.0.apk"
+    "install:apk": "adb install -r \"$(ls -t dist/*.apk | head -1)\"",
+    "build:apk": "scripts/build-apk.sh"
   },
   "private": true,
   "jest": {

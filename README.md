@@ -88,17 +88,18 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`.
 A release APK is a standalone app: no dev server, no developer menu, full speed.
 
 ```bash
-npm run android:release            # builds the release APK and installs it on a connected phone
-# or build only:
-npx expo prebuild --platform android && (cd android && ./gradlew assembleRelease)
-# -> android/app/build/outputs/apk/release/app-release.apk
+npm run build:apk     # builds the release APK -> dist/CloudPrep-<version>.apk (version from app.json)
+npm run install:apk   # installs the newest APK in dist/ on the connected phone
+npm run android:release   # or build and install in one step, without keeping a copy in dist/
 ```
+
+`build:apk` regenerates `android/` from `app.json`, runs Gradle's `assembleRelease`, and copies the result out of `android/app/build/outputs/apk/release/`. It builds for 64-bit ARM only (practically every current phone); set `ABIS` to add others, for example `ABIS="arm64-v8a,armeabi-v7a" npm run build:apk`. To release a new version, raise `version` in `app.json` first so each APK gets its own file name.
 
 To install without a cable, copy the APK to the phone (USB file transfer, Google Drive, Quick Share), open it from the Files app, and allow "Install unknown apps" for that app when Android asks. With a cable and USB debugging on, `adb install -r app-release.apk` does the same.
 
 The APK is signed with the project's debug key. That is fine for your own devices; publishing to Google Play needs a private upload key (or EAS Build, which manages one).
 
-The app ID is `io.github.josearpaiaq.cloudprep`. Development builds use the same ID, so installing one replaces the other. With the phone connected, `npm run install:apk` installs `dist/CloudPrep-1.0.0.apk` (copy the built APK there first).
+The app ID is `io.github.josearpaiaq.cloudprep`. Development builds use the same ID, so installing one replaces the other.
 
 End-to-end tests use [Maestro](https://maestro.mobile.dev) and run against a release build on a simulator, emulator or device: `npx expo run:ios --configuration Release` (or `npx expo run:android --variant release`), then `npm run e2e`. The flows in `.maestro/` complete one practice session and one mock exam; they write real answers to the app's database, so run them on a simulator rather than a phone you study on.
 
