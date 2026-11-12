@@ -58,7 +58,10 @@
     "test": "jest",
     "validate:questions": "jest src/data/__tests__/question-bank.test.ts",
     "eas-build-post-install": "npm run validate:questions",
-    "e2e": "maestro test .maestro"
+    "e2e": "maestro test .maestro",
+    "android:release": "expo run:android --variant release",
+    "measure:android": "scripts/measure-android.sh",
+    "install:apk": "adb install -r dist/CloudPrep-1.0.0.apk"
   },
   "private": true,
   "jest": {
