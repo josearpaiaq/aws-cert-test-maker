@@ -2,6 +2,7 @@ import { create } from 'zustand';
 
 import type { Question } from '@/data/question-schema';
 import { isCorrect } from '@/logic/scoring';
+import { toggleSelection } from '@/logic/selection';
 
 export type PracticeResult = {
   question: Question;
@@ -50,13 +51,7 @@ export const usePracticeSession = create<PracticeSessionState>((set, get) => ({
     const question = questions[index];
     if (!question || revealed) return;
 
-    if (question.type === 'single') {
-      set({ selected: [optionId] });
-    } else if (selected.includes(optionId)) {
-      set({ selected: selected.filter((id) => id !== optionId) });
-    } else if (selected.length < question.correct.length) {
-      set({ selected: [...selected, optionId] });
-    }
+    set({ selected: toggleSelection(question, selected, optionId) });
   },
 
   toggleUnsure: () => {
