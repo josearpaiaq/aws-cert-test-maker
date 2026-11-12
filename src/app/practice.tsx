@@ -22,7 +22,7 @@ import { scheduleOnRN } from 'react-native-worklets';
 
 import { QuestionCard } from '@/components/practice/question-card';
 import { CLF_C02 } from '@/data/exams/clf-c02';
-import { loadPracticeQuestions } from '@/data/practice-questions';
+import { DUE_TARGET, loadPracticeQuestions } from '@/data/practice-questions';
 import { recordAnswer } from '@/db/record-answer';
 import { useRepository } from '@/db/use-repository';
 import { canCheck, usePracticeSession } from '@/state/practice-session';
@@ -84,7 +84,7 @@ export default function PracticeScreen() {
 
   useEffect(() => {
     let cancelled = false;
-    loadPracticeQuestions(repo, target)
+    loadPracticeQuestions(repo, target, Date.now())
       .then((loaded) => {
         if (cancelled) return;
         start(loaded);
@@ -179,7 +179,7 @@ export default function PracticeScreen() {
       examId: CLF_C02.id,
       questionId: result.question.id,
       domain: result.question.domain,
-      mode: 'practice',
+      mode: target === DUE_TARGET ? 'review' : 'practice',
       selected: result.selected,
       isCorrect: result.isCorrect,
       confidence: result.confidence,
@@ -214,7 +214,14 @@ export default function PracticeScreen() {
     );
   } else if (total === 0) {
     content = (
-      <CenteredMessage title="No questions yet" body="There are no questions for this selection." />
+      <CenteredMessage
+        title={target === DUE_TARGET ? 'Nothing due' : 'No questions yet'}
+        body={
+          target === DUE_TARGET
+            ? 'You have no questions to review today.'
+            : 'There are no questions for this selection.'
+        }
+      />
     );
   } else if (!question) {
     const correct = results.filter((r) => r.isCorrect).length;

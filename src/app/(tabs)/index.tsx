@@ -1,11 +1,13 @@
 import * as Haptics from 'expo-haptics';
-import { router } from 'expo-router';
+import { router, useFocusEffect } from 'expo-router';
+import { useCallback, useState } from 'react';
 import { Pressable, ScrollView, Text } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CLF_C02 } from '@/data/exams/clf-c02';
-import { WEAKEST_TARGET } from '@/data/practice-questions';
+import { DUE_TARGET, loadDueQuestions, WEAKEST_TARGET } from '@/data/practice-questions';
 import { getQuestionBank } from '@/data/question-bank';
+import { useRepository } from '@/db/use-repository';
 
 function startPractice(target: string) {
   void Haptics.selectionAsync();
@@ -14,6 +16,26 @@ function startPractice(target: string) {
 
 export default function StudyScreen() {
   const bank = getQuestionBank();
+  const repo = useRepository();
+  const [dueCount, setDueCount] = useState<number | null>(null);
+
+  // Recount on focus: finishing a session or an exam changes what is due.
+  useFocusEffect(
+    useCallback(() => {
+      let cancelled = false;
+      loadDueQuestions(repo, Date.now())
+        .then((due) => {
+          if (!cancelled) setDueCount(due.length);
+        })
+        .catch(() => {
+          if (!cancelled) setDueCount(null);
+        });
+      return () => {
+        cancelled = true;
+      };
+    }, [repo]),
+  );
+  const hasDue = dueCount !== null && dueCount > 0;
 
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-white dark:bg-black">
@@ -30,6 +52,28 @@ export default function StudyScreen() {
         <Text className="mb-2 text-base text-slate-600 dark:text-slate-400">
           {CLF_C02.name} · 10 questions per session
         </Text>
+
+        <Pressable
+          accessibilityRole="button"
+          accessibilityState={{ disabled: !hasDue }}
+          accessibilityHint="Starts a review of the questions scheduled for today"
+          disabled={!hasDue}
+          onPress={() => startPractice(DUE_TARGET)}
+          className={`rounded-2xl border-2 p-5 active:opacity-70 ${
+            hasDue
+              ? 'border-amber-500 bg-amber-50 dark:border-amber-400 dark:bg-amber-950'
+              : 'border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900'
+          }`}
+        >
+          <Text className="text-lg font-semibold text-slate-900 dark:text-slate-50">Due today</Text>
+          <Text className="mt-1 text-base text-slate-700 dark:text-slate-300">
+            {dueCount === null
+              ? 'Checking your review queue…'
+              : hasDue
+                ? `${dueCount} ${dueCount === 1 ? 'question' : 'questions'} to review`
+                : 'Nothing to review. Missed and unsure questions come back here.'}
+          </Text>
+        </Pressable>
 
         <Pressable
           accessibilityRole="button"

@@ -178,6 +178,25 @@ export function createRepository(db: Database) {
       return rows.map(toAnswer);
     },
 
+    /** Answers at or after `since`, most recent first. */
+    async getAnswersSince(examId: string, since: number): Promise<Answer[]> {
+      const rows = await db.getAllAsync<AnswerRow>(
+        `SELECT * FROM answers WHERE exam_id = ? AND answered_at >= ?
+         ORDER BY answered_at DESC, id DESC`,
+        [examId, since],
+      );
+      return rows.map(toAnswer);
+    },
+
+    /** The time of every answer ever recorded, for streaks and totals. */
+    async getAnswerTimestamps(examId: string): Promise<number[]> {
+      const rows = await db.getAllAsync<{ answered_at: number }>(
+        'SELECT answered_at FROM answers WHERE exam_id = ?',
+        [examId],
+      );
+      return rows.map((row) => row.answered_at);
+    },
+
     // Review schedule
 
     async saveReview(review: ReviewSchedule): Promise<void> {

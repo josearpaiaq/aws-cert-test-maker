@@ -1,4 +1,8 @@
-import { rankDomainsByWeakness, selectPracticeQuestions } from '@/logic/practice';
+import {
+  rankDomainsByWeakness,
+  selectDueQuestions,
+  selectPracticeQuestions,
+} from '@/logic/practice';
 
 function domain(id: number, accuracy: number | null) {
   return { domain: id, answered: 0, correct: 0, accuracy, ready: false };
@@ -62,5 +66,31 @@ describe('selectPracticeQuestions', () => {
     const second = selectPracticeQuestions(bank, [1], 10, sequence([0.8, 0.2, 0.6, 0.4]));
 
     expect(first.map((q) => q.id)).not.toEqual(second.map((q) => q.id));
+  });
+});
+
+describe('selectDueQuestions', () => {
+  const bank = [{ id: 'a' }, { id: 'b' }, { id: 'c' }];
+  const review = (questionId: string) => ({ questionId });
+
+  it('returns the questions in review order', () => {
+    expect(selectDueQuestions([review('c'), review('a')], bank, 10)).toEqual([
+      { id: 'c' },
+      { id: 'a' },
+    ]);
+  });
+
+  it('skips reviews for questions that are no longer in the bank', () => {
+    expect(selectDueQuestions([review('gone'), review('b')], bank, 10)).toEqual([{ id: 'b' }]);
+  });
+
+  it('keeps only the most overdue questions when there are more than the limit', () => {
+    const picked = selectDueQuestions([review('a'), review('b'), review('c')], bank, 2);
+
+    expect(picked).toEqual([{ id: 'a' }, { id: 'b' }]);
+  });
+
+  it('returns nothing when no reviews are due', () => {
+    expect(selectDueQuestions([], bank, 10)).toEqual([]);
   });
 });

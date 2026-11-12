@@ -3,6 +3,8 @@ import type { DomainReadiness } from '@/logic/readiness';
 
 /** Questions in one practice session. */
 export const PRACTICE_SESSION_SIZE = 10;
+/** The most questions one "Due today" review session contains. */
+export const DUE_SESSION_SIZE = 20;
 /** How many of the weakest domains a "weakest areas" session draws from. */
 export const WEAKEST_DOMAIN_COUNT = 2;
 
@@ -26,4 +28,18 @@ export function selectPracticeQuestions<Q extends { domain: number }>(
 ): Q[] {
   const pool = bank.filter((question) => domainIds.includes(question.domain));
   return shuffle(pool, random).slice(0, size);
+}
+
+/**
+ * The questions for a review session, in the order of the given reviews (most overdue
+ * first) and at most `limit` long. A review whose question is no longer in the bank is
+ * skipped.
+ */
+export function selectDueQuestions<Q extends { id: string }>(
+  reviews: readonly { questionId: string }[],
+  bank: readonly Q[],
+  limit: number,
+): Q[] {
+  const byId = new Map(bank.map((question) => [question.id, question]));
+  return reviews.flatMap((review) => byId.get(review.questionId) ?? []).slice(0, limit);
 }
