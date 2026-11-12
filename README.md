@@ -2,7 +2,7 @@
 
 An offline-first iOS and Android quiz app for studying for the **AWS Certified Cloud Practitioner (CLF-C02)** exam, built with React Native and Expo.
 
-> **Status:** phase 7 (reminders and settings) done; the quality pass is next. The build plan lives in [`docs/cloudprep-agent-build-prompt.md`](docs/cloudprep-agent-build-prompt.md). This README will grow with each phase.
+> **Status:** phase 8 (quality pass) done; shipping is next. The build plan lives in [`docs/cloudprep-agent-build-prompt.md`](docs/cloudprep-agent-build-prompt.md). This README will grow with each phase.
 
 ## Why this project
 
@@ -76,6 +76,8 @@ To use a simulator or emulator instead: `npx expo run:ios` or `npx expo run:andr
 
 Checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`.
 
+End-to-end tests use [Maestro](https://maestro.mobile.dev) and run against a release build on a simulator, emulator or device: `npx expo run:ios --configuration Release` (or `npx expo run:android --variant release`), then `npm run e2e`. The flows in `.maestro/` complete one practice session and one mock exam; they write real answers to the app's database, so run them on a simulator rather than a phone you study on.
+
 `npm run validate:questions` validates the bundled question bank against the schema. It runs automatically before `npm run android` / `npm run ios` and on EAS builds, so an invalid question file fails the build.
 
 ## Roadmap
@@ -87,7 +89,7 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`.
 - [x] 5. Mock exam
 - [x] 6. Spaced repetition and progress
 - [x] 7. Reminders and settings
-- [ ] 8. Quality pass — accessibility, empty/error states, Maestro e2e
+- [x] 8. Quality pass — accessibility, empty/error states, Maestro e2e
 - [ ] 9. Ship — TestFlight and Google Play internal testing
 
 ## React Native vs Ionic/Capacitor

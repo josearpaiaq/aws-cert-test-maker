@@ -1,0 +1,28 @@
+# Starts (or resumes) a mock exam, answers and flags a question, submits from the review
+# grid and checks the results screen. Unanswered questions count as incorrect, so the flow
+# does not need to answer the whole exam.
+appId: com.anonymous.cloudprep
+name: Mock exam
+---
+- launchApp
+- tapOn: 'Exam'
+- tapOn: '(Start|Resume) exam.*'
+- assertVisible: 'Question .* of .*'
+- tapOn:
+    id: 'option-a'
+- tapOn:
+    id: 'flag-question'
+- tapOn: 'Next'
+- tapOn:
+    id: 'option-a'
+- tapOn:
+    id: 'option-b'
+- tapOn: 'Review'
+- assertVisible: '.* of .* answered · 1 flagged'
+- tapOn: 'Submit exam'
+- assertVisible: 'Submit exam\?'
+- tapOn: '(?i)submit'
+- assertVisible: 'Mock exam result'
+- assertVisible: '.* of .* correct.*'
+- tapOn: 'Done'
+- assertVisible: 'Last result.*'

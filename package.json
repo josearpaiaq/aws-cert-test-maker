@@ -57,7 +57,8 @@
     "format:check": "prettier --check .",
     "test": "jest",
     "validate:questions": "jest src/data/__tests__/question-bank.test.ts",
-    "eas-build-post-install": "npm run validate:questions"
+    "eas-build-post-install": "npm run validate:questions",
+    "e2e": "maestro test .maestro"
   },
   "private": true,
   "jest": {

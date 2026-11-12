@@ -1,0 +1,26 @@
+# Completes one 10-question practice session from the Study tab.
+# Tapping option A and then B answers both question types: on a single-answer question the
+# second tap replaces the first, and on a "Choose two" question both stay selected.
+appId: com.anonymous.cloudprep
+name: Practice session
+---
+- launchApp
+- assertVisible: 'Practice by domain'
+- tapOn: '.*Cloud Concepts.*'
+- repeat:
+    times: 10
+    commands:
+      - tapOn:
+          id: 'option-a'
+      - tapOn:
+          id: 'option-b'
+      - tapOn:
+          id: 'check-answer'
+      - assertVisible:
+          id: 'next-question'
+      - tapOn:
+          id: 'next-question'
+- assertVisible: 'Session complete'
+- assertVisible: 'You answered .* of 10 correctly.'
+- tapOn: 'Done'
+- assertVisible: 'Practice by domain'
