@@ -2,7 +2,7 @@
 
 An offline-first iOS and Android quiz app for studying for the **AWS Certified Cloud Practitioner (CLF-C02)** exam, built with React Native and Expo.
 
-> **Status:** phase 6 (spaced repetition and progress) done; reminders and settings are next. The build plan lives in [`docs/cloudprep-agent-build-prompt.md`](docs/cloudprep-agent-build-prompt.md). This README will grow with each phase.
+> **Status:** phase 7 (reminders and settings) done; the quality pass is next. The build plan lives in [`docs/cloudprep-agent-build-prompt.md`](docs/cloudprep-agent-build-prompt.md). This README will grow with each phase.
 
 ## Why this project
 
@@ -86,7 +86,7 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`.
 - [x] 4. Practice mode
 - [x] 5. Mock exam
 - [x] 6. Spaced repetition and progress
-- [ ] 7. Reminders and settings
+- [x] 7. Reminders and settings
 - [ ] 8. Quality pass — accessibility, empty/error states, Maestro e2e
 - [ ] 9. Ship — TestFlight and Google Play internal testing
 

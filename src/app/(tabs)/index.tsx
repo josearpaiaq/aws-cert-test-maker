@@ -1,7 +1,7 @@
 import * as Haptics from 'expo-haptics';
 import { router, useFocusEffect } from 'expo-router';
 import { useCallback, useState } from 'react';
-import { Pressable, ScrollView, Text } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { CLF_C02 } from '@/data/exams/clf-c02';
@@ -43,12 +43,22 @@ export default function StudyScreen() {
         contentInsetAdjustmentBehavior="automatic"
         contentContainerClassName="gap-3 px-5 pb-8 pt-4"
       >
-        <Text
-          accessibilityRole="header"
-          className="text-3xl font-bold text-slate-900 dark:text-slate-50"
-        >
-          Study
-        </Text>
+        <View className="flex-row items-center justify-between">
+          <Text
+            accessibilityRole="header"
+            className="text-3xl font-bold text-slate-900 dark:text-slate-50"
+          >
+            Study
+          </Text>
+          <Pressable
+            accessibilityRole="button"
+            hitSlop={12}
+            onPress={() => router.push('/settings')}
+            className="active:opacity-60"
+          >
+            <Text className="text-base font-semibold text-sky-700 dark:text-sky-400">Settings</Text>
+          </Pressable>
+        </View>
         <Text className="mb-2 text-base text-slate-600 dark:text-slate-400">
           {CLF_C02.name} · 10 questions per session
         </Text>

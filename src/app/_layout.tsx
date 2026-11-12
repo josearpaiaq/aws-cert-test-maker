@@ -6,9 +6,11 @@ import { useColorScheme } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
 import { migrate } from '@/db/migrations';
+import { useReminderLink } from '@/notifications/use-reminder-link';
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
+  useReminderLink();
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -19,6 +21,7 @@ export default function RootLayout() {
             <Stack.Screen name="practice" />
             <Stack.Screen name="exam-session" options={{ gestureEnabled: false }} />
             <Stack.Screen name="exam-results" />
+            <Stack.Screen name="settings" options={{ headerShown: true, title: 'Settings' }} />
           </Stack>
         </SQLiteProvider>
       </ThemeProvider>
