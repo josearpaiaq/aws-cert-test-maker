@@ -131,6 +131,11 @@ function toAttempt(row: AttemptRow): ExamAttempt {
 
 export function createRepository(db: Database) {
   return {
+    /** Runs `task` in a transaction: either every write in it is saved, or none is. */
+    transaction(task: () => Promise<void>): Promise<void> {
+      return db.withTransactionAsync(task);
+    },
+
     // Answers
 
     async recordAnswer(answer: NewAnswer): Promise<number> {

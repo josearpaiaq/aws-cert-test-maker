@@ -15,6 +15,7 @@ export async function recordAnswer(
     selected: string[];
     isCorrect: boolean;
     confidence?: Confidence;
+    examAttemptId?: number;
     now: number;
   },
 ): Promise<number> {
