@@ -1,5 +1,6 @@
 import { CLF_C02 } from '@/data/exams/clf-c02';
-import { allocateByWeight, assembleExam, type Random } from '@/logic/exam-assembly';
+import { allocateByWeight, assembleExam } from '@/logic/exam-assembly';
+import type { Random } from '@/logic/random';
 
 /** A small deterministic pseudo-random generator (mulberry32). */
 function seeded(seed: number): Random {
