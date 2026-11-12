@@ -158,6 +158,45 @@ describe('repository', () => {
     });
   });
 
+  describe('resetProgress', () => {
+    it('deletes answers, reviews and exams for the exam but keeps settings', async () => {
+      const attemptId = await repo.startExamAttempt({
+        examId: EXAM,
+        questionIds: ['q1'],
+        startedAt: 0,
+        endsAt: 1000,
+      });
+      await repo.recordAnswer(answer({ mode: 'exam', examAttemptId: attemptId }));
+      await repo.recordAnswer(answer());
+      await repo.saveReview({
+        examId: EXAM,
+        questionId: 'q1',
+        dueAt: 1,
+        intervalDays: 1,
+        easeFactor: 2.5,
+        repetitions: 0,
+        lastReviewedAt: 0,
+      });
+      await repo.setSetting('reminder.time', '08:00');
+
+      await repo.resetProgress(EXAM);
+
+      expect(await repo.getRecentAnswers(EXAM, { limit: 10 })).toEqual([]);
+      expect(await repo.getDueReviews(EXAM, Number.MAX_SAFE_INTEGER)).toEqual([]);
+      expect(await repo.getInProgressExamAttempt(EXAM)).toBeNull();
+      expect(await repo.getExamHistory(EXAM)).toEqual([]);
+      expect(await repo.getSetting('reminder.time')).toBe('08:00');
+    });
+
+    it('leaves other exams untouched', async () => {
+      await repo.recordAnswer(answer({ examId: 'other-exam' }));
+
+      await repo.resetProgress(EXAM);
+
+      expect(await repo.getRecentAnswers('other-exam', { limit: 10 })).toHaveLength(1);
+    });
+  });
+
   describe('settings', () => {
     it('returns null for a setting that was never stored', async () => {
       expect(await repo.getSetting('reminderTime')).toBeNull();

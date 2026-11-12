@@ -306,6 +306,17 @@ export function createRepository(db: Database) {
       return rows.map(toAttempt);
     },
 
+    /**
+     * Deletes all answers, review schedules and mock exams for one exam. Settings are kept.
+     */
+    async resetProgress(examId: string): Promise<void> {
+      await db.withTransactionAsync(async () => {
+        await db.runAsync('DELETE FROM answers WHERE exam_id = ?', [examId]);
+        await db.runAsync('DELETE FROM review_schedule WHERE exam_id = ?', [examId]);
+        await db.runAsync('DELETE FROM exam_attempts WHERE exam_id = ?', [examId]);
+      });
+    },
+
     // Settings
 
     async getSetting(key: string): Promise<string | null> {
