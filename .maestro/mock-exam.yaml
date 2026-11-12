@@ -1,7 +1,7 @@
 # Starts (or resumes) a mock exam, answers and flags a question, submits from the review
 # grid and checks the results screen. Unanswered questions count as incorrect, so the flow
 # does not need to answer the whole exam.
-appId: com.anonymous.cloudprep
+appId: io.github.josearpaiaq.cloudprep
 name: Mock exam
 ---
 - launchApp

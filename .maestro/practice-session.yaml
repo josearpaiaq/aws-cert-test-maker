@@ -1,7 +1,7 @@
 # Completes one 10-question practice session from the Study tab.
 # Tapping option A and then B answers both question types: on a single-answer question the
 # second tap replaces the first, and on a "Choose two" question both stay selected.
-appId: com.anonymous.cloudprep
+appId: io.github.josearpaiaq.cloudprep
 name: Practice session
 ---
 - launchApp
