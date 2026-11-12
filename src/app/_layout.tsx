@@ -17,6 +17,8 @@ export default function RootLayout() {
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="practice" />
+            <Stack.Screen name="exam-session" options={{ gestureEnabled: false }} />
+            <Stack.Screen name="exam-results" />
           </Stack>
         </SQLiteProvider>
       </ThemeProvider>
