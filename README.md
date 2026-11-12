@@ -2,7 +2,7 @@
 
 An offline-first iOS and Android quiz app for studying for the **AWS Certified Cloud Practitioner (CLF-C02)** exam, built with React Native and Expo.
 
-> **Status:** pre-scaffold. The build plan lives in [`docs/cloudprep-agent-build-prompt.md`](docs/cloudprep-agent-build-prompt.md). This README will grow with each phase.
+> **Status:** phase 2 (data layer) done; core logic is next. The build plan lives in [`docs/cloudprep-agent-build-prompt.md`](docs/cloudprep-agent-build-prompt.md). This README will grow with each phase.
 
 ## Why this project
 
@@ -52,20 +52,36 @@ Weights live in a config file so they can be updated if AWS revises the exam. So
 
 ## Architecture
 
-_To be documented as it is built._ Planned outline:
-
-- **Question bank** — bundled JSON (`assets/questions/clf-c02.json`) validated at build time with a Zod schema. Adding a second certification means dropping in another JSON file and config.
-- **Data layer** — SQLite tables (`answers`, `review_schedule`, `exam_attempts`, `settings`) with versioned migrations behind a typed repository module.
-- **Business logic** — scoring, weighted exam assembly, spaced-repetition scheduling and readiness are pure, unit-tested functions, separate from components.
+- **Exam config** (`src/data/exams/clf-c02.ts`) — question counts, scoring scale, domain weights and task statements, taken from the official exam guide. Nothing exam-specific is hard-coded in components.
+- **Question bank** (`assets/questions/clf-c02.json`) — bundled JSON validated with a Zod schema (`src/data/question-schema.ts`) that also enforces the exam guide's rules: single-answer questions have 4 options and 1 correct answer; multiple-response questions have 5 or more options, 2 or more correct answers, and a prompt that states how many to pick. Adding a second certification means adding another config and JSON file.
+- **Database** (`src/db`) — SQLite tables (`answers`, `review_schedule`, `exam_attempts`, `settings`) created by versioned migrations tracked with `PRAGMA user_version`, behind a typed repository. The repository depends on a small `Database` interface that expo-sqlite satisfies, so unit tests run the same SQL against Node's built-in SQLite.
+- **Business logic** (planned) — scoring, weighted exam assembly, spaced-repetition scheduling and readiness as pure, unit-tested functions, separate from components.
 
 ## Running locally
 
-_Coming in phase 1 (scaffold)._
+Requires Node 22.13+ and a development build (the app does not run in Expo Go).
+
+```bash
+npm install
+
+# Build and install the development client on a physical device (once, and after native dependency changes)
+npx eas-cli@latest login
+npx eas-cli@latest build --profile development --platform android   # or ios
+
+# Start the dev server and open the app on the device
+npx expo start
+```
+
+To use a simulator or emulator instead: `npx expo run:ios` or `npx expo run:android`.
+
+Checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`.
+
+`npm run validate:questions` validates the bundled question bank against the schema. It runs automatically before `npm run android` / `npm run ios` and on EAS builds, so an invalid question file fails the build.
 
 ## Roadmap
 
-- [ ] 1. Scaffold — Expo Router tabs (Study, Exam, Progress), lint, strict TS, NativeWind, EAS dev build
-- [ ] 2. Data layer — Zod schema, domain config, 40 draft seed questions, SQLite migrations, repository
+- [x] 1. Scaffold — Expo Router tabs (Study, Exam, Progress), lint, strict TS, NativeWind, EAS dev build
+- [x] 2. Data layer — Zod schema, domain config, 40 draft seed questions, SQLite migrations, repository
 - [ ] 3. Core logic — scoring, exam assembly, spaced repetition, readiness
 - [ ] 4. Practice mode
 - [ ] 5. Mock exam
