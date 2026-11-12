@@ -28,12 +28,13 @@ function FooterButton(props: {
       accessibilityState={{ disabled: props.disabled }}
       disabled={props.disabled}
       onPress={props.onPress}
-      className={`h-14 flex-1 items-center justify-center rounded-2xl active:opacity-70 ${
-        props.primary ? 'bg-sky-600' : 'border-2 border-slate-300 dark:border-slate-700'
+      className={`min-h-14 flex-1 items-center justify-center rounded-2xl py-3 active:opacity-70 ${
+        props.primary ? 'bg-sky-700' : 'border-2 border-slate-300 dark:border-slate-700'
       } ${props.disabled ? 'opacity-40' : ''}`}
     >
       <Text
-        className={`text-lg font-semibold ${
+        maxFontSizeMultiplier={1.5}
+        className={`text-center text-lg font-semibold ${
           props.primary ? 'text-white' : 'text-slate-800 dark:text-slate-100'
         }`}
       >
@@ -172,7 +173,9 @@ export default function ExamSessionScreen() {
           onPress={() => router.back()}
           className="active:opacity-60"
         >
-          <Text className="text-2xl text-slate-600 dark:text-slate-300">✕</Text>
+          <Text maxFontSizeMultiplier={1.4} className="text-2xl text-slate-600 dark:text-slate-300">
+            ✕
+          </Text>
         </Pressable>
         <ExamTimer endsAt={attempt.endsAt} onExpire={submit} />
         <Pressable
@@ -202,6 +205,7 @@ export default function ExamSessionScreen() {
         <>
           <ScrollView contentContainerClassName="gap-4 px-5 pb-6 pt-2">
             <Text
+              maxFontSizeMultiplier={1.6}
               accessibilityRole="header"
               className="text-xl font-semibold text-slate-900 dark:text-slate-50"
             >
@@ -232,6 +236,7 @@ export default function ExamSessionScreen() {
               accessibilityRole="switch"
               accessibilityState={{ checked: isFlagged }}
               accessibilityLabel="Flag for review"
+              testID="flag-question"
               hitSlop={8}
               onPress={() => {
                 void Haptics.selectionAsync();

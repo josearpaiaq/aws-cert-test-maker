@@ -35,6 +35,7 @@ export function QuestionCard({
   return (
     <View className="gap-5">
       <Text
+        maxFontSizeMultiplier={1.6}
         accessibilityRole="header"
         className="text-xl font-semibold leading-7 text-slate-900 dark:text-slate-50"
       >

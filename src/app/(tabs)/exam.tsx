@@ -66,6 +66,7 @@ export default function ExamScreen() {
         contentContainerClassName="gap-4 px-5 pb-8 pt-4"
       >
         <Text
+          maxFontSizeMultiplier={1.3}
           accessibilityRole="header"
           className="text-3xl font-bold text-slate-900 dark:text-slate-50"
         >
@@ -86,11 +87,11 @@ export default function ExamScreen() {
           accessibilityRole="button"
           disabled={state === null || examSize === 0}
           onPress={() => void open()}
-          className={`rounded-2xl bg-sky-600 p-5 active:bg-sky-700 ${
+          className={`rounded-2xl bg-sky-700 p-5 active:bg-sky-800 ${
             state === null || examSize === 0 ? 'opacity-40' : ''
           }`}
         >
-          <Text className="text-lg font-semibold text-white">
+          <Text maxFontSizeMultiplier={1.5} className="text-lg font-semibold text-white">
             {inProgress ? 'Resume exam' : 'Start exam'}
           </Text>
           {inProgress && (
@@ -120,7 +121,10 @@ export default function ExamScreen() {
               Last result
             </Text>
             <View className="mt-1 flex-row items-baseline gap-2">
-              <Text className="text-2xl font-bold text-slate-900 dark:text-slate-50">
+              <Text
+                maxFontSizeMultiplier={1.4}
+                className="text-2xl font-bold text-slate-900 dark:text-slate-50"
+              >
                 {Math.round((last.correctCount / last.totalCount) * 100)}%
               </Text>
               <Text className="text-base text-slate-600 dark:text-slate-400">

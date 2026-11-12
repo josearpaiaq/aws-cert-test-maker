@@ -16,6 +16,7 @@ export function ReadinessCard({ readiness, domains }: ReadinessCardProps) {
     <View className="gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
       <View className="flex-row items-center justify-between gap-3">
         <Text
+          maxFontSizeMultiplier={1.5}
           accessibilityRole="header"
           className="text-lg font-semibold text-slate-900 dark:text-slate-50"
         >
@@ -23,7 +24,7 @@ export function ReadinessCard({ readiness, domains }: ReadinessCardProps) {
         </Text>
         <View
           className={`rounded-full px-3 py-1 ${
-            readiness.ready ? 'bg-emerald-600' : 'bg-slate-200 dark:bg-slate-700'
+            readiness.ready ? 'bg-emerald-700' : 'bg-slate-200 dark:bg-slate-700'
           }`}
         >
           <Text

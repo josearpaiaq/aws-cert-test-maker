@@ -19,7 +19,10 @@ function StatTile(props: { value: string; label: string; detail: string }) {
       className="flex-1 rounded-2xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900"
     >
       <Text className="text-sm font-medium text-slate-500 dark:text-slate-400">{props.label}</Text>
-      <Text className="mt-1 text-3xl font-bold text-slate-900 dark:text-slate-50">
+      <Text
+        maxFontSizeMultiplier={1.3}
+        className="mt-1 text-3xl font-bold text-slate-900 dark:text-slate-50"
+      >
         {props.value}
       </Text>
       <Text className="mt-1 text-sm text-slate-600 dark:text-slate-400">{props.detail}</Text>
@@ -53,7 +56,10 @@ function ExamRow({ attempt }: { attempt: ExamAttempt }) {
           {correct} of {total} correct
         </Text>
       </View>
-      <Text className="text-2xl font-bold tabular-nums text-slate-900 dark:text-slate-50">
+      <Text
+        maxFontSizeMultiplier={1.4}
+        className="text-2xl font-bold tabular-nums text-slate-900 dark:text-slate-50"
+      >
         {score}%
       </Text>
     </Pressable>
@@ -103,6 +109,7 @@ export default function ProgressScreen() {
   const header = (
     <View className="gap-4 px-5 pb-4 pt-4">
       <Text
+        maxFontSizeMultiplier={1.3}
         accessibilityRole="header"
         className="text-3xl font-bold text-slate-900 dark:text-slate-50"
       >

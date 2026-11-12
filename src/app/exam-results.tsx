@@ -52,16 +52,21 @@ export default function ExamResultsScreen() {
     <Pressable
       accessibilityRole="button"
       onPress={() => router.back()}
-      className="h-14 items-center justify-center rounded-2xl bg-sky-600 active:bg-sky-700"
+      className="min-h-14 items-center justify-center rounded-2xl bg-sky-700 py-3 active:bg-sky-800"
     >
-      <Text className="text-lg font-semibold text-white">Done</Text>
+      <Text maxFontSizeMultiplier={1.5} className="text-center text-lg font-semibold text-white">
+        Done
+      </Text>
     </Pressable>
   );
 
   if (result === 'missing') {
     return (
       <SafeAreaView className="flex-1 justify-center gap-6 bg-white px-5 dark:bg-black">
-        <Text className="text-center text-xl font-semibold text-slate-900 dark:text-slate-50">
+        <Text
+          maxFontSizeMultiplier={1.6}
+          className="text-center text-xl font-semibold text-slate-900 dark:text-slate-50"
+        >
           This result could not be found.
         </Text>
         {done}
@@ -83,6 +88,7 @@ export default function ExamResultsScreen() {
             Mock exam result
           </Text>
           <Text
+            maxFontSizeMultiplier={1.3}
             accessibilityRole="header"
             className="text-6xl font-bold text-slate-900 dark:text-slate-50"
           >

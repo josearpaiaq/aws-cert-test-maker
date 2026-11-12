@@ -2,6 +2,7 @@ import * as Haptics from 'expo-haptics';
 import { router, useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import {
+  AccessibilityInfo,
   ActivityIndicator,
   Pressable,
   ScrollView,
@@ -29,18 +30,26 @@ import { canCheck, usePracticeSession } from '@/state/practice-session';
 
 type LoadStatus = 'loading' | 'ready' | 'error';
 
-function PrimaryButton(props: { label: string; disabled?: boolean; onPress: () => void }) {
+function PrimaryButton(props: {
+  label: string;
+  testID?: string;
+  disabled?: boolean;
+  onPress: () => void;
+}) {
   return (
     <Pressable
+      testID={props.testID}
       accessibilityRole="button"
       accessibilityState={{ disabled: props.disabled }}
       disabled={props.disabled}
       onPress={props.onPress}
-      className={`h-14 flex-1 items-center justify-center rounded-2xl bg-sky-600 active:bg-sky-700 ${
+      className={`min-h-14 flex-1 items-center justify-center rounded-2xl bg-sky-700 py-3 active:bg-sky-800 ${
         props.disabled ? 'opacity-40' : ''
       }`}
     >
-      <Text className="text-lg font-semibold text-white">{props.label}</Text>
+      <Text maxFontSizeMultiplier={1.5} className="text-center text-lg font-semibold text-white">
+        {props.label}
+      </Text>
     </Pressable>
   );
 }
@@ -48,7 +57,10 @@ function PrimaryButton(props: { label: string; disabled?: boolean; onPress: () =
 function CenteredMessage(props: { title: string; body?: string; children?: React.ReactNode }) {
   return (
     <View className="flex-1 items-center justify-center gap-3 px-8">
-      <Text className="text-center text-2xl font-bold text-slate-900 dark:text-slate-50">
+      <Text
+        maxFontSizeMultiplier={1.4}
+        className="text-center text-2xl font-bold text-slate-900 dark:text-slate-50"
+      >
         {props.title}
       </Text>
       {props.body && (
@@ -159,6 +171,10 @@ export default function PracticeScreen() {
     const result = reveal();
     if (!result) return;
 
+    // VoiceOver does not read live regions, so say the result out loud on both platforms.
+    AccessibilityInfo.announceForAccessibility(
+      result.isCorrect ? 'Correct' : 'Not quite. The explanation is below the answers.',
+    );
     void Haptics.notificationAsync(
       result.isCorrect
         ? Haptics.NotificationFeedbackType.Success
@@ -266,7 +282,11 @@ export default function PracticeScreen() {
           {revealed ? (
             <>
               <View className="flex-row">
-                <PrimaryButton label={isLast ? 'Finish' : 'Next'} onPress={slideToNext} />
+                <PrimaryButton
+                  testID="next-question"
+                  label={isLast ? 'Finish' : 'Next'}
+                  onPress={slideToNext}
+                />
               </View>
               <Text className="text-center text-sm text-slate-500 dark:text-slate-400">
                 or swipe left
@@ -283,17 +303,21 @@ export default function PracticeScreen() {
                   void Haptics.selectionAsync();
                   toggleUnsure();
                 }}
-                className={`h-14 items-center justify-center rounded-2xl border-2 px-4 active:opacity-70 ${
+                className={`min-h-14 items-center justify-center rounded-2xl border-2 px-4 py-3 active:opacity-70 ${
                   unsure
                     ? 'border-amber-500 bg-amber-50 dark:border-amber-400 dark:bg-amber-950'
                     : 'border-slate-300 dark:border-slate-700'
                 }`}
               >
-                <Text className="text-base font-medium text-slate-800 dark:text-slate-100">
+                <Text
+                  maxFontSizeMultiplier={1.5}
+                  className="text-base font-medium text-slate-800 dark:text-slate-100"
+                >
                   Not sure
                 </Text>
               </Pressable>
               <PrimaryButton
+                testID="check-answer"
                 label="Check answer"
                 disabled={!canCheck(question, selected)}
                 onPress={onCheck}
@@ -315,7 +339,9 @@ export default function PracticeScreen() {
           onPress={close}
           className="active:opacity-60"
         >
-          <Text className="text-2xl text-slate-600 dark:text-slate-300">✕</Text>
+          <Text maxFontSizeMultiplier={1.4} className="text-2xl text-slate-600 dark:text-slate-300">
+            ✕
+          </Text>
         </Pressable>
         <View
           accessibilityRole="progressbar"

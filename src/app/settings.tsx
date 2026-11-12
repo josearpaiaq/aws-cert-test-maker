@@ -216,7 +216,7 @@ export default function SettingsScreen() {
               <Pressable
                 accessibilityRole="button"
                 onPress={() => void Linking.openSettings()}
-                className="self-start rounded-xl bg-amber-600 px-4 py-2 active:opacity-70"
+                className="self-start rounded-xl bg-amber-700 px-4 py-2 active:opacity-70"
               >
                 <Text className="text-sm font-semibold text-white">Open system settings</Text>
               </Pressable>
@@ -256,7 +256,7 @@ export default function SettingsScreen() {
           <Pressable
             accessibilityRole="button"
             onPress={confirmReset}
-            className="h-12 items-center justify-center rounded-xl border-2 border-rose-500 active:opacity-70 dark:border-rose-400"
+            className="min-h-12 items-center justify-center rounded-xl border-2 border-rose-500 py-2 active:opacity-70 dark:border-rose-400"
           >
             <Text className="text-base font-semibold text-rose-700 dark:text-rose-400">
               Reset progress

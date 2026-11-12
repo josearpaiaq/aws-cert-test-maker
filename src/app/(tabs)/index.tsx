@@ -45,6 +45,7 @@ export default function StudyScreen() {
       >
         <View className="flex-row items-center justify-between">
           <Text
+            maxFontSizeMultiplier={1.3}
             accessibilityRole="header"
             className="text-3xl font-bold text-slate-900 dark:text-slate-50"
           >
@@ -75,7 +76,12 @@ export default function StudyScreen() {
               : 'border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900'
           }`}
         >
-          <Text className="text-lg font-semibold text-slate-900 dark:text-slate-50">Due today</Text>
+          <Text
+            maxFontSizeMultiplier={1.5}
+            className="text-lg font-semibold text-slate-900 dark:text-slate-50"
+          >
+            Due today
+          </Text>
           <Text className="mt-1 text-base text-slate-700 dark:text-slate-300">
             {dueCount === null
               ? 'Checking your review queue…'
@@ -89,9 +95,11 @@ export default function StudyScreen() {
           accessibilityRole="button"
           accessibilityHint="Starts a practice session from the domains you score lowest in"
           onPress={() => startPractice(WEAKEST_TARGET)}
-          className="rounded-2xl bg-sky-600 p-5 active:bg-sky-700"
+          className="rounded-2xl bg-sky-700 p-5 active:bg-sky-800"
         >
-          <Text className="text-lg font-semibold text-white">Weakest areas</Text>
+          <Text maxFontSizeMultiplier={1.5} className="text-lg font-semibold text-white">
+            Weakest areas
+          </Text>
           <Text className="mt-1 text-base text-sky-100">
             Questions from the domains you score lowest in
           </Text>
@@ -115,7 +123,10 @@ export default function StudyScreen() {
               <Text className="text-sm font-medium text-slate-500 dark:text-slate-400">
                 Domain {domain.id}
               </Text>
-              <Text className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-50">
+              <Text
+                maxFontSizeMultiplier={1.5}
+                className="mt-1 text-lg font-semibold text-slate-900 dark:text-slate-50"
+              >
                 {domain.name}
               </Text>
               <Text className="mt-1 text-sm text-slate-600 dark:text-slate-400">

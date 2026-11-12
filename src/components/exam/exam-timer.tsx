@@ -39,6 +39,7 @@ export function ExamTimer({ endsAt, onExpire }: ExamTimerProps) {
   const low = remaining <= 5 * 60 * 1000;
   return (
     <Text
+      maxFontSizeMultiplier={1.5}
       accessibilityRole="timer"
       accessibilityLabel={`${Math.ceil(remaining / 60000)} minutes left`}
       className={`text-lg font-semibold tabular-nums ${

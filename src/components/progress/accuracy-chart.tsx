@@ -36,6 +36,7 @@ export function AccuracyChart({ answers, domains, now, days }: AccuracyChartProp
   return (
     <View className="gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 dark:border-slate-800 dark:bg-slate-900">
       <Text
+        maxFontSizeMultiplier={1.5}
         accessibilityRole="header"
         className="text-lg font-semibold text-slate-900 dark:text-slate-50"
       >
@@ -54,7 +55,7 @@ export function AccuracyChart({ answers, domains, now, days }: AccuracyChartProp
               onPress={() => setDomain(filter.id)}
               className={`rounded-full border px-3 py-1.5 active:opacity-70 ${
                 active
-                  ? 'border-sky-600 bg-sky-600'
+                  ? 'border-sky-700 bg-sky-700'
                   : 'border-slate-300 bg-transparent dark:border-slate-700'
               }`}
             >
