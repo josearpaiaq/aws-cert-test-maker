@@ -2,7 +2,7 @@
 
 An offline-first iOS and Android quiz app for studying for the **AWS Certified Cloud Practitioner (CLF-C02)** exam, built with React Native and Expo.
 
-> **Status:** phase 2 (data layer) done; core logic is next. The build plan lives in [`docs/cloudprep-agent-build-prompt.md`](docs/cloudprep-agent-build-prompt.md). This README will grow with each phase.
+> **Status:** phase 3 (core logic) done; practice mode is next. The build plan lives in [`docs/cloudprep-agent-build-prompt.md`](docs/cloudprep-agent-build-prompt.md). This README will grow with each phase.
 
 ## Why this project
 
@@ -55,7 +55,7 @@ Weights live in a config file so they can be updated if AWS revises the exam. So
 - **Exam config** (`src/data/exams/clf-c02.ts`) — question counts, scoring scale, domain weights and task statements, taken from the official exam guide. Nothing exam-specific is hard-coded in components.
 - **Question bank** (`assets/questions/clf-c02.json`) — bundled JSON validated with a Zod schema (`src/data/question-schema.ts`) that also enforces the exam guide's rules: single-answer questions have 4 options and 1 correct answer; multiple-response questions have 5 or more options, 2 or more correct answers, and a prompt that states how many to pick. Adding a second certification means adding another config and JSON file.
 - **Database** (`src/db`) — SQLite tables (`answers`, `review_schedule`, `exam_attempts`, `settings`) created by versioned migrations tracked with `PRAGMA user_version`, behind a typed repository. The repository depends on a small `Database` interface that expo-sqlite satisfies, so unit tests run the same SQL against Node's built-in SQLite.
-- **Business logic** (planned) — scoring, weighted exam assembly, spaced-repetition scheduling and readiness as pure, unit-tested functions, separate from components.
+- **Business logic** (`src/logic`) — pure, unit-tested functions with no React or database imports: scoring (all-or-nothing for multiple-response), weighted exam assembly (largest-remainder allocation, 16/19/22/8 for 65 questions), the SM-2 spaced-repetition scheduler, and per-domain readiness (80% over the last 50 answers in every domain).
 
 ## Running locally
 
@@ -82,7 +82,7 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`.
 
 - [x] 1. Scaffold — Expo Router tabs (Study, Exam, Progress), lint, strict TS, NativeWind, EAS dev build
 - [x] 2. Data layer — Zod schema, domain config, 40 draft seed questions, SQLite migrations, repository
-- [ ] 3. Core logic — scoring, exam assembly, spaced repetition, readiness
+- [x] 3. Core logic — scoring, exam assembly, spaced repetition, readiness
 - [ ] 4. Practice mode
 - [ ] 5. Mock exam
 - [ ] 6. Spaced repetition and progress
