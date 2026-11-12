@@ -1,0 +1,809 @@
+[
+  {
+    "id": "d1-benefits-001",
+    "domain": 1,
+    "taskStatement": "1.1",
+    "type": "single",
+    "prompt": "Which advantage of cloud computing lets a company replace large upfront data center purchases with payments only for the resources it actually consumes?",
+    "options": [
+      { "id": "a", "text": "Go global in minutes" },
+      { "id": "b", "text": "Trade fixed expense for variable expense" },
+      { "id": "c", "text": "Increase speed and agility" },
+      { "id": "d", "text": "Stop guessing capacity" }
+    ],
+    "correct": ["b"],
+    "explanation": "Trading fixed expense for variable expense means paying only when you consume resources instead of investing in hardware before you know how you will use it. Going global in minutes is about deploying in multiple Regions quickly. Speed and agility is about how fast new resources become available to developers. Stopping guessing capacity is about scaling up and down instead of over- or under-provisioning; it is related, but it does not describe the change in how you pay.",
+    "services": [],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/whitepapers/latest/aws-overview/six-advantages-of-cloud-computing.html",
+    "draft": true
+  },
+  {
+    "id": "d1-benefits-002",
+    "domain": 1,
+    "taskStatement": "1.1",
+    "type": "single",
+    "prompt": "A retailer's website traffic triples during a holiday sale and returns to normal a week later. Which cloud concept describes automatically adding and then removing resources to match this demand?",
+    "options": [
+      { "id": "a", "text": "Elasticity" },
+      { "id": "b", "text": "Fault tolerance" },
+      { "id": "c", "text": "Economies of scale" },
+      { "id": "d", "text": "Agility" }
+    ],
+    "correct": ["a"],
+    "explanation": "Elasticity is the ability to acquire resources when you need them and release them when you do not, so capacity follows demand. Fault tolerance is about continuing to operate when a component fails, not about matching demand. Economies of scale explains why AWS prices are low, not how capacity changes. Agility is about how quickly teams can experiment and deliver, not about automatic scaling.",
+    "services": [],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/whitepapers/latest/aws-overview/six-advantages-of-cloud-computing.html",
+    "draft": true
+  },
+  {
+    "id": "d1-benefits-003",
+    "domain": 1,
+    "taskStatement": "1.1",
+    "type": "single",
+    "prompt": "Why can AWS offer lower pay-as-you-go prices than most companies could achieve by running their own infrastructure?",
+    "options": [
+      { "id": "a", "text": "Customers must commit to multi-year contracts" },
+      { "id": "b", "text": "AWS does not charge for data transfer" },
+      {
+        "id": "c",
+        "text": "Usage from a very large number of customers is aggregated, which creates economies of scale"
+      },
+      { "id": "d", "text": "Customers share servers without any isolation between them" }
+    ],
+    "correct": ["c"],
+    "explanation": "Because usage from hundreds of thousands of customers is aggregated in the cloud, AWS achieves higher economies of scale, which translate into lower pay-as-you-go prices. Multi-year contracts are optional (for example Savings Plans), not required. AWS does charge for some data transfer, such as data sent out to the internet. Customers are isolated from each other; lack of isolation is not a source of savings.",
+    "services": [],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/whitepapers/latest/aws-overview/six-advantages-of-cloud-computing.html",
+    "draft": true
+  },
+  {
+    "id": "d1-waf-001",
+    "domain": 1,
+    "taskStatement": "1.2",
+    "type": "single",
+    "prompt": "Which pillar of the AWS Well-Architected Framework focuses on a workload's ability to recover from failures and keep performing its intended function?",
+    "options": [
+      { "id": "a", "text": "Performance efficiency" },
+      { "id": "b", "text": "Operational excellence" },
+      { "id": "c", "text": "Sustainability" },
+      { "id": "d", "text": "Reliability" }
+    ],
+    "correct": ["d"],
+    "explanation": "The reliability pillar covers a workload performing its intended function correctly and consistently, including recovering from failure. Performance efficiency is about using computing resources efficiently as demand and technology change. Operational excellence is about running and monitoring systems and continually improving processes. Sustainability is about minimizing the environmental impact of running workloads.",
+    "services": [],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html",
+    "draft": true
+  },
+  {
+    "id": "d1-waf-002",
+    "domain": 1,
+    "taskStatement": "1.2",
+    "type": "multi",
+    "prompt": "Which of the following are pillars of the AWS Well-Architected Framework? (Choose two.)",
+    "options": [
+      { "id": "a", "text": "Cost optimization" },
+      { "id": "b", "text": "Portability" },
+      { "id": "c", "text": "Sustainability" },
+      { "id": "d", "text": "Elasticity" },
+      { "id": "e", "text": "Scalability" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "The six pillars are operational excellence, security, reliability, performance efficiency, cost optimization, and sustainability. Portability is not a pillar. Elasticity and scalability are cloud concepts that support several pillars (for example reliability and performance efficiency), but neither is a pillar itself.",
+    "services": [],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/wellarchitected/latest/framework/the-pillars-of-the-framework.html",
+    "draft": true
+  },
+  {
+    "id": "d1-waf-003",
+    "domain": 1,
+    "taskStatement": "1.2",
+    "type": "single",
+    "prompt": "A team replaces manual console changes with reviewed, version-controlled templates and scripts. Which Well-Architected pillar includes the design principle \"perform operations as code\"?",
+    "options": [
+      { "id": "a", "text": "Operational excellence" },
+      { "id": "b", "text": "Security" },
+      { "id": "c", "text": "Cost optimization" },
+      { "id": "d", "text": "Reliability" }
+    ],
+    "correct": ["a"],
+    "explanation": "Performing operations as code is a design principle of the operational excellence pillar: you define the workload and its operations as code to limit human error and respond consistently to events. The security pillar focuses on protecting data and systems, cost optimization on avoiding unnecessary cost, and reliability on recovering from failure. Automation helps all of them, but this named principle belongs to operational excellence.",
+    "services": [],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/wellarchitected/latest/framework/oe-design-principles.html",
+    "draft": true
+  },
+  {
+    "id": "d1-migration-001",
+    "domain": 1,
+    "taskStatement": "1.3",
+    "type": "single",
+    "prompt": "Which AWS resource organizes cloud adoption guidance into six perspectives: Business, People, Governance, Platform, Security, and Operations?",
+    "options": [
+      { "id": "a", "text": "AWS Well-Architected Framework" },
+      { "id": "b", "text": "AWS shared responsibility model" },
+      { "id": "c", "text": "AWS Cloud Adoption Framework (AWS CAF)" },
+      { "id": "d", "text": "AWS Pricing Calculator" }
+    ],
+    "correct": ["c"],
+    "explanation": "AWS CAF groups its guidance into six perspectives (Business, People, Governance, Platform, Security, and Operations) to help organizations plan their cloud transformation. The Well-Architected Framework is organized into pillars and is used to review workload architecture. The shared responsibility model describes who secures what. AWS Pricing Calculator estimates costs and gives no adoption guidance.",
+    "services": ["AWS CAF"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/whitepapers/latest/overview-aws-cloud-adoption-framework/welcome.html",
+    "draft": true
+  },
+  {
+    "id": "d1-migration-002",
+    "domain": 1,
+    "taskStatement": "1.3",
+    "type": "single",
+    "prompt": "A company needs to move 60 TB of archived files to AWS from a remote site that has a slow, unreliable internet connection. Which option is the most appropriate?",
+    "options": [
+      { "id": "a", "text": "Amazon S3 Transfer Acceleration" },
+      { "id": "b", "text": "An AWS Snowball Edge device" },
+      { "id": "c", "text": "AWS Database Migration Service (AWS DMS)" },
+      { "id": "d", "text": "An AWS Site-to-Site VPN connection" }
+    ],
+    "correct": ["b"],
+    "explanation": "Snowball Edge is a physical device that AWS ships to you, so large data sets can be moved without depending on the network. S3 Transfer Acceleration speeds up uploads but still sends every byte over the internet connection. AWS DMS migrates databases, not file archives. A Site-to-Site VPN encrypts traffic over the same slow internet link and adds no capacity.",
+    "services": ["Snowball Edge", "S3", "DMS", "VPN"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/snowball/latest/developer-guide/whatisedge.html",
+    "draft": true
+  },
+  {
+    "id": "d1-economics-001",
+    "domain": 1,
+    "taskStatement": "1.4",
+    "type": "single",
+    "prompt": "Which statement best describes rightsizing?",
+    "options": [
+      {
+        "id": "a",
+        "text": "Buying the largest available instance type so the workload never runs out of capacity"
+      },
+      { "id": "b", "text": "Moving every workload to Reserved Instances" },
+      {
+        "id": "c",
+        "text": "Combining accounts under one organization to receive volume discounts"
+      },
+      {
+        "id": "d",
+        "text": "Matching instance types and sizes to a workload's performance and capacity needs at the lowest possible cost"
+      }
+    ],
+    "correct": ["d"],
+    "explanation": "Rightsizing is the process of matching instance types and sizes to workload performance and capacity requirements at the lowest possible cost. Buying the largest instance is over-provisioning, the opposite of rightsizing. Reserved Instances are a pricing commitment and do not change whether the size fits the workload. Consolidating accounts is about billing, not resource sizing.",
+    "services": ["EC2"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/cost-management/latest/userguide/ce-rightsizing.html",
+    "draft": true
+  },
+  {
+    "id": "d1-economics-002",
+    "domain": 1,
+    "taskStatement": "1.4",
+    "type": "multi",
+    "prompt": "A company moves its workloads from its own data center to AWS. Which costs does the company no longer pay for directly? (Choose two.)",
+    "options": [
+      { "id": "a", "text": "Power, cooling, and floor space for server rooms" },
+      { "id": "b", "text": "Salaries of the developers who build its applications" },
+      { "id": "c", "text": "Upfront purchases of physical servers" },
+      { "id": "d", "text": "Licenses for software it brings under a Bring Your Own License model" },
+      { "id": "e", "text": "The effort of classifying and protecting its own data" }
+    ],
+    "correct": ["a", "c"],
+    "explanation": "In the cloud, the company stops paying to run and maintain data center facilities and stops making upfront hardware purchases; those become part of the variable price of AWS services. Application developers are still needed. With Bring Your Own License, the company keeps paying for its own licenses. Classifying and protecting its data remains the customer's responsibility.",
+    "services": [],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/whitepapers/latest/aws-overview/six-advantages-of-cloud-computing.html",
+    "draft": true
+  },
+  {
+    "id": "d2-shared-001",
+    "domain": 2,
+    "taskStatement": "2.1",
+    "type": "single",
+    "prompt": "Under the AWS shared responsibility model, which task is AWS responsible for?",
+    "options": [
+      { "id": "a", "text": "Configuring security group rules" },
+      { "id": "b", "text": "Patching the guest operating system on Amazon EC2 instances" },
+      { "id": "c", "text": "Physically securing the data centers that run AWS services" },
+      { "id": "d", "text": "Managing permissions for IAM users" }
+    ],
+    "correct": ["c"],
+    "explanation": "AWS is responsible for security of the cloud, which includes the facilities, hardware, and networking that run AWS services. Security group rules, guest operating system patches on EC2, and IAM permissions are all security in the cloud, which the customer configures and manages.",
+    "services": ["EC2", "IAM"],
+    "difficulty": 1,
+    "source": "https://aws.amazon.com/compliance/shared-responsibility-model/",
+    "draft": true
+  },
+  {
+    "id": "d2-shared-002",
+    "domain": 2,
+    "taskStatement": "2.1",
+    "type": "single",
+    "prompt": "A company runs a database on Amazon RDS. Which task remains the company's responsibility?",
+    "options": [
+      { "id": "a", "text": "Replacing failed disks in the database host" },
+      { "id": "b", "text": "Controlling which users and network sources can connect to the database" },
+      { "id": "c", "text": "Patching the operating system of the database host" },
+      { "id": "d", "text": "Maintaining the physical network inside the Availability Zone" }
+    ],
+    "correct": ["b"],
+    "explanation": "With a managed service such as Amazon RDS, the customer still controls access: security groups, IAM permissions, and database users. AWS replaces failed hardware, patches the host operating system, and maintains the physical network, which is why responsibilities shift toward AWS as services become more managed.",
+    "services": ["RDS"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/UsingWithRDS.html",
+    "draft": true
+  },
+  {
+    "id": "d2-shared-003",
+    "domain": 2,
+    "taskStatement": "2.1",
+    "type": "multi",
+    "prompt": "A company runs an application on Amazon EC2 instances. Which tasks are the company's responsibility under the shared responsibility model? (Choose two.)",
+    "options": [
+      { "id": "a", "text": "Maintaining the hypervisor" },
+      { "id": "b", "text": "Installing security patches on the guest operating system" },
+      { "id": "c", "text": "Destroying storage hardware at the end of its life" },
+      { "id": "d", "text": "Encrypting the application's data" },
+      { "id": "e", "text": "Securing the network cabling between data centers" }
+    ],
+    "correct": ["b", "d"],
+    "explanation": "For EC2, the customer manages the guest operating system (including patches) and is responsible for protecting its own data, including encryption choices. The hypervisor, the disposal of storage hardware, and the physical network between data centers are part of the infrastructure that AWS secures.",
+    "services": ["EC2"],
+    "difficulty": 2,
+    "source": "https://aws.amazon.com/compliance/shared-responsibility-model/",
+    "draft": true
+  },
+  {
+    "id": "d2-compliance-001",
+    "domain": 2,
+    "taskStatement": "2.2",
+    "type": "single",
+    "prompt": "An auditor asks a company for AWS's SOC reports and ISO certifications. Which service provides on-demand access to these documents?",
+    "options": [
+      { "id": "a", "text": "AWS Artifact" },
+      { "id": "b", "text": "AWS Config" },
+      { "id": "c", "text": "AWS Trusted Advisor" },
+      { "id": "d", "text": "AWS Audit Manager" }
+    ],
+    "correct": ["a"],
+    "explanation": "AWS Artifact provides on-demand downloads of AWS security and compliance documents such as SOC reports and ISO certifications. AWS Config records and evaluates the configuration of your own resources. Trusted Advisor gives best-practice recommendations for your account. Audit Manager helps collect evidence about your own usage for audits; it is not where AWS's own reports are downloaded.",
+    "services": ["Artifact", "Config", "Trusted Advisor", "Audit Manager"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/artifact/latest/ug/what-is-aws-artifact.html",
+    "draft": true
+  },
+  {
+    "id": "d2-compliance-002",
+    "domain": 2,
+    "taskStatement": "2.2",
+    "type": "single",
+    "prompt": "A security team needs to find out which user deleted an Amazon S3 bucket and when. Which service records this kind of account activity?",
+    "options": [
+      { "id": "a", "text": "Amazon CloudWatch" },
+      { "id": "b", "text": "Amazon GuardDuty" },
+      { "id": "c", "text": "AWS Config" },
+      { "id": "d", "text": "AWS CloudTrail" }
+    ],
+    "correct": ["d"],
+    "explanation": "CloudTrail records actions taken by users, roles, and AWS services as events, including who made the request and when. CloudWatch collects metrics and logs for monitoring performance. GuardDuty analyzes activity to detect threats but is not the audit record itself. AWS Config tracks how resource configurations change over time, not who called which API.",
+    "services": ["CloudTrail", "CloudWatch", "GuardDuty", "Config", "S3"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/awscloudtrail/latest/userguide/cloudtrail-user-guide.html",
+    "draft": true
+  },
+  {
+    "id": "d2-compliance-003",
+    "domain": 2,
+    "taskStatement": "2.2",
+    "type": "single",
+    "prompt": "Which service continuously analyzes sources such as AWS CloudTrail events, VPC Flow Logs, and DNS logs to detect potentially malicious activity in an AWS account?",
+    "options": [
+      { "id": "a", "text": "Amazon Inspector" },
+      { "id": "b", "text": "Amazon GuardDuty" },
+      { "id": "c", "text": "AWS Shield" },
+      { "id": "d", "text": "Amazon Macie" }
+    ],
+    "correct": ["b"],
+    "explanation": "GuardDuty is a threat detection service that monitors and analyzes data sources such as CloudTrail events, VPC Flow Logs, and DNS logs. Amazon Inspector scans workloads for software vulnerabilities and unintended network exposure. AWS Shield protects against DDoS attacks. Macie discovers and helps protect sensitive data stored in Amazon S3.",
+    "services": ["GuardDuty", "Inspector", "Shield", "Macie"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/guardduty/latest/ug/what-is-guardduty.html",
+    "draft": true
+  },
+  {
+    "id": "d2-iam-001",
+    "domain": 2,
+    "taskStatement": "2.3",
+    "type": "single",
+    "prompt": "Which practice is recommended for protecting the AWS account root user?",
+    "options": [
+      { "id": "a", "text": "Create root user access keys for automation scripts" },
+      { "id": "b", "text": "Share the root user password among the administrators" },
+      {
+        "id": "c",
+        "text": "Turn on multi-factor authentication (MFA) and avoid using the root user for everyday tasks"
+      },
+      { "id": "d", "text": "Delete the root user after creating an administrator" }
+    ],
+    "correct": ["c"],
+    "explanation": "AWS recommends enabling MFA on the root user and using it only for the few tasks that require it. Root user access keys should not be created because they grant unrestricted access. Root credentials should never be shared. The root user cannot be deleted; it exists for the life of the account.",
+    "services": ["IAM"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-best-practices.html",
+    "draft": true
+  },
+  {
+    "id": "d2-iam-002",
+    "domain": 2,
+    "taskStatement": "2.3",
+    "type": "single",
+    "prompt": "An application running on an Amazon EC2 instance needs to read objects from an Amazon S3 bucket. What is the most secure way to give the application permission?",
+    "options": [
+      { "id": "a", "text": "Attach an IAM role with the required permissions to the instance" },
+      { "id": "b", "text": "Store an IAM user's access keys in the application code" },
+      { "id": "c", "text": "Save access keys in a configuration file on the instance" },
+      { "id": "d", "text": "Use the root user's access keys" }
+    ],
+    "correct": ["a"],
+    "explanation": "An IAM role attached to the instance provides temporary credentials that are rotated automatically, so no long-term keys are stored. Access keys in code or in a file on the instance are long-term credentials that can leak and must be rotated by hand. Root user access keys grant unrestricted access and should never be used by applications.",
+    "services": ["IAM", "EC2", "S3"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_use_switch-role-ec2.html",
+    "draft": true
+  },
+  {
+    "id": "d2-iam-003",
+    "domain": 2,
+    "taskStatement": "2.3",
+    "type": "multi",
+    "prompt": "Which tasks can only be performed by the AWS account root user? (Choose two.)",
+    "options": [
+      { "id": "a", "text": "Creating an IAM user" },
+      { "id": "b", "text": "Changing the account name or the root user email address" },
+      { "id": "c", "text": "Launching an Amazon EC2 instance" },
+      {
+        "id": "d",
+        "text": "Restoring the permissions of the only IAM administrator after that administrator removed their own permissions"
+      },
+      { "id": "e", "text": "Creating an Amazon S3 bucket" }
+    ],
+    "correct": ["b", "d"],
+    "explanation": "Changing account settings such as the account name and root user email address, and restoring IAM user permissions when the only administrator has revoked their own, are on the list of tasks that require root user credentials. Creating IAM users, launching EC2 instances, and creating S3 buckets can all be done by IAM identities with the right permissions.",
+    "services": ["IAM"],
+    "difficulty": 3,
+    "source": "https://docs.aws.amazon.com/IAM/latest/UserGuide/root-user-tasks.html",
+    "draft": true
+  },
+  {
+    "id": "d2-security-001",
+    "domain": 2,
+    "taskStatement": "2.4",
+    "type": "single",
+    "prompt": "Which statement about security groups is correct?",
+    "options": [
+      {
+        "id": "a",
+        "text": "They are stateless and are evaluated at the subnet level"
+      },
+      {
+        "id": "b",
+        "text": "They inspect web requests to block SQL injection attacks"
+      },
+      {
+        "id": "c",
+        "text": "They absorb distributed denial of service (DDoS) traffic at edge locations"
+      },
+      {
+        "id": "d",
+        "text": "They are stateful and control traffic for the resources they are attached to, such as EC2 instances"
+      }
+    ],
+    "correct": ["d"],
+    "explanation": "A security group is a stateful virtual firewall for the resources it is associated with, such as EC2 instances: return traffic for an allowed request is automatically allowed. Stateless rules evaluated at the subnet level describe network ACLs. Inspecting web requests for attacks such as SQL injection is AWS WAF. Absorbing DDoS traffic is AWS Shield.",
+    "services": ["VPC", "EC2", "WAF", "Shield"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/vpc/latest/userguide/vpc-security-groups.html",
+    "draft": true
+  },
+  {
+    "id": "d3-deploy-001",
+    "domain": 3,
+    "taskStatement": "3.1",
+    "type": "single",
+    "prompt": "A team wants to create the same set of AWS resources repeatedly in several accounts by using version-controlled templates. Which service should the team use?",
+    "options": [
+      { "id": "a", "text": "AWS Management Console" },
+      { "id": "b", "text": "AWS CloudFormation" },
+      { "id": "c", "text": "AWS CloudShell" },
+      { "id": "d", "text": "AWS Health Dashboard" }
+    ],
+    "correct": ["b"],
+    "explanation": "CloudFormation is infrastructure as code: you describe resources in a template and CloudFormation provisions them the same way every time. The Management Console is for manual, one-time operations. CloudShell is a browser-based shell for running commands; it does not model resources as templates. The Health Dashboard reports events that affect AWS services and your resources.",
+    "services": ["CloudFormation", "CloudShell", "Health Dashboard"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/Welcome.html",
+    "draft": true
+  },
+  {
+    "id": "d3-deploy-002",
+    "domain": 3,
+    "taskStatement": "3.1",
+    "type": "single",
+    "prompt": "A company needs a dedicated, private network connection between its data center and AWS that does not use the public internet. Which service meets this requirement?",
+    "options": [
+      { "id": "a", "text": "AWS Site-to-Site VPN" },
+      { "id": "b", "text": "An internet gateway" },
+      { "id": "c", "text": "AWS Direct Connect" },
+      { "id": "d", "text": "Amazon CloudFront" }
+    ],
+    "correct": ["c"],
+    "explanation": "Direct Connect links your network to AWS over a dedicated connection that bypasses the public internet. A Site-to-Site VPN is encrypted but travels over the internet. An internet gateway connects a VPC to the internet. CloudFront is a content delivery network for serving content to users, not a private link to a data center.",
+    "services": ["Direct Connect", "VPN", "VPC", "CloudFront"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/directconnect/latest/UserGuide/Welcome.html",
+    "draft": true
+  },
+  {
+    "id": "d3-global-001",
+    "domain": 3,
+    "taskStatement": "3.2",
+    "type": "single",
+    "prompt": "Which statement correctly describes the relationship between AWS Regions and Availability Zones?",
+    "options": [
+      { "id": "a", "text": "Each Availability Zone contains multiple Regions" },
+      {
+        "id": "b",
+        "text": "Each Region contains multiple isolated Availability Zones"
+      },
+      { "id": "c", "text": "An Availability Zone is another name for an edge location" },
+      { "id": "d", "text": "Availability Zones are shared between neighboring Regions" }
+    ],
+    "correct": ["b"],
+    "explanation": "A Region is a separate geographic area that contains multiple isolated locations called Availability Zones. An Availability Zone belongs to exactly one Region, so it cannot contain Regions or be shared between them. Edge locations are separate sites used by services such as CloudFront to serve content close to users.",
+    "services": [],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html",
+    "draft": true
+  },
+  {
+    "id": "d3-global-002",
+    "domain": 3,
+    "taskStatement": "3.2",
+    "type": "multi",
+    "prompt": "Which of the following are valid reasons to deploy a workload in more than one AWS Region? (Choose two.)",
+    "options": [
+      { "id": "a", "text": "To recover from a disaster that affects an entire Region" },
+      { "id": "b", "text": "To increase the number of IAM users the account can have" },
+      { "id": "c", "text": "To avoid having to use Availability Zones" },
+      { "id": "d", "text": "To reduce latency for users in a distant geographic area" },
+      { "id": "e", "text": "To remove all data transfer charges" }
+    ],
+    "correct": ["a", "d"],
+    "explanation": "Multiple Regions support disaster recovery and business continuity, and placing resources closer to distant users lowers latency. IAM is a global service, so adding Regions does not change IAM limits. Each Region still uses Availability Zones for high availability. Transferring data between Regions is charged, so multi-Region designs add data transfer cost.",
+    "services": ["IAM"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html",
+    "draft": true
+  },
+  {
+    "id": "d3-compute-001",
+    "domain": 3,
+    "taskStatement": "3.3",
+    "type": "single",
+    "prompt": "A developer wants to run code in response to file uploads without provisioning or managing servers, paying only for the compute time used. Which service is the best fit?",
+    "options": [
+      { "id": "a", "text": "Amazon EC2" },
+      { "id": "b", "text": "Amazon Lightsail" },
+      { "id": "c", "text": "AWS Elastic Beanstalk" },
+      { "id": "d", "text": "AWS Lambda" }
+    ],
+    "correct": ["d"],
+    "explanation": "Lambda runs code in response to events without servers to provision or manage, and you pay for the compute time consumed. EC2 and Lightsail provide virtual servers that you manage and pay for while they run. Elastic Beanstalk automates deployment but still runs your application on EC2 instances in your account.",
+    "services": ["Lambda", "EC2", "Lightsail", "Elastic Beanstalk"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/lambda/latest/dg/welcome.html",
+    "draft": true
+  },
+  {
+    "id": "d3-compute-002",
+    "domain": 3,
+    "taskStatement": "3.3",
+    "type": "single",
+    "prompt": "A team wants to run containers on Amazon ECS without managing the underlying servers. Which option should the team choose?",
+    "options": [
+      { "id": "a", "text": "AWS Fargate" },
+      { "id": "b", "text": "Amazon Elastic Container Registry (Amazon ECR)" },
+      { "id": "c", "text": "Amazon EC2 Auto Scaling" },
+      { "id": "d", "text": "Amazon EC2 Dedicated Hosts" }
+    ],
+    "correct": ["a"],
+    "explanation": "Fargate is a serverless compute engine for containers, so you do not provision or manage EC2 instances for your tasks. Amazon ECR stores container images; it does not run them. EC2 Auto Scaling adjusts the number of EC2 instances, which you would still manage. Dedicated Hosts are physical servers reserved for your use, the opposite of not managing servers.",
+    "services": ["Fargate", "ECS", "ECR", "EC2"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/AmazonECS/latest/developerguide/AWS_Fargate.html",
+    "draft": true
+  },
+  {
+    "id": "d3-database-001",
+    "domain": 3,
+    "taskStatement": "3.4",
+    "type": "single",
+    "prompt": "Which service is a fully managed NoSQL key-value and document database?",
+    "options": [
+      { "id": "a", "text": "Amazon RDS" },
+      { "id": "b", "text": "Amazon Redshift" },
+      { "id": "c", "text": "Amazon DynamoDB" },
+      { "id": "d", "text": "Amazon Aurora" }
+    ],
+    "correct": ["c"],
+    "explanation": "DynamoDB is a fully managed NoSQL database that supports key-value and document data models. Amazon RDS and Amazon Aurora are relational database services. Amazon Redshift is a data warehouse for analytics on structured data using SQL.",
+    "services": ["DynamoDB", "RDS", "Redshift", "Aurora"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/Introduction.html",
+    "draft": true
+  },
+  {
+    "id": "d3-network-001",
+    "domain": 3,
+    "taskStatement": "3.5",
+    "type": "single",
+    "prompt": "A company wants to register a domain name and route users to its application by using DNS. Which service provides both capabilities?",
+    "options": [
+      { "id": "a", "text": "Amazon CloudFront" },
+      { "id": "b", "text": "Amazon Route 53" },
+      { "id": "c", "text": "AWS Direct Connect" },
+      { "id": "d", "text": "Amazon VPC" }
+    ],
+    "correct": ["b"],
+    "explanation": "Route 53 is a DNS web service that provides domain registration, DNS routing, and health checking. CloudFront delivers content through edge locations but does not register domains or act as your DNS service. Direct Connect is a dedicated network link to AWS. Amazon VPC is an isolated virtual network for your resources.",
+    "services": ["Route 53", "CloudFront", "Direct Connect", "VPC"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/Welcome.html",
+    "draft": true
+  },
+  {
+    "id": "d3-storage-001",
+    "domain": 3,
+    "taskStatement": "3.6",
+    "type": "single",
+    "prompt": "A company must keep compliance records for 10 years. The records are almost never read, and waiting up to 12 hours to retrieve them is acceptable. Which Amazon S3 storage class has the lowest storage cost for this data?",
+    "options": [
+      { "id": "a", "text": "S3 Standard" },
+      { "id": "b", "text": "S3 Standard-Infrequent Access (S3 Standard-IA)" },
+      { "id": "c", "text": "S3 One Zone-Infrequent Access (S3 One Zone-IA)" },
+      { "id": "d", "text": "S3 Glacier Deep Archive" }
+    ],
+    "correct": ["d"],
+    "explanation": "S3 Glacier Deep Archive is the lowest-cost storage class and is designed for long-term data that is rarely accessed, with retrieval within hours. S3 Standard is for frequently accessed data and costs the most to store. S3 Standard-IA and S3 One Zone-IA offer millisecond access for infrequently used data, at a higher storage price than the archive classes.",
+    "services": ["S3"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/AmazonS3/latest/userguide/storage-class-intro.html",
+    "draft": true
+  },
+  {
+    "id": "d3-storage-002",
+    "domain": 3,
+    "taskStatement": "3.6",
+    "type": "multi",
+    "prompt": "Which services provide managed file systems that many compute instances can mount at the same time by using standard file protocols such as NFS or SMB? (Choose two.)",
+    "options": [
+      { "id": "a", "text": "Amazon Elastic Block Store (Amazon EBS)" },
+      { "id": "b", "text": "Amazon Elastic File System (Amazon EFS)" },
+      { "id": "c", "text": "Amazon EC2 instance store" },
+      { "id": "d", "text": "Amazon FSx" },
+      { "id": "e", "text": "Amazon DynamoDB" }
+    ],
+    "correct": ["b", "d"],
+    "explanation": "Amazon EFS provides shared NFS file systems, and Amazon FSx provides managed file systems such as FSx for Windows File Server (SMB). Amazon EBS provides block storage volumes attached to instances rather than a shared file service. Instance store is temporary block storage physically attached to the host. DynamoDB is a NoSQL database, not a file system.",
+    "services": ["EFS", "FSx", "EBS", "EC2", "DynamoDB"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html",
+    "draft": true
+  },
+  {
+    "id": "d4-pricing-001",
+    "domain": 4,
+    "taskStatement": "4.1",
+    "type": "single",
+    "prompt": "A company runs a nightly batch job that can be stopped and restarted at any time without losing work. Which Amazon EC2 purchasing option offers the lowest cost for this workload?",
+    "options": [
+      { "id": "a", "text": "On-Demand Instances" },
+      { "id": "b", "text": "Dedicated Hosts" },
+      { "id": "c", "text": "Spot Instances" },
+      { "id": "d", "text": "On-Demand Capacity Reservations" }
+    ],
+    "correct": ["c"],
+    "explanation": "Spot Instances use spare EC2 capacity at a steep discount compared with On-Demand prices, in exchange for the chance of interruption, which suits a fault-tolerant batch job. On-Demand Instances cost more and are meant for workloads that cannot be interrupted. Dedicated Hosts are physical servers for licensing or compliance needs and are the most expensive option. Capacity Reservations guarantee capacity at On-Demand rates and give no discount.",
+    "services": ["EC2"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-spot-instances.html",
+    "draft": true
+  },
+  {
+    "id": "d4-pricing-002",
+    "domain": 4,
+    "taskStatement": "4.1",
+    "type": "single",
+    "prompt": "A company has steady compute usage and wants a discount for a 3-year commitment. It expects to change instance families and Regions, and to move some workloads to AWS Fargate and AWS Lambda. Which option fits best?",
+    "options": [
+      { "id": "a", "text": "Compute Savings Plans" },
+      { "id": "b", "text": "Standard Reserved Instances" },
+      { "id": "c", "text": "Spot Instances" },
+      { "id": "d", "text": "Dedicated Instances" }
+    ],
+    "correct": ["a"],
+    "explanation": "Compute Savings Plans apply to EC2 usage regardless of instance family, size, or Region, and also apply to Fargate and Lambda usage, in exchange for a 1- or 3-year commitment. Standard Reserved Instances are tied to a specific instance family and Region and do not cover Fargate or Lambda. Spot Instances involve no commitment and can be interrupted. Dedicated Instances are about hardware isolation, not commitment discounts.",
+    "services": ["Savings Plans", "EC2", "Fargate", "Lambda"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/savingsplans/latest/userguide/what-is-savings-plans.html",
+    "draft": true
+  },
+  {
+    "id": "d4-pricing-003",
+    "domain": 4,
+    "taskStatement": "4.1",
+    "type": "multi",
+    "prompt": "Which Amazon EC2 pricing options provide a discount in exchange for a 1-year or 3-year commitment? (Choose two.)",
+    "options": [
+      { "id": "a", "text": "On-Demand Instances" },
+      { "id": "b", "text": "Reserved Instances" },
+      { "id": "c", "text": "Spot Instances" },
+      { "id": "d", "text": "On-Demand Capacity Reservations" },
+      { "id": "e", "text": "Savings Plans" }
+    ],
+    "correct": ["b", "e"],
+    "explanation": "Reserved Instances and Savings Plans both lower the price in return for a 1-year or 3-year commitment. On-Demand Instances have no commitment and no discount. Spot Instances are discounted because they can be interrupted, not because of a commitment. On-Demand Capacity Reservations reserve capacity at On-Demand rates without a term commitment or a discount.",
+    "services": ["EC2", "Savings Plans"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/instance-purchasing-options.html",
+    "draft": true
+  },
+  {
+    "id": "d4-pricing-004",
+    "domain": 4,
+    "taskStatement": "4.1",
+    "type": "single",
+    "prompt": "A company uploads large amounts of data from its offices to Amazon S3 and later serves some of that data to users on the internet. How does AWS generally charge for this data transfer?",
+    "options": [
+      { "id": "a", "text": "Both inbound and outbound transfer are charged at the same rate" },
+      { "id": "b", "text": "Inbound transfer is charged; outbound transfer to the internet is free" },
+      { "id": "c", "text": "Inbound transfer from the internet is free; outbound transfer to the internet is charged" },
+      { "id": "d", "text": "Neither direction is charged" }
+    ],
+    "correct": ["c"],
+    "explanation": "In general, AWS does not charge for data transferred in from the internet, and charges for data transferred out to the internet. That rules out equal charges in both directions and free outbound transfer. Data transfer is not free in every direction, so outbound usage should be part of any cost estimate.",
+    "services": ["S3"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/cur/latest/userguide/cur-data-transfers-charges.html",
+    "draft": true
+  },
+  {
+    "id": "d4-billing-001",
+    "domain": 4,
+    "taskStatement": "4.2",
+    "type": "single",
+    "prompt": "A finance team wants to be notified when the month's actual or forecasted AWS spend passes a threshold the team defines. Which tool should the team use?",
+    "options": [
+      { "id": "a", "text": "AWS Cost Explorer" },
+      { "id": "b", "text": "AWS Pricing Calculator" },
+      { "id": "c", "text": "AWS Cost and Usage Report" },
+      { "id": "d", "text": "AWS Budgets" }
+    ],
+    "correct": ["d"],
+    "explanation": "AWS Budgets lets you set custom cost or usage budgets and sends alerts when actual or forecasted amounts exceed your thresholds. Cost Explorer visualizes and analyzes past and forecasted spend but is not the alerting tool. Pricing Calculator estimates the cost of resources before you use them. The Cost and Usage Report delivers detailed billing data for analysis.",
+    "services": ["Budgets", "Cost Explorer", "Pricing Calculator", "Cost and Usage Report"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/cost-management/latest/userguide/budgets-managing-costs.html",
+    "draft": true
+  },
+  {
+    "id": "d4-billing-002",
+    "domain": 4,
+    "taskStatement": "4.2",
+    "type": "single",
+    "prompt": "An architect wants to estimate the monthly cost of a planned architecture before creating any resources. Which tool should the architect use?",
+    "options": [
+      { "id": "a", "text": "AWS Pricing Calculator" },
+      { "id": "b", "text": "AWS Budgets" },
+      { "id": "c", "text": "AWS Cost Explorer" },
+      { "id": "d", "text": "AWS Billing Conductor" }
+    ],
+    "correct": ["a"],
+    "explanation": "AWS Pricing Calculator creates cost estimates for planned AWS usage before anything is deployed. AWS Budgets tracks spend against thresholds for an existing account. Cost Explorer analyzes costs that have already been incurred and forecasts from that history. Billing Conductor customizes how billing data is presented, for example for showback and chargeback.",
+    "services": ["Pricing Calculator", "Budgets", "Cost Explorer", "Billing Conductor"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/pricing-calculator/latest/userguide/what-is-pricing-calculator.html",
+    "draft": true
+  },
+  {
+    "id": "d4-billing-003",
+    "domain": 4,
+    "taskStatement": "4.2",
+    "type": "single",
+    "prompt": "What is a benefit of consolidated billing in AWS Organizations?",
+    "options": [
+      { "id": "a", "text": "Each member account receives its own separate AWS Free Tier allowance" },
+      {
+        "id": "b",
+        "text": "Usage across accounts is combined, which can qualify the organization for volume pricing discounts"
+      },
+      { "id": "c", "text": "Data transfer between member accounts is no longer charged" },
+      { "id": "d", "text": "Member accounts no longer need IAM policies" }
+    ],
+    "correct": ["b"],
+    "explanation": "Consolidated billing gives one bill for all accounts and combines their usage, so the organization can reach volume pricing tiers and share commitment discounts. The Free Tier is applied to the organization as a whole, not once per account. Data transfer is still charged according to normal pricing. Billing consolidation has nothing to do with IAM policies, which are still required.",
+    "services": ["Organizations"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/consolidated-billing.html",
+    "draft": true
+  },
+  {
+    "id": "d4-billing-004",
+    "domain": 4,
+    "taskStatement": "4.2",
+    "type": "single",
+    "prompt": "A company wants its cost reports to show spending broken down by project and department. What should the company use to categorize its resources?",
+    "options": [
+      { "id": "a", "text": "IAM groups" },
+      { "id": "b", "text": "Security groups" },
+      { "id": "c", "text": "Cost allocation tags" },
+      { "id": "d", "text": "Availability Zones" }
+    ],
+    "correct": ["c"],
+    "explanation": "After you activate cost allocation tags, AWS uses the tags on your resources to organize costs in cost reports, for example by project or department. IAM groups organize users for permissions. Security groups control network traffic. Availability Zones are locations for resources and say nothing about which project owns a cost.",
+    "services": ["Billing", "IAM"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/awsaccountbilling/latest/aboutv2/cost-alloc-tags.html",
+    "draft": true
+  },
+  {
+    "id": "d4-support-001",
+    "domain": 4,
+    "taskStatement": "4.3",
+    "type": "single",
+    "prompt": "Which tool inspects an AWS environment and gives recommendations in categories such as cost optimization, security, fault tolerance, performance, and service limits?",
+    "options": [
+      { "id": "a", "text": "AWS Health Dashboard" },
+      { "id": "b", "text": "AWS Trusted Advisor" },
+      { "id": "c", "text": "Amazon Inspector" },
+      { "id": "d", "text": "AWS Artifact" }
+    ],
+    "correct": ["b"],
+    "explanation": "Trusted Advisor checks your account against best practices and makes recommendations across categories including cost optimization, security, fault tolerance, performance, and service limits. The Health Dashboard reports AWS service events and how they affect your resources. Amazon Inspector scans workloads for vulnerabilities only. AWS Artifact provides compliance reports.",
+    "services": ["Trusted Advisor", "Health Dashboard", "Inspector", "Artifact"],
+    "difficulty": 1,
+    "source": "https://docs.aws.amazon.com/awssupport/latest/user/trusted-advisor.html",
+    "draft": true
+  },
+  {
+    "id": "d4-support-002",
+    "domain": 4,
+    "taskStatement": "4.3",
+    "type": "multi",
+    "prompt": "Which statements about AWS Marketplace are correct? (Choose two.)",
+    "options": [
+      {
+        "id": "a",
+        "text": "It is a curated digital catalog for finding, buying, and deploying third-party software"
+      },
+      { "id": "b", "text": "It lists only software that is built by AWS" },
+      { "id": "c", "text": "It is where customers download AWS SOC reports" },
+      { "id": "d", "text": "Charges for purchases appear on the customer's AWS bill" },
+      { "id": "e", "text": "It sends alerts about AWS service events that affect an account" }
+    ],
+    "correct": ["a", "d"],
+    "explanation": "AWS Marketplace is a curated digital catalog of software, data, and services from independent vendors, and purchases are charged through the customer's AWS bill. It is not limited to AWS-built software; most listings come from third parties. SOC reports are downloaded from AWS Artifact. Alerts about service events come from the AWS Health Dashboard.",
+    "services": ["Marketplace", "Artifact", "Health Dashboard"],
+    "difficulty": 2,
+    "source": "https://docs.aws.amazon.com/marketplace/latest/buyerguide/what-is-marketplace.html",
+    "draft": true
+  }
+]
