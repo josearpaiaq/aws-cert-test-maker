@@ -152,6 +152,8 @@ export default function ProgressScreen() {
   return (
     <SafeAreaView edges={['top']} className="flex-1 bg-white dark:bg-black">
       <FlashList
+        // On iOS this lets the list inset itself for the floating tab bar, like the other tabs.
+        contentInsetAdjustmentBehavior="automatic"
         data={progress.examHistory}
         keyExtractor={(attempt) => String(attempt.id)}
         renderItem={({ item }) => <ExamRow attempt={item} />}

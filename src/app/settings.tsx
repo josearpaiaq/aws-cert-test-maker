@@ -167,7 +167,10 @@ export default function SettingsScreen() {
 
   return (
     <SafeAreaView edges={['bottom']} className="flex-1 bg-white dark:bg-black">
-      <ScrollView contentContainerClassName="gap-6 px-5 pb-8 pt-4">
+      <ScrollView
+        contentInsetAdjustmentBehavior="automatic"
+        contentContainerClassName="gap-6 px-5 pb-8 pt-4"
+      >
         <Section title="Daily reminder">
           <View className="flex-row items-center justify-between gap-4">
             <View className="flex-1">

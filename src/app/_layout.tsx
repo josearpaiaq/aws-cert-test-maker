@@ -62,7 +62,22 @@ export default function RootLayout() {
             <Stack.Screen name="practice" />
             <Stack.Screen name="exam-session" options={{ gestureEnabled: false }} />
             <Stack.Screen name="exam-results" />
-            <Stack.Screen name="settings" options={{ headerShown: true, title: 'Settings' }} />
+            <Stack.Screen
+              name="browse"
+              options={{
+                headerShown: true,
+                title: 'Question bank',
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+            <Stack.Screen
+              name="settings"
+              options={{
+                headerShown: true,
+                title: 'Settings',
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
           </Stack>
         </SQLiteProvider>
       </ThemeProvider>
