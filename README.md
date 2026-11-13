@@ -24,6 +24,7 @@ CloudPrep has two goals of equal weight:
 
 | Feature | What it does |
 | --- | --- |
+| Learn | One lesson per exam task statement, with comparison tables, diagrams and "on the exam" callouts; links to practice that topic (2 pilot lessons so far) |
 | Practice mode | Pick a domain or "weakest areas"; immediate feedback and explanation after each answer, swipe to the next card |
 | Mock exam | 65 questions weighted by domain, 90-minute timer that survives backgrounding (tap it to hide or show the time), flag for review, results by domain |
 | Spaced repetition | Missed and low-confidence questions return on a schedule ("Due today" queue) |
@@ -58,6 +59,7 @@ Weights live in a config file so they can be updated if AWS revises the exam. So
 | Feedback | expo-haptics | Selection and success/error haptics |
 | Reminders | expo-notifications (local only) | Daily scheduled notification with no server |
 | Icons | expo-symbols | SF Symbols on iOS, Material Symbols on Android, from one component |
+| Diagrams | react-native-svg | Vector shapes for lesson diagrams |
 | Tests | Jest + jest-expo, Maestro | Unit tests for logic and data; end-to-end flows on a real build |
 | Builds | Local `expo run` builds (EAS configured but not used yet) | No account needed to build and sideload |
 
@@ -141,7 +143,11 @@ To compare fairly, measure the Ionic app the same way on the same phone: `am sta
 
 With the phone connected: `adb shell screenrecord --time-limit 30 /sdcard/demo.mp4`, use the app, then `adb pull /sdcard/demo.mp4`. On the iOS simulator: `xcrun simctl io booted recordVideo demo.mp4` (Ctrl+C to stop).
 
-## Question content
+## Question and lesson content
+
+Lessons live in `src/content/lessons` as a small Markdown subset (headings, bold, lists, tables, `> [!TIP]` / `> [!NOTE]` / `> [!EXAM]` callouts and `{{diagram:id}}` markers), parsed by `src/logic/lesson-markdown.ts` and rendered with the app's own components. They are original writing based on the linked AWS documentation.
+
+CloudPrep is an independent study app. It is not affiliated with, endorsed by, or sponsored by Amazon Web Services.
 
 All questions are original or explicitly approved. Nothing is scraped, copied or paraphrased from paid practice exams, exam dumps or third-party question banks.
 
