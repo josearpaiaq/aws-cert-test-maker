@@ -116,15 +116,23 @@ describe('"Due today" queue', () => {
   it('includes questions missed in a mock exam', async () => {
     const bank = getQuestionBank();
     const id = await startExam(repo, CLF_C02, bank, on(10));
-    await repo.saveExamProgress(id, { responses: { [first.id]: first.correct }, flagged: [] });
+    const started = await repo.getInProgressExamAttempt(CLF_C02.id);
+    if (!started) throw new Error('expected an attempt');
+    // Answer the exam's first question correctly and leave the rest unanswered.
+    const answered = bank.find((q) => q.id === started.questionIds[0]);
+    if (!answered) throw new Error('expected the question in the bank');
+    await repo.saveExamProgress(id, {
+      responses: { [answered.id]: answered.correct },
+      flagged: [],
+    });
     const attempt = await repo.getInProgressExamAttempt(CLF_C02.id);
     if (!attempt) throw new Error('expected an attempt');
 
     await submitExam(repo, attempt, bank, on(10, 14));
 
     const due = await dueIds(on(11));
-    expect(due).not.toContain(first.id);
-    expect(due).toHaveLength(bank.length - 1);
+    expect(due).not.toContain(answered.id);
+    expect([...due].sort()).toEqual(attempt.questionIds.filter((q) => q !== answered.id).sort());
   });
 
   it('caps one review session at 20 questions, most overdue first', async () => {
