@@ -280,6 +280,12 @@ export default function SettingsScreen() {
             Something went wrong. Try again.
           </Text>
         )}
+
+        <Text className="text-sm leading-5 text-slate-500 dark:text-slate-400">
+          CloudPrep is an independent study app. It is not affiliated with, endorsed by, or
+          sponsored by Amazon Web Services. AWS and the names of AWS services are trademarks of
+          Amazon.com, Inc. or its affiliates.
+        </Text>
       </ScrollView>
     </SafeAreaView>
   );
