@@ -11,7 +11,7 @@ An offline-first iOS and Android quiz app for studying for the **AWS Certified C
 - **Native, not a web view:** real `UITabBarController` and Material bottom navigation, native alerts, date pickers and SF Symbols / Material Symbols per platform.
 - **Animations on the UI thread:** the card swipe, shake-on-wrong and progress bar are Reanimated worklets driven by Gesture Handler.
 - **Offline-first data:** SQLite with versioned migrations; a mock exam survives the app being killed, and its timer stays exact after backgrounding because it is computed from timestamps.
-- **Logic you can trust:** scoring, weighted exam assembly, SM-2 scheduling and readiness are pure functions with 210 unit tests; two Maestro end-to-end flows cover a practice session and a mock exam.
+- **Logic you can trust:** scoring, weighted exam assembly, SM-2 scheduling and readiness are pure functions with 216 unit tests; two Maestro end-to-end flows cover a practice session and a mock exam.
 
 ## Why this project
 
@@ -132,7 +132,7 @@ Measured on a Samsung Galaxy A57 with the release APK on 2026-11-12. The 2-secon
 How the numbers are taken (`npm run measure:android`, script in `scripts/measure-android.sh`):
 
 - **Cold start:** the app is force-stopped, then `adb shell am start -W` reports the time to the first frame. "Interactive" is the time until the Study tab has loaded its data from SQLite, read from a one-line log the app writes at that moment. Median of 5 runs.
-- **Scrolling:** the question browser opens with the 40-question bank repeated 13 times (`cloudprep://browse?repeat=13`, 520 rows), the script flings it up and down 16 times, and `dumpsys gfxinfo` reports frame times and the share of janky frames.
+- **Scrolling:** the question browser opens with the bank repeated to 520 rows (`cloudprep://browse?repeat=4`, 130 × 4; the published numbers used the earlier 40-question bank × 13), the script flings it up and down 16 times, and `dumpsys gfxinfo` reports frame times and the share of janky frames.
 - **Swipe feel:** frame times are recorded while practice cards are answered and swiped away (by hand, or six cycles driven by Maestro for the figure above).
 
 To compare fairly, measure the Ionic app the same way on the same phone: `am start -W` for cold start, a 520-row list for scrolling, and `dumpsys gfxinfo` for frames.
@@ -147,7 +147,7 @@ All questions are original or explicitly approved. Nothing is scraped, copied or
 
 ## Known limitations
 
-- **The question bank is 40 draft questions.** Mock exams use the whole bank until it reaches 65 questions, so they are shorter than the real exam and not yet weighted by domain.
+- **The question bank is 130 draft questions** (31 / 39 / 44 / 16 by domain), all marked `"draft": true` until reviewed. Mock exams draw a full 65 with the official 16 / 19 / 22 / 8 split, but questions repeat sooner than they would with a larger bank.
 - **No scaled score.** Results show percent correct; AWS does not publish how raw scores map to its 100–1,000 scale.
 - **Not in the stores.** The APK is debug-signed for sideloading; iOS runs only on a simulator or through Xcode.
 - **The reminder text is fixed** ("Time to study"); a repeating notification cannot include today's due count.
@@ -157,7 +157,7 @@ All questions are original or explicitly approved. Nothing is scraped, copied or
 
 ## What v2 would add
 
-- The full question bank (500+), then weighted mock exams by default.
+- A larger reviewed question bank (500+), so mock exams rarely repeat questions.
 - A review screen after a mock exam that walks through each question with its explanation.
 - Signed store builds through EAS, and TestFlight / Play internal testing.
 - A second certification, which the data layer already supports (new config and JSON file).
