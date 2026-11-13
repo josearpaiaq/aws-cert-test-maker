@@ -7,6 +7,10 @@ export default function TabsLayout() {
         <NativeTabs.Trigger.Label>Study</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf={{ default: 'book', selected: 'book.fill' }} md="menu_book" />
       </NativeTabs.Trigger>
+      <NativeTabs.Trigger name="learn">
+        <NativeTabs.Trigger.Label>Learn</NativeTabs.Trigger.Label>
+        <NativeTabs.Trigger.Icon sf="graduationcap" md="school" />
+      </NativeTabs.Trigger>
       <NativeTabs.Trigger name="exam">
         <NativeTabs.Trigger.Label>Exam</NativeTabs.Trigger.Label>
         <NativeTabs.Trigger.Icon sf="timer" md="timer" />

@@ -79,6 +79,7 @@ export default function PracticeScreen() {
   const { width } = useWindowDimensions();
 
   const questions = usePracticeSession((s) => s.questions);
+  const seed = usePracticeSession((s) => s.seed);
   const index = usePracticeSession((s) => s.index);
   const selected = usePracticeSession((s) => s.selected);
   const unsure = usePracticeSession((s) => s.unsure);
@@ -267,6 +268,7 @@ export default function PracticeScreen() {
                 selected={selected}
                 revealed={revealed}
                 wasCorrect={wasCorrect}
+                optionSeed={`${seed}:${question.id}`}
                 onToggleOption={onToggleOption}
               />
               {saveFailed && (

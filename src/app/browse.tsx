@@ -44,7 +44,7 @@ function QuestionRow({
               key={answer.id}
               className="text-base font-semibold text-emerald-800 dark:text-emerald-300"
             >
-              ✓ {answer.id.toUpperCase()}. {answer.text}
+              ✓ {answer.text}
             </Text>
           ))}
           <Text className="text-sm leading-5 text-slate-700 dark:text-slate-300">

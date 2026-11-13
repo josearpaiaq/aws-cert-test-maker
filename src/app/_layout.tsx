@@ -63,6 +63,10 @@ export default function RootLayout() {
             <Stack.Screen name="exam-session" options={{ gestureEnabled: false }} />
             <Stack.Screen name="exam-results" />
             <Stack.Screen
+              name="lesson/[id]"
+              options={{ headerShown: true, headerBackButtonDisplayMode: 'minimal' }}
+            />
+            <Stack.Screen
               name="browse"
               options={{
                 headerShown: true,

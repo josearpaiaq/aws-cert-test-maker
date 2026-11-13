@@ -16,6 +16,9 @@ import { computeReadiness, READINESS_WINDOW } from '@/logic/readiness';
 /** Route param value for a session drawn from the learner's weakest domains. */
 export const WEAKEST_TARGET = 'weakest';
 
+/** Route param prefix for a session on one task statement, e.g. "task:3.6". */
+export const TASK_TARGET_PREFIX = 'task:';
+
 /** Route param value for a session of the questions scheduled for review today. */
 export const DUE_TARGET = 'due';
 
@@ -43,6 +46,15 @@ export async function loadPracticeQuestions(
   }
 
   const bank = getQuestionBank();
+  if (target.startsWith(TASK_TARGET_PREFIX)) {
+    const taskStatement = target.slice(TASK_TARGET_PREFIX.length);
+    const questions = bank.filter((q) => q.taskStatement === taskStatement);
+    return selectPracticeQuestions(
+      questions,
+      [...new Set(questions.map((q) => q.domain))],
+      PRACTICE_SESSION_SIZE,
+    );
+  }
   const domain = CLF_C02.domains.find((d) => String(d.id) === target);
   if (domain) {
     return selectPracticeQuestions(bank, [domain.id], PRACTICE_SESSION_SIZE);

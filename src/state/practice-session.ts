@@ -13,6 +13,8 @@ export type PracticeResult = {
 
 type PracticeSessionState = {
   questions: Question[];
+  /** Changes with every session, so the options are shuffled differently each time. */
+  seed: string;
   index: number;
   /** Option ids selected for the current question. */
   selected: string[];
@@ -37,6 +39,7 @@ type PracticeSessionState = {
  */
 export const usePracticeSession = create<PracticeSessionState>((set, get) => ({
   questions: [],
+  seed: '',
   index: 0,
   selected: [],
   unsure: false,
@@ -44,7 +47,15 @@ export const usePracticeSession = create<PracticeSessionState>((set, get) => ({
   results: [],
 
   start: (questions) =>
-    set({ questions, index: 0, selected: [], unsure: false, revealed: false, results: [] }),
+    set({
+      questions,
+      seed: Math.random().toString(36).slice(2),
+      index: 0,
+      selected: [],
+      unsure: false,
+      revealed: false,
+      results: [],
+    }),
 
   toggleOption: (optionId) => {
     const { questions, index, selected, revealed } = get();

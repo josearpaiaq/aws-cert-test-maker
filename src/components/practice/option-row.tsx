@@ -36,18 +36,20 @@ const STATUS_LABEL: Partial<Record<OptionStatus, string>> = {
 
 type OptionRowProps = {
   option: QuestionOption;
+  /** The letter shown for this option, from its position on screen. */
+  letter: string;
   status: OptionStatus;
   multiple: boolean;
   disabled: boolean;
   onPress: () => void;
 };
 
-export function OptionRow({ option, status, multiple, disabled, onPress }: OptionRowProps) {
+export function OptionRow({ option, letter, status, multiple, disabled, onPress }: OptionRowProps) {
   return (
     <Pressable
       accessibilityRole={multiple ? 'checkbox' : 'radio'}
       accessibilityState={{ checked: status === 'selected', disabled }}
-      accessibilityLabel={[`${option.id.toUpperCase()}. ${option.text}`, STATUS_LABEL[status]]
+      accessibilityLabel={[`${letter}. ${option.text}`, STATUS_LABEL[status]]
         .filter(Boolean)
         .join('. ')}
       testID={`option-${option.id}`}
@@ -57,7 +59,7 @@ export function OptionRow({ option, status, multiple, disabled, onPress }: Optio
     >
       <View className={`h-8 w-8 items-center justify-center rounded-full ${BADGE[status]}`}>
         <Text maxFontSizeMultiplier={1.4} className={`text-sm font-bold ${BADGE_TEXT[status]}`}>
-          {option.id.toUpperCase()}
+          {letter}
         </Text>
       </View>
       <Text className="flex-1 text-base leading-6 text-slate-900 dark:text-slate-50">

@@ -41,8 +41,8 @@ frames() {
   adb shell dumpsys gfxinfo "$PKG" | grep -E 'Total frames rendered|Janky frames:|50th percentile|90th percentile|95th percentile|99th percentile' | grep -v gpu | sed 's/^ */  /'
 }
 
-echo "== Scrolling the question browser (40 questions x 13 = 520 rows)"
-adb shell am start -a android.intent.action.VIEW -d "cloudprep://browse?repeat=13" "$PKG" >/dev/null
+echo "== Scrolling the question browser (130 questions x 4 = 520 rows)"
+adb shell am start -a android.intent.action.VIEW -d "cloudprep://browse?repeat=4" "$PKG" >/dev/null
 sleep 3
 adb shell dumpsys gfxinfo "$PKG" reset >/dev/null
 for _ in $(seq 8); do adb shell input swipe 540 1900 540 500 120; sleep 0.6; done

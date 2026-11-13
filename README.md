@@ -11,7 +11,7 @@ An offline-first iOS and Android quiz app for studying for the **AWS Certified C
 - **Native, not a web view:** real `UITabBarController` and Material bottom navigation, native alerts, date pickers and SF Symbols / Material Symbols per platform.
 - **Animations on the UI thread:** the card swipe, shake-on-wrong and progress bar are Reanimated worklets driven by Gesture Handler.
 - **Offline-first data:** SQLite with versioned migrations; a mock exam survives the app being killed, and its timer stays exact after backgrounding because it is computed from timestamps.
-- **Logic you can trust:** scoring, weighted exam assembly, SM-2 scheduling and readiness are pure functions with 210 unit tests; two Maestro end-to-end flows cover a practice session and a mock exam.
+- **Logic you can trust:** scoring, weighted exam assembly, SM-2 scheduling and readiness are pure functions with 216 unit tests; two Maestro end-to-end flows cover a practice session and a mock exam.
 
 ## Why this project
 
@@ -24,6 +24,7 @@ CloudPrep has two goals of equal weight:
 
 | Feature | What it does |
 | --- | --- |
+| Learn | One lesson per exam task statement, with comparison tables, diagrams and "on the exam" callouts; links to practice that topic (2 pilot lessons so far) |
 | Practice mode | Pick a domain or "weakest areas"; immediate feedback and explanation after each answer, swipe to the next card |
 | Mock exam | 65 questions weighted by domain, 90-minute timer that survives backgrounding (tap it to hide or show the time), flag for review, results by domain |
 | Spaced repetition | Missed and low-confidence questions return on a schedule ("Due today" queue) |
@@ -58,6 +59,7 @@ Weights live in a config file so they can be updated if AWS revises the exam. So
 | Feedback | expo-haptics | Selection and success/error haptics |
 | Reminders | expo-notifications (local only) | Daily scheduled notification with no server |
 | Icons | expo-symbols | SF Symbols on iOS, Material Symbols on Android, from one component |
+| Diagrams | react-native-svg | Vector shapes for lesson diagrams |
 | Tests | Jest + jest-expo, Maestro | Unit tests for logic and data; end-to-end flows on a real build |
 | Builds | Local `expo run` builds (EAS configured but not used yet) | No account needed to build and sideload |
 
@@ -88,17 +90,18 @@ Checks: `npm run typecheck`, `npm run lint`, `npm run format:check`, `npm test`.
 A release APK is a standalone app: no dev server, no developer menu, full speed.
 
 ```bash
-npm run android:release            # builds the release APK and installs it on a connected phone
-# or build only:
-npx expo prebuild --platform android && (cd android && ./gradlew assembleRelease)
-# -> android/app/build/outputs/apk/release/app-release.apk
+npm run build:apk     # builds the release APK -> dist/CloudPrep-<version>.apk (version from app.json)
+npm run install:apk   # installs the newest APK in dist/ on the connected phone
+npm run android:release   # or build and install in one step, without keeping a copy in dist/
 ```
+
+`build:apk` regenerates `android/` from `app.json`, runs Gradle's `assembleRelease`, and copies the result out of `android/app/build/outputs/apk/release/`. It builds for 64-bit ARM only (practically every current phone); set `ABIS` to add others, for example `ABIS="arm64-v8a,armeabi-v7a" npm run build:apk`. To release a new version, raise `version` in `app.json` first so each APK gets its own file name.
 
 To install without a cable, copy the APK to the phone (USB file transfer, Google Drive, Quick Share), open it from the Files app, and allow "Install unknown apps" for that app when Android asks. With a cable and USB debugging on, `adb install -r app-release.apk` does the same.
 
 The APK is signed with the project's debug key. That is fine for your own devices; publishing to Google Play needs a private upload key (or EAS Build, which manages one).
 
-The app ID is `io.github.josearpaiaq.cloudprep`. Development builds use the same ID, so installing one replaces the other. With the phone connected, `npm run install:apk` installs `dist/CloudPrep-1.0.0.apk` (copy the built APK there first).
+The app ID is `io.github.josearpaiaq.cloudprep`. Development builds use the same ID, so installing one replaces the other.
 
 End-to-end tests use [Maestro](https://maestro.mobile.dev) and run against a release build on a simulator, emulator or device: `npx expo run:ios --configuration Release` (or `npx expo run:android --variant release`), then `npm run e2e`. The flows in `.maestro/` complete one practice session and one mock exam; they write real answers to the app's database, so run them on a simulator rather than a phone you study on.
 
@@ -131,7 +134,7 @@ Measured on a Samsung Galaxy A57 with the release APK on 2026-11-12. The 2-secon
 How the numbers are taken (`npm run measure:android`, script in `scripts/measure-android.sh`):
 
 - **Cold start:** the app is force-stopped, then `adb shell am start -W` reports the time to the first frame. "Interactive" is the time until the Study tab has loaded its data from SQLite, read from a one-line log the app writes at that moment. Median of 5 runs.
-- **Scrolling:** the question browser opens with the 40-question bank repeated 13 times (`cloudprep://browse?repeat=13`, 520 rows), the script flings it up and down 16 times, and `dumpsys gfxinfo` reports frame times and the share of janky frames.
+- **Scrolling:** the question browser opens with the bank repeated to 520 rows (`cloudprep://browse?repeat=4`, 130 × 4; the published numbers used the earlier 40-question bank × 13), the script flings it up and down 16 times, and `dumpsys gfxinfo` reports frame times and the share of janky frames.
 - **Swipe feel:** frame times are recorded while practice cards are answered and swiped away (by hand, or six cycles driven by Maestro for the figure above).
 
 To compare fairly, measure the Ionic app the same way on the same phone: `am start -W` for cold start, a 520-row list for scrolling, and `dumpsys gfxinfo` for frames.
@@ -140,13 +143,17 @@ To compare fairly, measure the Ionic app the same way on the same phone: `am sta
 
 With the phone connected: `adb shell screenrecord --time-limit 30 /sdcard/demo.mp4`, use the app, then `adb pull /sdcard/demo.mp4`. On the iOS simulator: `xcrun simctl io booted recordVideo demo.mp4` (Ctrl+C to stop).
 
-## Question content
+## Question and lesson content
+
+Lessons live in `src/content/lessons` as a small Markdown subset (headings, bold, lists, tables, `> [!TIP]` / `> [!NOTE]` / `> [!EXAM]` callouts and `{{diagram:id}}` markers), parsed by `src/logic/lesson-markdown.ts` and rendered with the app's own components. They are original writing based on the linked AWS documentation.
+
+CloudPrep is an independent study app. It is not affiliated with, endorsed by, or sponsored by Amazon Web Services.
 
 All questions are original or explicitly approved. Nothing is scraped, copied or paraphrased from paid practice exams, exam dumps or third-party question banks.
 
 ## Known limitations
 
-- **The question bank is 40 draft questions.** Mock exams use the whole bank until it reaches 65 questions, so they are shorter than the real exam and not yet weighted by domain.
+- **The question bank is 130 draft questions** (31 / 39 / 44 / 16 by domain), all marked `"draft": true` until reviewed. Mock exams draw a full 65 with the official 16 / 19 / 22 / 8 split, but questions repeat sooner than they would with a larger bank.
 - **No scaled score.** Results show percent correct; AWS does not publish how raw scores map to its 100–1,000 scale.
 - **Not in the stores.** The APK is debug-signed for sideloading; iOS runs only on a simulator or through Xcode.
 - **The reminder text is fixed** ("Time to study"); a repeating notification cannot include today's due count.
@@ -156,7 +163,7 @@ All questions are original or explicitly approved. Nothing is scraped, copied or
 
 ## What v2 would add
 
-- The full question bank (500+), then weighted mock exams by default.
+- A larger reviewed question bank (500+), so mock exams rarely repeat questions.
 - A review screen after a mock exam that walks through each question with its explanation.
 - Signed store builds through EAS, and TestFlight / Play internal testing.
 - A second certification, which the data layer already supports (new config and JSON file).

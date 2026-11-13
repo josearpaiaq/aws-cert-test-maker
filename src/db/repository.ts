@@ -314,7 +314,27 @@ export function createRepository(db: Database) {
         await db.runAsync('DELETE FROM answers WHERE exam_id = ?', [examId]);
         await db.runAsync('DELETE FROM review_schedule WHERE exam_id = ?', [examId]);
         await db.runAsync('DELETE FROM exam_attempts WHERE exam_id = ?', [examId]);
+        await db.runAsync('DELETE FROM lesson_reads WHERE exam_id = ?', [examId]);
       });
+    },
+
+    // Lessons
+
+    /** Records that a lesson was read. Reading it again keeps the first time. */
+    async markLessonRead(examId: string, lessonId: string, readAt: number): Promise<void> {
+      await db.runAsync(
+        `INSERT INTO lesson_reads (exam_id, lesson_id, read_at) VALUES (?, ?, ?)
+         ON CONFLICT (exam_id, lesson_id) DO NOTHING`,
+        [examId, lessonId, readAt],
+      );
+    },
+
+    async getReadLessonIds(examId: string): Promise<string[]> {
+      const rows = await db.getAllAsync<{ lesson_id: string }>(
+        'SELECT lesson_id FROM lesson_reads WHERE exam_id = ?',
+        [examId],
+      );
+      return rows.map((row) => row.lesson_id);
     },
 
     // Settings

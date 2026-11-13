@@ -197,6 +197,31 @@ describe('repository', () => {
     });
   });
 
+  describe('lesson reads', () => {
+    it('lists read lessons for the exam only', async () => {
+      await repo.markLessonRead(EXAM, '3.6', 1000);
+      await repo.markLessonRead(EXAM, '2.1', 2000);
+      await repo.markLessonRead('other-exam', '1.1', 3000);
+
+      expect((await repo.getReadLessonIds(EXAM)).sort()).toEqual(['2.1', '3.6']);
+    });
+
+    it('keeps one record when a lesson is read twice', async () => {
+      await repo.markLessonRead(EXAM, '3.6', 1000);
+      await repo.markLessonRead(EXAM, '3.6', 5000);
+
+      expect(await repo.getReadLessonIds(EXAM)).toEqual(['3.6']);
+    });
+
+    it('is cleared by a progress reset', async () => {
+      await repo.markLessonRead(EXAM, '3.6', 1000);
+
+      await repo.resetProgress(EXAM);
+
+      expect(await repo.getReadLessonIds(EXAM)).toEqual([]);
+    });
+  });
+
   describe('settings', () => {
     it('returns null for a setting that was never stored', async () => {
       expect(await repo.getSetting('reminderTime')).toBeNull();

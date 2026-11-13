@@ -55,6 +55,14 @@ export const MIGRATIONS: readonly string[] = [
     value TEXT NOT NULL
   );
   `,
+  `
+  CREATE TABLE lesson_reads (
+    exam_id TEXT NOT NULL,
+    lesson_id TEXT NOT NULL,
+    read_at INTEGER NOT NULL,
+    PRIMARY KEY (exam_id, lesson_id)
+  );
+  `,
 ];
 
 /** Brings the database up to the latest schema version. Safe to call on every app start. */
