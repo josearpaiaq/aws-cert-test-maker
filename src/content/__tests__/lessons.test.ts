@@ -47,6 +47,10 @@ describe.each(LESSONS.map((lesson) => [lesson.taskStatement, lesson] as const))(
   },
 );
 
+it('has a lesson for every task statement in the exam guide', () => {
+  expect(LESSONS.map((lesson) => lesson.taskStatement).sort()).toEqual([...taskIds].sort());
+});
+
 it('has at most one lesson per task statement', () => {
   const ids = LESSONS.map((lesson) => lesson.taskStatement);
   expect(new Set(ids).size).toBe(ids.length);
