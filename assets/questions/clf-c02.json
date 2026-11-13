@@ -573,7 +573,7 @@
     "correct": [
       "b"
     ],
-    "explanation": "Snowball Edge is a physical device that AWS ships to you, so large data sets can be moved without depending on the network. S3 Transfer Acceleration speeds up uploads but still sends every byte over the internet connection. AWS DMS migrates databases, not file archives. A Site-to-Site VPN encrypts traffic over the same slow internet link and adds no capacity.",
+    "explanation": "Snowball Edge is a physical device that AWS ships to you, so large data sets can be moved without depending on the network. S3 Transfer Acceleration speeds up uploads but still sends every byte over the internet connection. AWS DMS migrates databases, not file archives. A Site-to-Site VPN encrypts traffic over the same slow internet link and adds no capacity. Note: AWS Snowball Edge is no longer available to new customers; the exam guide still lists it, so it can still appear on the exam.",
     "services": [
       "Snowball Edge",
       "S3",
@@ -789,7 +789,7 @@
       "a",
       "c"
     ],
-    "explanation": "AWS DMS migrates databases to AWS with minimal downtime, and Snowball Edge physically transfers large amounts of data. Amazon Lex builds chatbots. AWS Artifact provides compliance reports. Amazon QuickSight builds business intelligence dashboards.",
+    "explanation": "AWS DMS migrates databases to AWS with minimal downtime, and Snowball Edge physically transfers large amounts of data. Amazon Lex builds chatbots. AWS Artifact provides compliance reports. Amazon QuickSight builds business intelligence dashboards. Note: AWS Snowball Edge is no longer available to new customers; the exam guide still lists it, so it can still appear on the exam.",
     "services": [
       "DMS",
       "Snowball Edge",
@@ -1793,7 +1793,7 @@
     "correct": [
       "b"
     ],
-    "explanation": "AWS Audit Manager continuously collects evidence from your AWS usage and organizes it against frameworks to simplify audits. AWS Artifact provides AWS's own compliance reports, not evidence about your usage. CloudTrail records API activity, which can be one source of evidence. Trusted Advisor gives best-practice recommendations.",
+    "explanation": "AWS Audit Manager continuously collects evidence from your AWS usage and organizes it against frameworks to simplify audits. AWS Artifact provides AWS's own compliance reports, not evidence about your usage. CloudTrail records API activity, which can be one source of evidence. Trusted Advisor gives best-practice recommendations. Note: AWS Audit Manager no longer accepts new customers; the exam guide still lists it, so it can still appear on the exam.",
     "services": [
       "Audit Manager",
       "Artifact",
@@ -3886,7 +3886,7 @@
     "correct": [
       "a"
     ],
-    "explanation": "Amazon Kendra is an intelligent search service that finds answers in enterprise documents from natural language questions. Lex builds chatbots. Athena runs SQL queries on data in S3. QuickSight builds dashboards.",
+    "explanation": "Amazon Kendra is an intelligent search service that finds answers in enterprise documents from natural language questions. Lex builds chatbots. Athena runs SQL queries on data in S3. QuickSight builds dashboards. Note: Amazon Kendra is no longer open to new customers; the exam guide still lists it, so it can still appear on the exam.",
     "services": [
       "Kendra",
       "Lex",
