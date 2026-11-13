@@ -1,8 +1,10 @@
+import { router } from 'expo-router';
 import { Linking, Pressable, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { OptionRow, type OptionStatus } from '@/components/practice/option-row';
 import { optionLetter, orderOptions } from '@/logic/option-order';
+import { getLesson } from '@/content/lessons';
 import type { Question } from '@/data/question-schema';
 
 function optionStatus(
@@ -94,6 +96,19 @@ export function QuestionCard({
               Read the AWS documentation
             </Text>
           </Pressable>
+          {getLesson(question.taskStatement) && (
+            <Pressable
+              accessibilityRole="link"
+              onPress={() =>
+                router.push({ pathname: '/lesson/[id]', params: { id: question.taskStatement } })
+              }
+              className="self-start py-2 active:opacity-60"
+            >
+              <Text className="text-base font-medium text-sky-700 dark:text-sky-400">
+                Review this topic: {getLesson(question.taskStatement)?.title}
+              </Text>
+            </Pressable>
+          )}
         </Animated.View>
       )}
     </View>
