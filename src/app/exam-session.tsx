@@ -261,6 +261,8 @@ export default function ExamSessionScreen() {
               selected={responses[question.id] ?? []}
               revealed={false}
               wasCorrect={false}
+              // Tied to the attempt, so a resumed exam shows the options in the same order.
+              optionSeed={`exam-${attempt.id}:${question.id}`}
               onToggleOption={(optionId) => {
                 void Haptics.selectionAsync();
                 toggleOption(optionId);

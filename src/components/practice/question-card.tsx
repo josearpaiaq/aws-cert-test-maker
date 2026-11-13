@@ -2,6 +2,7 @@ import { Linking, Pressable, Text, View } from 'react-native';
 import Animated, { FadeInDown } from 'react-native-reanimated';
 
 import { OptionRow, type OptionStatus } from '@/components/practice/option-row';
+import { optionLetter, orderOptions } from '@/logic/option-order';
 import type { Question } from '@/data/question-schema';
 
 function optionStatus(
@@ -22,6 +23,8 @@ type QuestionCardProps = {
   revealed: boolean;
   /** Whether the revealed answer was right. Ignored until `revealed`. */
   wasCorrect: boolean;
+  /** Decides the option order; the same seed always shows the options in the same order. */
+  optionSeed: string;
   onToggleOption: (optionId: string) => void;
 };
 
@@ -30,8 +33,10 @@ export function QuestionCard({
   selected,
   revealed,
   wasCorrect,
+  optionSeed,
   onToggleOption,
 }: QuestionCardProps) {
+  const options = orderOptions(question.options, optionSeed);
   return (
     <View className="gap-5">
       <Text
@@ -46,10 +51,11 @@ export function QuestionCard({
         accessibilityRole={question.type === 'single' ? 'radiogroup' : undefined}
         className="gap-3"
       >
-        {question.options.map((option) => (
+        {options.map((option, index) => (
           <OptionRow
             key={option.id}
             option={option}
+            letter={optionLetter(index)}
             status={optionStatus(question, option.id, selected, revealed)}
             multiple={question.type === 'multi'}
             disabled={revealed}
