@@ -19,10 +19,23 @@ describe('migrate', () => {
     expect(tables.map((t) => t.name)).toEqual([
       'answers',
       'exam_attempts',
+      'lesson_reads',
       'review_schedule',
       'settings',
     ]);
     expect(await userVersion(db)).toBe(MIGRATIONS.length);
+  });
+
+  it('upgrades a version 1 database without losing its data', async () => {
+    const db = createTestDatabase();
+    await migrate(db, MIGRATIONS.slice(0, 1));
+    await db.runAsync("INSERT INTO settings (key, value) VALUES ('reminder.time', '08:00')", []);
+
+    await migrate(db);
+
+    expect(await userVersion(db)).toBe(MIGRATIONS.length);
+    expect(await db.getAllAsync('SELECT value FROM settings', [])).toEqual([{ value: '08:00' }]);
+    expect(await db.getAllAsync('SELECT * FROM lesson_reads', [])).toEqual([]);
   });
 
   it('does nothing when the database is already up to date', async () => {
