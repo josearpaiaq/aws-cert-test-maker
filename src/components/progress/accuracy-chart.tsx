@@ -30,7 +30,7 @@ export function AccuracyChart({ answers, domains, now, days }: AccuracyChartProp
 
   const filters = [
     { id: undefined, label: 'All' },
-    ...domains.map((d) => ({ id: d.id, label: `Domain ${d.id}` })),
+    ...domains.map((d) => ({ id: d.id, label: d.name })),
   ];
 
   return (
