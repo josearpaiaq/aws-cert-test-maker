@@ -1,6 +1,6 @@
 import { SymbolView } from 'expo-symbols';
 import { useEffect, useState } from 'react';
-import { AppState, Pressable, Text, useColorScheme } from 'react-native';
+import { AppState, Platform, Pressable, Text, useColorScheme, type TextStyle } from 'react-native';
 
 import { formatClock, remainingMs } from '@/logic/exam-clock';
 
@@ -12,14 +12,25 @@ type ExamTimerProps = {
 
 const LOW_TIME_MS = 5 * 60 * 1000;
 
+/** Shown, blurred, instead of the real time while the timer is hidden, so nothing ticks. */
+const HIDDEN_PLACEHOLDER = '00:00';
+
 /**
- * Countdown for the mock exam. The time left is always computed from `endsAt` and the
- * current clock, never by counting ticks, so it stays right after the app has been in the
- * background (where JavaScript timers are paused).
- *
- * Tapping it hides or shows the time. Hiding only changes what is displayed: the exam still
- * submits itself when time runs out.
+ * A blurred look for the hidden placeholder. Android 12+ applies a real blur filter. React Native
+ * has no blur filter on iOS, so the text is faded and given a soft glow instead.
  */
+function blurred(color: string): TextStyle {
+  return Platform.OS === 'android'
+    ? { color, filter: [{ blur: 6 }] }
+    : {
+        color,
+        opacity: 0.25,
+        textShadowColor: color,
+        textShadowRadius: 6,
+        textShadowOffset: { width: 0, height: 0 },
+      };
+}
+
 export function ExamTimer({ endsAt, onExpire }: ExamTimerProps) {
   const [now, setNow] = useState(() => Date.now());
   const [hidden, setHidden] = useState(false);
@@ -67,10 +78,10 @@ export function ExamTimer({ endsAt, onExpire }: ExamTimerProps) {
       />
       <Text
         maxFontSizeMultiplier={1.4}
-        style={{ color }}
+        style={hidden ? blurred(color) : { color }}
         className="text-lg font-semibold tabular-nums"
       >
-        {hidden ? 'Hidden' : formatClock(remaining)}
+        {hidden ? HIDDEN_PLACEHOLDER : formatClock(remaining)}
       </Text>
     </Pressable>
   );
