@@ -3,12 +3,15 @@ import { useCallback, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useMiniPlayerPadding } from '@/components/lessons/mini-player';
+
 import { readingMinutes } from '@/content/lesson';
 import { getLesson, LESSONS } from '@/content/lessons';
 import { CLF_C02 } from '@/data/exams/clf-c02';
 import { useRepository } from '@/db/use-repository';
 
 export default function LearnScreen() {
+  const miniPlayerPadding = useMiniPlayerPadding();
   const repo = useRepository();
   const [read, setRead] = useState<string[]>([]);
 
@@ -35,6 +38,7 @@ export default function LearnScreen() {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerClassName="gap-3 px-5 pb-8 pt-4"
+        contentContainerStyle={{ paddingBottom: 32 + miniPlayerPadding }}
       >
         <Text
           accessibilityRole="header"

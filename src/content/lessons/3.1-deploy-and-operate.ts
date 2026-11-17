@@ -5,7 +5,7 @@ export const deployAndOperate: Lesson = {
   title: 'Deploying and operating in AWS',
   summary:
     'The console, the CLI, SDKs and infrastructure as code, the three deployment models, and the ways to connect to AWS.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'What is the AWS Command Line Interface?',

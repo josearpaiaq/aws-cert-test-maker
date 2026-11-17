@@ -5,7 +5,7 @@ export const aiMlAnalytics: Lesson = {
   title: 'AWS AI/ML and analytics services',
   summary:
     'Which AI service handles speech, text, images, chatbots or custom models, and which analytics service queries, streams, prepares or visualizes data.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'What is Amazon SageMaker AI?',

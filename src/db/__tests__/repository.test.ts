@@ -213,12 +213,21 @@ describe('repository', () => {
       expect(await repo.getReadLessonIds(EXAM)).toEqual(['3.6']);
     });
 
+    it('logs every read, so a re-read on a later day is still recorded', async () => {
+      await repo.markLessonRead(EXAM, '3.6', 1000);
+      await repo.markLessonRead(EXAM, '3.6', 5000);
+      await repo.markLessonRead('other-exam', '1.1', 9000);
+
+      expect((await repo.getLessonReadTimestamps(EXAM)).sort()).toEqual([1000, 5000]);
+    });
+
     it('is cleared by a progress reset', async () => {
       await repo.markLessonRead(EXAM, '3.6', 1000);
 
       await repo.resetProgress(EXAM);
 
       expect(await repo.getReadLessonIds(EXAM)).toEqual([]);
+      expect(await repo.getLessonReadTimestamps(EXAM)).toEqual([]);
     });
   });
 

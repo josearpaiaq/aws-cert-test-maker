@@ -5,7 +5,7 @@ export const databases: Lesson = {
   title: 'AWS database services',
   summary:
     'Managed versus self-managed databases, relational, NoSQL and in-memory options, and the tools for migrating databases to AWS.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'What is Amazon Relational Database Service (Amazon RDS)?',

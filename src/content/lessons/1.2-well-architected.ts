@@ -5,7 +5,7 @@ export const wellArchitected: Lesson = {
   title: 'The AWS Well-Architected Framework',
   summary:
     'The six pillars of good cloud design, what each one focuses on, and how to tell them apart.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'AWS Well-Architected Framework',

@@ -24,7 +24,8 @@ CloudPrep has two goals of equal weight:
 
 | Feature | What it does |
 | --- | --- |
-| Learn | One lesson per exam task statement, with comparison tables, diagrams and "on the exam" callouts; links to practice that topic (2 pilot lessons so far) |
+| Learn | One lesson per exam task statement (19), with comparison tables, diagrams and "on the exam" callouts; links to practice that topic |
+| Listen | Every lesson as audio in two AI-generated voices; keeps playing in the background and with the phone locked, with lock-screen play/pause/next/previous |
 | Practice mode | Pick a domain or "weakest areas"; immediate feedback and explanation after each answer, swipe to the next card |
 | Mock exam | 65 questions weighted by domain, 90-minute timer that survives backgrounding (tap it to hide or show the time), flag for review, results by domain |
 | Spaced repetition | Missed and low-confidence questions return on a schedule ("Due today" queue) |
@@ -60,6 +61,7 @@ Weights live in a config file so they can be updated if AWS revises the exam. So
 | Reminders | expo-notifications (local only) | Daily scheduled notification with no server |
 | Icons | expo-symbols | SF Symbols on iOS, Material Symbols on Android, from one component |
 | Diagrams | react-native-svg | Vector shapes for lesson diagrams |
+| Audio | expo-audio | Background playback, lock-screen controls and a lesson playlist |
 | Tests | Jest + jest-expo, Maestro | Unit tests for logic and data; end-to-end flows on a real build |
 | Builds | Local `expo run` builds (EAS configured but not used yet) | No account needed to build and sideload |
 
@@ -146,6 +148,8 @@ With the phone connected: `adb shell screenrecord --time-limit 30 /sdcard/demo.m
 ## Question and lesson content
 
 Lessons live in `src/content/lessons` as a small Markdown subset (headings, bold, lists, tables, `> [!TIP]` / `> [!NOTE]` / `> [!EXAM]` callouts and `{{diagram:id}}` markers), parsed by `src/logic/lesson-markdown.ts` and rendered with the app's own components. They are original writing based on the linked AWS documentation.
+
+Lesson audio is generated with Amazon Polly (AI voices Ruth and Matthew) by `npm run audio`, which needs the AWS CLI signed in. It converts each lesson to spoken text (tables become sentences), only regenerates lessons whose text changed, and writes `assets/audio/<voice>/<task>.mp3`. `npm run audio -- --dry-run` shows the character count and estimated cost first.
 
 CloudPrep is an independent study app. It is not affiliated with, endorsed by, or sponsored by Amazon Web Services.
 

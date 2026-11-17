@@ -42,6 +42,14 @@
           "color": "#0284C7",
           "enableRemoteNotifications": false
         }
+      ],
+      [
+        "expo-audio",
+        {
+          "enableBackgroundPlayback": true,
+          "microphonePermission": false,
+          "recordAudioAndroid": false
+        }
       ]
     ],
     "experiments": {

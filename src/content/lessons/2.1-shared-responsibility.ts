@@ -4,7 +4,7 @@ export const sharedResponsibility: Lesson = {
   taskStatement: '2.1',
   title: 'The shared responsibility model',
   summary: 'Who secures what: AWS secures the cloud itself, you secure what you put in it.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'Shared Responsibility Model',

@@ -1,0 +1,192 @@
+{
+  "ruth/2.1": {
+    "hash": "24ae5a9715f7fd26991f5c84b039aa96d6651f26959cef19d74c4ed9f6a58dc0",
+    "engine": "generative",
+    "segments": 40
+  },
+  "matthew/2.1": {
+    "hash": "a7e212a3aaeb5fd862b6a92ba0eb4a5f842e51d1c58c6421f6d6ada5d6d32800",
+    "engine": "generative",
+    "segments": 40
+  },
+  "ruth/1.1": {
+    "hash": "903e630dc65bbef2436d6325f76997d0f0667e603445f769070203b9cedca638",
+    "engine": "generative",
+    "segments": 35
+  },
+  "matthew/1.1": {
+    "hash": "f15e5ceae836ae2237448353d6b88a44711ec26dffc8d7a51cbe285819c72fe7",
+    "engine": "generative",
+    "segments": 35
+  },
+  "ruth/1.2": {
+    "hash": "78d5932a517af2be0bd4c88a2769393f6b3d92fb232ac260bcb0acb1fb435241",
+    "engine": "generative",
+    "segments": 40
+  },
+  "matthew/1.2": {
+    "hash": "cc02c2ce6a98cfd8e3613878f5c57a7f3fbd1685d4e3f10c5944ba550063b8dd",
+    "engine": "generative",
+    "segments": 40
+  },
+  "ruth/1.3": {
+    "hash": "f17687fb5299ee7fd803b2b632b0270eb6c657e93adf1bce5e855dc256cc1e16",
+    "engine": "generative",
+    "segments": 45
+  },
+  "matthew/1.3": {
+    "hash": "4a3afd95ac8b882a1f53296f23a6247177c7205fcfeb42e87898a4a7584b5d65",
+    "engine": "generative",
+    "segments": 45
+  },
+  "ruth/1.4": {
+    "hash": "2f40fdda52ccde9ff946ca52979fc47bff701b343bee6ea074144e591c26ac14",
+    "engine": "generative",
+    "segments": 44
+  },
+  "matthew/1.4": {
+    "hash": "021bd8ff37d69781c71f2861df50611308a31ec7bcadf0f82f118562acd3b18d",
+    "engine": "generative",
+    "segments": 44
+  },
+  "ruth/2.2": {
+    "hash": "2da3f0821b5e6982a04c21b6a1e0c340294145473f8464cb44dc89bd1a17d029",
+    "engine": "generative",
+    "segments": 44
+  },
+  "matthew/2.2": {
+    "hash": "f233aa7c2910d5d29cd497384747ce20ce127d7b7759016dbca54469a4be2b46",
+    "engine": "generative",
+    "segments": 44
+  },
+  "ruth/2.3": {
+    "hash": "29fd320db18d1915be0d0638bc9ccb75bd31577129e73934d2f27267b39cd377",
+    "engine": "generative",
+    "segments": 49
+  },
+  "matthew/2.3": {
+    "hash": "426a90265f8bfd78878d0957702aaed6597c8dbda3a73108ffc0d856987d69eb",
+    "engine": "generative",
+    "segments": 49
+  },
+  "ruth/2.4": {
+    "hash": "0aec52bc3c11c3d356514901726746666dcd689365b979e51db121b439d664ef",
+    "engine": "generative",
+    "segments": 40
+  },
+  "matthew/2.4": {
+    "hash": "8e2b58f4e98018670e4ef5cfe682e1bcf3bde659fa1a6751c2b1ebd53adb36bd",
+    "engine": "generative",
+    "segments": 40
+  },
+  "ruth/3.1": {
+    "hash": "d0a987b1c7585f14dc6a15b5f61723e2b2ddd086752dcb9d271400a17f46cbc5",
+    "engine": "generative",
+    "segments": 38
+  },
+  "matthew/3.1": {
+    "hash": "91b6dfed3fa3ae314e4436012706a13e6eff8c9e6997cd8d3d6cbb8929c7eb53",
+    "engine": "generative",
+    "segments": 38
+  },
+  "ruth/3.2": {
+    "hash": "3c6a20943d92fe570f9979f60dcb47856e550dc696db5952e883755f92c67bb9",
+    "engine": "generative",
+    "segments": 34
+  },
+  "matthew/3.2": {
+    "hash": "b478c80755b81e34efaca8ef3d084a4077937054fe35b7d351bfbedfb82d7133",
+    "engine": "generative",
+    "segments": 34
+  },
+  "ruth/3.3": {
+    "hash": "841f035aff1e6516ad570c9f708d35d09fa79d71bd7c9e404317abd098093657",
+    "engine": "generative",
+    "segments": 40
+  },
+  "matthew/3.3": {
+    "hash": "d39fc17ca5cd1a2bd98e1a5e780179e78eb74b7caebe49319da61aded06017da",
+    "engine": "generative",
+    "segments": 40
+  },
+  "ruth/3.4": {
+    "hash": "a5a0fe0f90076e8736a833cf5dd2c57b5045fde194ecbda9f8c43c4e01adf7ef",
+    "engine": "generative",
+    "segments": 37
+  },
+  "matthew/3.4": {
+    "hash": "92fb8b2b0d5d814790da3cfa33e383d61fa7ee84095af542f951d859ebfc96e6",
+    "engine": "generative",
+    "segments": 37
+  },
+  "ruth/3.5": {
+    "hash": "b3f77ebbdf0d3cf714e0c4c6a084e67c396da41fbef477928c1ea498096797d5",
+    "engine": "generative",
+    "segments": 44
+  },
+  "matthew/3.5": {
+    "hash": "293eb693ec2a3429408ce80b351b2857e12fb2e6d56ef601fc9b53d81a7b791c",
+    "engine": "generative",
+    "segments": 44
+  },
+  "ruth/3.6": {
+    "hash": "39b04073a3ea5422c80c9aa2721099deadd69a2c30e35c1f99e3c9566616c7f6",
+    "engine": "generative",
+    "segments": 37
+  },
+  "matthew/3.6": {
+    "hash": "48adc24396a3f6415418b22496ba3585ad15e797f3e6a9e1a8fc54dc980b8c78",
+    "engine": "generative",
+    "segments": 37
+  },
+  "ruth/3.7": {
+    "hash": "ba780bea86d0e2547de72ca04c649d3f0de3dd452b8f71afc399b33ff94d8b0a",
+    "engine": "generative",
+    "segments": 39
+  },
+  "matthew/3.7": {
+    "hash": "5de471ada504abc4bab33fda4e3eb21db60a79e6ac85a00adc98b38fc44e2356",
+    "engine": "generative",
+    "segments": 39
+  },
+  "ruth/3.8": {
+    "hash": "a731980b6077b942620518df7656f27d1d08612132c2dbea00ced503744ecaf8",
+    "engine": "generative",
+    "segments": 50
+  },
+  "matthew/3.8": {
+    "hash": "ddd0520e9b3ab21068769387543fd8dd79d88c8c725b2c687ec9a90101a57c49",
+    "engine": "generative",
+    "segments": 50
+  },
+  "ruth/4.1": {
+    "hash": "66557266eec086a6ed5f04876af1d32fae22b7d946ae3e0b25aae5ea489fde45",
+    "engine": "generative",
+    "segments": 46
+  },
+  "matthew/4.1": {
+    "hash": "02a32ee5c120b6cfa7e3f069b4b5784a8230d4ba9ecb2b8ee327e7e7cd0bcf8e",
+    "engine": "generative",
+    "segments": 46
+  },
+  "ruth/4.2": {
+    "hash": "a558cd7ba2c1dcaf85c100616c76db99b2230887bcc1c8cd0065d61aa8cfe4c2",
+    "engine": "generative",
+    "segments": 43
+  },
+  "matthew/4.2": {
+    "hash": "6e7472ba44198be08e29db4e4a35d631a5765ab2e362441a63a91535685f7d09",
+    "engine": "generative",
+    "segments": 43
+  },
+  "ruth/4.3": {
+    "hash": "9bbaef80d14831bffaeb389e1f34d0a14832c14fdc57f73cbf25ef9902af8baf",
+    "engine": "generative",
+    "segments": 40
+  },
+  "matthew/4.3": {
+    "hash": "8e3b76a3898843a16df20218dfb05553aa3d0b58a899741d5ff49f8f2fe7bf83",
+    "engine": "generative",
+    "segments": 40
+  }
+}

@@ -5,7 +5,7 @@ export const supportAndResources: Lesson = {
   title: 'AWS Support and technical resources',
   summary:
     'Where to find answers, which support plan gives what, and when to turn to Trusted Advisor, partners or AWS experts.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'AWS Support plan comparison',

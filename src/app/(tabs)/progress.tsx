@@ -4,6 +4,8 @@ import { useCallback, useState } from 'react';
 import { ActivityIndicator, Pressable, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useMiniPlayerPadding } from '@/components/lessons/mini-player';
+
 import { AccuracyChart } from '@/components/progress/accuracy-chart';
 import { ReadinessCard } from '@/components/progress/readiness-card';
 import { CLF_C02 } from '@/data/exams/clf-c02';
@@ -67,6 +69,7 @@ function ExamRow({ attempt }: { attempt: ExamAttempt }) {
 }
 
 export default function ProgressScreen() {
+  const miniPlayerPadding = useMiniPlayerPadding();
   const repo = useRepository();
   const [progress, setProgress] = useState<Progress | null>(null);
   const [failed, setFailed] = useState(false);
@@ -163,7 +166,7 @@ export default function ProgressScreen() {
             No mock exams yet. Take one from the Exam tab.
           </Text>
         }
-        contentContainerStyle={{ paddingBottom: 32 }}
+        contentContainerStyle={{ paddingBottom: 32 + miniPlayerPadding }}
       />
     </SafeAreaView>
   );

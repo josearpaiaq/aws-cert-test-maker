@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, type LayoutChangeEvent } from 'react-native';
 
 import { DIAGRAMS } from '@/components/lessons/diagrams';
 import { plainText, type Block, type CalloutKind, type Span } from '@/logic/lesson-markdown';
@@ -17,6 +17,12 @@ function Spans({ spans }: { spans: Span[] }) {
 }
 
 const BODY = 'text-base leading-7 text-slate-700 dark:text-slate-300';
+
+/** Background for the part being read aloud. Only the colour changes, so nothing moves. */
+const SPOKEN = 'bg-amber-100 dark:bg-amber-950';
+
+/** Reports where a block (item -1) or one of its list items or table rows was laid out. */
+type ItemLayout = (item: number, event: LayoutChangeEvent) => void;
 
 const CALLOUT: Record<CalloutKind, { label: string; box: string; title: string }> = {
   tip: {
@@ -40,14 +46,23 @@ const CALLOUT: Record<CalloutKind, { label: string; box: string; title: string }
  * Tables with more than two columns become one card per row, so wide comparisons stay readable
  * on a phone; two-column tables stay as rows.
  */
-function Table({ block }: { block: Extract<Block, { type: 'table' }> }) {
+function Table({
+  block,
+  spokenItem,
+  onItemLayout,
+}: {
+  block: Extract<Block, { type: 'table' }>;
+  spokenItem: number;
+  onItemLayout?: ItemLayout;
+}) {
   if (block.header.length <= 2) {
     return (
       <View className="overflow-hidden rounded-xl border border-slate-200 dark:border-slate-800">
         {[block.header, ...block.rows].map((row, index) => (
           <View
             key={index}
-            className={`flex-row gap-3 px-4 py-3 ${index === 0 ? 'bg-slate-100 dark:bg-slate-900' : 'border-t border-slate-200 dark:border-slate-800'}`}
+            onLayout={index === 0 ? undefined : (event) => onItemLayout?.(index - 1, event)}
+            className={`flex-row gap-3 px-4 py-3 ${index === 0 ? 'bg-slate-100 dark:bg-slate-900' : `border-t border-slate-200 dark:border-slate-800 ${spokenItem === index - 1 ? SPOKEN : ''}`}`}
           >
             {row.map((cell, column) => (
               <Text
@@ -68,7 +83,12 @@ function Table({ block }: { block: Extract<Block, { type: 'table' }> }) {
       {block.rows.map((row, index) => (
         <View
           key={index}
-          className="gap-2 rounded-xl border border-slate-200 bg-slate-50 p-4 dark:border-slate-800 dark:bg-slate-900"
+          onLayout={(event) => onItemLayout?.(index, event)}
+          className={`gap-2 rounded-xl border p-4 ${
+            spokenItem === index
+              ? 'border-amber-400 bg-amber-100 dark:border-amber-700 dark:bg-amber-950'
+              : 'border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900'
+          }`}
         >
           <Text className="text-base font-semibold text-slate-900 dark:text-slate-50">
             <Spans spans={row[0] ?? []} />
@@ -89,24 +109,37 @@ function Table({ block }: { block: Extract<Block, { type: 'table' }> }) {
   );
 }
 
-function BlockView({ block }: { block: Block }) {
+/**
+ * One block. `spokenItem` is null when nothing in it is being read aloud, -1 when the whole
+ * block is, or the index of the list item or table row being read.
+ */
+function BlockView({
+  block,
+  spokenItem,
+  onItemLayout,
+}: {
+  block: Block;
+  spokenItem: number | null;
+  onItemLayout?: ItemLayout;
+}) {
+  const whole = spokenItem === -1;
   switch (block.type) {
     case 'heading':
       return (
         <Text
           accessibilityRole="header"
-          className={
+          className={`-mx-2 rounded-lg px-2 ${whole ? SPOKEN : ''} ${
             block.level === 2
               ? 'mt-4 text-xl font-bold text-slate-900 dark:text-slate-50'
               : 'mt-2 text-lg font-semibold text-slate-900 dark:text-slate-50'
-          }
+          }`}
         >
           <Spans spans={block.spans} />
         </Text>
       );
     case 'paragraph':
       return (
-        <Text className={BODY}>
+        <Text className={`${BODY} -mx-2 rounded-lg px-2 ${whole ? SPOKEN : ''}`}>
           <Spans spans={block.spans} />
         </Text>
       );
@@ -114,7 +147,11 @@ function BlockView({ block }: { block: Block }) {
       return (
         <View className="gap-2">
           {block.items.map((item, index) => (
-            <View key={index} className="flex-row gap-3">
+            <View
+              key={index}
+              onLayout={(event) => onItemLayout?.(index, event)}
+              className={`-mx-2 flex-row gap-3 rounded-lg px-2 ${spokenItem === index ? SPOKEN : ''}`}
+            >
               <Text className={`${BODY} min-w-5 text-right`}>
                 {block.ordered ? `${index + 1}.` : '•'}
               </Text>
@@ -126,14 +163,14 @@ function BlockView({ block }: { block: Block }) {
         </View>
       );
     case 'table':
-      return <Table block={block} />;
+      return <Table block={block} spokenItem={spokenItem ?? -2} onItemLayout={onItemLayout} />;
     case 'callout': {
       const style = CALLOUT[block.kind];
       return (
         <View
           accessible
           accessibilityLabel={`${style.label}. ${plainText(block.spans)}`}
-          className={`gap-1 rounded-xl border-l-4 p-4 ${style.box}`}
+          className={`gap-1 rounded-xl border-l-4 p-4 ${whole ? SPOKEN : style.box}`}
         >
           <Text className={`text-sm font-bold uppercase tracking-wide ${style.title}`}>
             {style.label}
@@ -152,7 +189,7 @@ function BlockView({ block }: { block: Block }) {
           accessible
           accessibilityRole="image"
           accessibilityLabel={diagram.description}
-          className="rounded-xl border border-slate-200 p-4 dark:border-slate-800"
+          className={`rounded-xl border p-4 ${whole ? 'border-amber-400 dark:border-amber-700' : 'border-slate-200 dark:border-slate-800'}`}
         >
           <diagram.Component />
         </View>
@@ -161,11 +198,41 @@ function BlockView({ block }: { block: Block }) {
   }
 }
 
-export function LessonContent({ blocks }: { blocks: Block[] }) {
+export type SpokenPart = { block: number; item: number };
+
+/**
+ * Renders a lesson. While its audio plays, `spoken` marks the part being read aloud, and
+ * `onLayout` reports where every block (item -1), list item and table row sits, relative to this
+ * component, so the screen can scroll along with the audio.
+ */
+export function LessonContent({
+  blocks,
+  spoken,
+  onLayout,
+}: {
+  blocks: Block[];
+  spoken?: SpokenPart | null;
+  onLayout?: (block: number, item: number, y: number) => void;
+}) {
+  const blockY = new Map<number, number>();
   return (
     <View className="gap-4">
       {blocks.map((block, index) => (
-        <BlockView key={index} block={block} />
+        <View
+          key={index}
+          onLayout={(event) => {
+            blockY.set(index, event.nativeEvent.layout.y);
+            onLayout?.(index, -1, event.nativeEvent.layout.y);
+          }}
+        >
+          <BlockView
+            block={block}
+            spokenItem={spoken && spoken.block === index ? spoken.item : null}
+            onItemLayout={(item, event) =>
+              onLayout?.(index, item, (blockY.get(index) ?? 0) + event.nativeEvent.layout.y)
+            }
+          />
+        </View>
       ))}
     </View>
   );

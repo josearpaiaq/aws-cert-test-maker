@@ -24,18 +24,20 @@ export async function loadProgress(repo: Repository, now: number): Promise<Progr
   const examId = CLF_C02.id;
   const domainIds = CLF_C02.domains.map((d) => d.id);
 
-  const [perDomain, timestamps, recentAnswers, examHistory] = await Promise.all([
+  const [perDomain, timestamps, lessonReads, recentAnswers, examHistory] = await Promise.all([
     Promise.all(
       domainIds.map((domain) => repo.getRecentAnswers(examId, { domain, limit: READINESS_WINDOW })),
     ),
     repo.getAnswerTimestamps(examId),
+    repo.getLessonReadTimestamps(examId),
     repo.getAnswersSince(examId, daysAgo(now, HISTORY_DAYS - 1)),
     repo.getExamHistory(examId),
   ]);
 
   return {
     readiness: computeReadiness(perDomain.flat(), domainIds),
-    streak: computeStreak(timestamps, now),
+    // A day counts toward the streak if a question was answered or a lesson was read.
+    streak: computeStreak([...timestamps, ...lessonReads], now),
     totalAnswered: timestamps.length,
     recentAnswers,
     examHistory,

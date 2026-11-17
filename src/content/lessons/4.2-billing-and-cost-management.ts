@@ -5,7 +5,7 @@ export const billingAndCostManagement: Lesson = {
   title: 'Billing, budgets and cost management',
   summary:
     'Estimate costs before you build, track and alert on spend, consolidate bills and tag costs to teams.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'What is AWS Pricing Calculator?',

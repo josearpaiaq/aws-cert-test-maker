@@ -5,7 +5,7 @@ export const globalInfrastructure: Lesson = {
   title: 'The AWS global infrastructure',
   summary:
     'Regions, Availability Zones and edge locations, how they deliver high availability, and when to use more than one Region.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'Global Infrastructure Regions & AZs',

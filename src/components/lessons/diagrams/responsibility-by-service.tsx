@@ -23,9 +23,6 @@ const CELL_TEXT: Record<Owner, string> = {
   aws: 'text-amber-900 dark:text-amber-200',
 };
 
-export const RESPONSIBILITY_DESCRIPTION =
-  'Who manages each layer. EC2: you manage data and access, the application, and the operating system; AWS manages the infrastructure. RDS: you manage data and access; AWS manages the database software, operating system and infrastructure. Lambda: you manage data and access and your code; AWS manages the operating system and infrastructure.';
-
 /** A grid of layers by service, each cell labelled with its owner so it isn't colour-only. */
 export function ResponsibilityByService() {
   return (

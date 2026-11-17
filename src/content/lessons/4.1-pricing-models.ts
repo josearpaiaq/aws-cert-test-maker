@@ -5,7 +5,7 @@ export const pricingModels: Lesson = {
   title: 'AWS pricing models',
   summary:
     'The EC2 purchasing options, how Reserved Instances flex and share, and what data transfer and storage cost.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'Amazon EC2 billing and purchasing options',
