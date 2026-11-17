@@ -4,7 +4,13 @@ import { Platform } from 'react-native';
 
 import type { ReminderTime } from '@/logic/reminder-time';
 
-const CHANNEL_ID = 'daily-reminder';
+/**
+ * Android decides whether a notification pops up as a banner from its channel's importance,
+ * and an app cannot raise the importance of a channel it already created. The first channel
+ * was created with default importance (no banner), so it is replaced by this one.
+ */
+const CHANNEL_ID = 'study-reminder';
+const OLD_CHANNEL_ID = 'daily-reminder';
 const REMINDER_ID = 'daily-reminder';
 
 /** Marks a notification as the study reminder, so a tap on it opens the Due today queue. */
@@ -30,9 +36,10 @@ export async function requestReminderPermission(): Promise<{
   canAskAgain: boolean;
 }> {
   if (Platform.OS === 'android') {
+    await Notifications.deleteNotificationChannelAsync(OLD_CHANNEL_ID);
     await Notifications.setNotificationChannelAsync(CHANNEL_ID, {
       name: 'Daily study reminder',
-      importance: AndroidImportance.DEFAULT,
+      importance: AndroidImportance.HIGH,
     });
   }
 
