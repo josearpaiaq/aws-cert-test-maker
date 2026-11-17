@@ -5,7 +5,7 @@ export const networking: Lesson = {
   title: 'AWS network services',
   summary:
     'The parts of a VPC, how security groups and network ACLs differ, Route 53, edge services and ways to connect to AWS.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'How Amazon VPC works',

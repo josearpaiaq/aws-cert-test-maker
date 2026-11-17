@@ -5,7 +5,7 @@ export const otherServices: Lesson = {
   title: 'Other in-scope AWS services',
   summary:
     'Messaging, business apps, customer engagement, developer tools, virtual desktops, frontend and IoT services, matched to the job each one does.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'What is Amazon Simple Queue Service?',

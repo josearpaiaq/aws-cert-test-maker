@@ -12,7 +12,7 @@ export type Lesson = {
   summary: string;
   body: string;
   sources: LessonSource[];
-  /** True until the content has been reviewed. */
+  /** True while the content is still a draft; shown as a label in the reader. */
   draft: boolean;
 };
 

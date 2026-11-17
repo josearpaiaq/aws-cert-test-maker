@@ -5,7 +5,7 @@ export const storage: Lesson = {
   title: 'AWS storage services',
   summary:
     'Block, file and object storage, the S3 storage classes, and how to move data between them.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'What is Amazon Elastic Block Store?',

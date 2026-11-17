@@ -5,7 +5,7 @@ export const cloudBenefits: Lesson = {
   title: 'Benefits of the AWS Cloud',
   summary:
     'Why companies move to AWS: lower costs from economies of scale, global reach, high availability, elasticity and agility.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'Six advantages of cloud computing',

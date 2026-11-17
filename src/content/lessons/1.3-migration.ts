@@ -5,7 +5,7 @@ export const migration: Lesson = {
   title: 'Migrating to the AWS Cloud',
   summary:
     'The AWS Cloud Adoption Framework, the seven migration strategies, and the services that move servers, databases and data.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'AWS Cloud Adoption Framework (AWS CAF)',

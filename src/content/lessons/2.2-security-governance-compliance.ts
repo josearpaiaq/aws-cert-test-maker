@@ -5,7 +5,7 @@ export const securityGovernanceCompliance: Lesson = {
   title: 'Security, governance and compliance',
   summary:
     'Where to find compliance reports, which services detect threats, how encryption works, and where the logs live.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'What is AWS Artifact?',

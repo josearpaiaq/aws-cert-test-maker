@@ -5,7 +5,7 @@ export const securityComponents: Lesson = {
   title: 'AWS security components and resources',
   summary:
     'Security groups, network ACLs and AWS WAF, third-party tools in AWS Marketplace, and where to find security help.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'Infrastructure security in Amazon VPC',

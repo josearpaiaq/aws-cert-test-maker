@@ -5,7 +5,7 @@ export const compute: Lesson = {
   title: 'AWS compute services',
   summary:
     'EC2 instance types, containers, serverless compute, and how Auto Scaling and load balancers keep applications elastic.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'Amazon EC2 instance types',

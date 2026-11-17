@@ -5,7 +5,7 @@ export const cloudEconomics: Lesson = {
   title: 'Cloud economics',
   summary:
     'Fixed versus variable costs, licensing choices, rightsizing, automation and managed services as ways the cloud saves money.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'Six advantages of cloud computing',

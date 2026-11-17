@@ -5,7 +5,7 @@ export const accessManagement: Lesson = {
   title: 'AWS access management',
   summary:
     'IAM users, groups, roles and policies, least privilege, protecting the root user, and federated sign-in.',
-  draft: true,
+  draft: false,
   sources: [
     {
       title: 'Security best practices in IAM',
