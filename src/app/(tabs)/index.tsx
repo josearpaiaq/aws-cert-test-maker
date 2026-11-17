@@ -4,6 +4,8 @@ import { useCallback, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useMiniPlayerPadding } from '@/components/lessons/mini-player';
+
 import { CLF_C02 } from '@/data/exams/clf-c02';
 import { DUE_TARGET, loadDueQuestions, WEAKEST_TARGET } from '@/data/practice-questions';
 import { getQuestionBank } from '@/data/question-bank';
@@ -27,6 +29,7 @@ function startPractice(target: string) {
 }
 
 export default function StudyScreen() {
+  const miniPlayerPadding = useMiniPlayerPadding();
   const bank = getQuestionBank();
   const repo = useRepository();
   const [dueCount, setDueCount] = useState<number | null>(null);
@@ -56,6 +59,7 @@ export default function StudyScreen() {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerClassName="gap-3 px-5 pb-8 pt-4"
+        contentContainerStyle={{ paddingBottom: 32 + miniPlayerPadding }}
       >
         <View className="flex-row items-center justify-between">
           <Text

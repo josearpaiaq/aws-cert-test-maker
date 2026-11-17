@@ -13,6 +13,9 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { saveVoice } from '@/audio/audio-session';
+import { setVoice, useLessonPlayer } from '@/audio/lesson-player';
+import { VOICE_NAMES, type VoiceId } from '@/content/lesson-audio';
 import { CLF_C02 } from '@/data/exams/clf-c02';
 import {
   loadReminderSettings,
@@ -63,6 +66,7 @@ export default function SettingsScreen() {
   const [notice, setNotice] = useState<Notice>(null);
   const [pickerOpen, setPickerOpen] = useState(false);
   const [busy, setBusy] = useState(false);
+  const voice = useLessonPlayer((s) => s.voice);
 
   useEffect(() => {
     let cancelled = false;
@@ -250,6 +254,46 @@ export default function SettingsScreen() {
               A test reminder will arrive in about 5 seconds.
             </Text>
           )}
+        </Section>
+
+        <Section title="Lesson audio">
+          <Text className="text-base font-medium text-slate-900 dark:text-slate-50">
+            Narrator voice
+          </Text>
+          <View accessibilityRole="radiogroup" className="flex-row gap-3">
+            {(Object.keys(VOICE_NAMES) as VoiceId[]).map((id) => {
+              const selected = id === voice;
+              return (
+                <Pressable
+                  key={id}
+                  accessibilityRole="radio"
+                  accessibilityState={{ checked: selected }}
+                  onPress={() => {
+                    setVoice(id);
+                    saveVoice(repo, id).catch(() => setNotice('failed'));
+                  }}
+                  className={`min-h-12 flex-1 items-center justify-center rounded-xl border-2 px-4 py-2 active:opacity-70 ${
+                    selected
+                      ? 'border-sky-700 bg-sky-700'
+                      : 'border-slate-300 dark:border-slate-700'
+                  }`}
+                >
+                  <Text
+                    maxFontSizeMultiplier={1.5}
+                    className={`text-base font-semibold ${
+                      selected ? 'text-white' : 'text-slate-800 dark:text-slate-100'
+                    }`}
+                  >
+                    {VOICE_NAMES[id]}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+          <Text className="text-sm leading-5 text-slate-600 dark:text-slate-400">
+            Lesson audio is narrated by AI-generated voices (Amazon Polly), not by a person.
+            Changing the voice stops anything that is playing.
+          </Text>
         </Section>
 
         <Section title="Your data">

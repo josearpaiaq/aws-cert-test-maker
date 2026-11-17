@@ -11,7 +11,10 @@ import { SQLiteProvider } from 'expo-sqlite';
 import { Pressable, Text, useColorScheme, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
+import { AudioSession } from '@/audio/audio-session';
+import { MiniPlayer } from '@/components/lessons/mini-player';
 import { migrate } from '@/db/migrations';
+import { ReminderSync } from '@/notifications/reminder-sync';
 import { useReminderLink } from '@/notifications/use-reminder-link';
 
 /**
@@ -57,6 +60,8 @@ export default function RootLayout() {
     <GestureHandlerRootView style={{ flex: 1 }}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
         <SQLiteProvider databaseName="cloudprep.db" onInit={migrate}>
+          <AudioSession />
+          <ReminderSync />
           <Stack screenOptions={{ headerShown: false }}>
             <Stack.Screen name="(tabs)" />
             <Stack.Screen name="practice" />
@@ -83,6 +88,7 @@ export default function RootLayout() {
               }}
             />
           </Stack>
+          <MiniPlayer />
         </SQLiteProvider>
       </ThemeProvider>
     </GestureHandlerRootView>

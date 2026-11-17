@@ -4,6 +4,8 @@ import { useCallback, useState } from 'react';
 import { Pressable, ScrollView, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+import { useMiniPlayerPadding } from '@/components/lessons/mini-player';
+
 import { CLF_C02 } from '@/data/exams/clf-c02';
 import { getQuestionBank } from '@/data/question-bank';
 import { startExam } from '@/db/exam-attempts';
@@ -19,6 +21,7 @@ type ExamTabState = {
 };
 
 export default function ExamScreen() {
+  const miniPlayerPadding = useMiniPlayerPadding();
   const repo = useRepository();
   const [state, setState] = useState<ExamTabState | null>(null);
   const [failed, setFailed] = useState(false);
@@ -64,6 +67,7 @@ export default function ExamScreen() {
       <ScrollView
         contentInsetAdjustmentBehavior="automatic"
         contentContainerClassName="gap-4 px-5 pb-8 pt-4"
+        contentContainerStyle={{ paddingBottom: 32 + miniPlayerPadding }}
       >
         <Text
           maxFontSizeMultiplier={1.3}
