@@ -315,13 +315,21 @@ export function createRepository(db: Database) {
         await db.runAsync('DELETE FROM review_schedule WHERE exam_id = ?', [examId]);
         await db.runAsync('DELETE FROM exam_attempts WHERE exam_id = ?', [examId]);
         await db.runAsync('DELETE FROM lesson_reads WHERE exam_id = ?', [examId]);
+        await db.runAsync('DELETE FROM lesson_read_log WHERE exam_id = ?', [examId]);
       });
     },
 
     // Lessons
 
-    /** Records that a lesson was read. Reading it again keeps the first time. */
+    /**
+     * Records that a lesson was read (or listened to). The lesson is marked read once; every
+     * call is also logged, so reading again on a later day counts as study for the streak.
+     */
     async markLessonRead(examId: string, lessonId: string, readAt: number): Promise<void> {
+      await db.runAsync(
+        'INSERT INTO lesson_read_log (exam_id, lesson_id, read_at) VALUES (?, ?, ?)',
+        [examId, lessonId, readAt],
+      );
       await db.runAsync(
         `INSERT INTO lesson_reads (exam_id, lesson_id, read_at) VALUES (?, ?, ?)
          ON CONFLICT (exam_id, lesson_id) DO NOTHING`,
@@ -335,6 +343,15 @@ export function createRepository(db: Database) {
         [examId],
       );
       return rows.map((row) => row.lesson_id);
+    },
+
+    /** The time of every lesson read, for the streak. */
+    async getLessonReadTimestamps(examId: string): Promise<number[]> {
+      const rows = await db.getAllAsync<{ read_at: number }>(
+        'SELECT read_at FROM lesson_read_log WHERE exam_id = ?',
+        [examId],
+      );
+      return rows.map((row) => row.read_at);
     },
 
     // Settings

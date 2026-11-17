@@ -19,6 +19,7 @@ describe('migrate', () => {
     expect(tables.map((t) => t.name)).toEqual([
       'answers',
       'exam_attempts',
+      'lesson_read_log',
       'lesson_reads',
       'review_schedule',
       'settings',
@@ -36,6 +37,21 @@ describe('migrate', () => {
     expect(await userVersion(db)).toBe(MIGRATIONS.length);
     expect(await db.getAllAsync('SELECT value FROM settings', [])).toEqual([{ value: '08:00' }]);
     expect(await db.getAllAsync('SELECT * FROM lesson_reads', [])).toEqual([]);
+  });
+
+  it('copies earlier lesson reads into the read log when upgrading from version 2', async () => {
+    const db = createTestDatabase();
+    await migrate(db, MIGRATIONS.slice(0, 2));
+    await db.runAsync(
+      "INSERT INTO lesson_reads (exam_id, lesson_id, read_at) VALUES ('clf-c02', '3.6', 1234)",
+      [],
+    );
+
+    await migrate(db);
+
+    expect(
+      await db.getAllAsync('SELECT exam_id, lesson_id, read_at FROM lesson_read_log', []),
+    ).toEqual([{ exam_id: 'clf-c02', lesson_id: '3.6', read_at: 1234 }]);
   });
 
   it('does nothing when the database is already up to date', async () => {

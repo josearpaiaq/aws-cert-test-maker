@@ -63,6 +63,17 @@ export const MIGRATIONS: readonly string[] = [
     PRIMARY KEY (exam_id, lesson_id)
   );
   `,
+  `
+  CREATE TABLE lesson_read_log (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    exam_id TEXT NOT NULL,
+    lesson_id TEXT NOT NULL,
+    read_at INTEGER NOT NULL
+  );
+  CREATE INDEX lesson_read_log_by_exam ON lesson_read_log (exam_id, read_at);
+  INSERT INTO lesson_read_log (exam_id, lesson_id, read_at)
+    SELECT exam_id, lesson_id, read_at FROM lesson_reads;
+  `,
 ];
 
 /** Brings the database up to the latest schema version. Safe to call on every app start. */
