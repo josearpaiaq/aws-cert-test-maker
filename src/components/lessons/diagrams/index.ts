@@ -1,10 +1,8 @@
 import type { ComponentType } from 'react';
 
-import {
-  RESPONSIBILITY_DESCRIPTION,
-  ResponsibilityByService,
-} from '@/components/lessons/diagrams/responsibility-by-service';
-import { S3_LIFECYCLE_DESCRIPTION, S3Lifecycle } from '@/components/lessons/diagrams/s3-lifecycle';
+import { ResponsibilityByService } from '@/components/lessons/diagrams/responsibility-by-service';
+import { S3Lifecycle } from '@/components/lessons/diagrams/s3-lifecycle';
+import { DIAGRAM_DESCRIPTIONS } from '@/content/diagram-descriptions';
 
 export type Diagram = {
   Component: ComponentType;
@@ -12,11 +10,15 @@ export type Diagram = {
   description: string;
 };
 
-/** Diagrams that lessons can place with {{diagram:<id>}}. */
-export const DIAGRAMS: Record<string, Diagram> = {
-  'responsibility-by-service': {
-    Component: ResponsibilityByService,
-    description: RESPONSIBILITY_DESCRIPTION,
-  },
-  's3-lifecycle': { Component: S3Lifecycle, description: S3_LIFECYCLE_DESCRIPTION },
+const COMPONENTS: Record<string, ComponentType> = {
+  'responsibility-by-service': ResponsibilityByService,
+  's3-lifecycle': S3Lifecycle,
 };
+
+/** Diagrams that lessons can place with {{diagram:<id>}}. */
+export const DIAGRAMS: Record<string, Diagram> = Object.fromEntries(
+  Object.entries(COMPONENTS).map(([id, Component]) => [
+    id,
+    { Component, description: DIAGRAM_DESCRIPTIONS[id] ?? '' },
+  ]),
+);

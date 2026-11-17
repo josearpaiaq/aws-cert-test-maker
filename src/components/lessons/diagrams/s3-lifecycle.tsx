@@ -8,9 +8,6 @@ const STAGES = [
   { label: 'Deleted', detail: 'After 365 days' },
 ];
 
-export const S3_LIFECYCLE_DESCRIPTION =
-  'Example lifecycle rule: objects start in S3 Standard, move to S3 Standard-IA after 30 days, to S3 Glacier Flexible Retrieval after 90 days, and are deleted after 365 days.';
-
 function Arrow({ color }: { color: string }) {
   return (
     <Svg width={24} height={22} viewBox="0 0 24 22">
