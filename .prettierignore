@@ -9,3 +9,5 @@ docs
 README.md
 AGENTS.md
 expo-env.d.ts
+api/openapi.json
+src/api/schema.d.ts

@@ -8,6 +8,7 @@ import {
   type ErrorBoundaryProps,
 } from 'expo-router';
 import { SQLiteProvider } from 'expo-sqlite';
+import { useEffect } from 'react';
 import { Pressable, Text, useColorScheme, View } from 'react-native';
 import { GestureHandlerRootView } from 'react-native-gesture-handler';
 
@@ -16,6 +17,7 @@ import { MiniPlayer } from '@/components/lessons/mini-player';
 import { migrate } from '@/db/migrations';
 import { ReminderSync } from '@/notifications/reminder-sync';
 import { useReminderLink } from '@/notifications/use-reminder-link';
+import { useAccount } from '@/state/account';
 
 /**
  * Shown instead of a blank screen when a screen throws while rendering, for example when the
@@ -55,6 +57,9 @@ export function ErrorBoundary({ error, retry }: ErrorBoundaryProps) {
 export default function RootLayout() {
   const colorScheme = useColorScheme();
   useReminderLink();
+  useEffect(() => {
+    void useAccount.getState().restore();
+  }, []);
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
@@ -76,6 +81,14 @@ export default function RootLayout() {
               options={{
                 headerShown: true,
                 title: 'Question bank',
+                headerBackButtonDisplayMode: 'minimal',
+              }}
+            />
+            <Stack.Screen
+              name="account"
+              options={{
+                headerShown: true,
+                title: 'Account',
                 headerBackButtonDisplayMode: 'minimal',
               }}
             />
