@@ -8,6 +8,7 @@ import { useMiniPlayerPadding } from '@/components/lessons/mini-player';
 
 import { AccuracyChart } from '@/components/progress/accuracy-chart';
 import { ReadinessCard } from '@/components/progress/readiness-card';
+import { StreakCard } from '@/components/progress/streak-card';
 import { CLF_C02 } from '@/data/exams/clf-c02';
 import { HISTORY_DAYS, loadProgress, type Progress } from '@/data/progress';
 import type { ExamAttempt } from '@/db/repository';
@@ -108,7 +109,6 @@ export default function ProgressScreen() {
     );
   }
 
-  const { streak } = progress;
   const header = (
     <View className="gap-4 px-5 pb-4 pt-4">
       <Text
@@ -125,12 +125,8 @@ export default function ProgressScreen() {
         </Text>
       )}
 
-      <View className="flex-row gap-3">
-        <StatTile
-          label="Streak"
-          value={`${streak.current} ${streak.current === 1 ? 'day' : 'days'}`}
-          detail={streak.studiedToday ? 'Studied today' : 'Not studied yet today'}
-        />
+      <StreakCard streak={progress.streak} />
+      <View className="flex-row">
         <StatTile
           label="Answered"
           value={String(progress.totalAnswered)}
