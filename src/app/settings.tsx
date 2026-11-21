@@ -12,6 +12,7 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { router } from 'expo-router';
 
 import { saveVoice } from '@/audio/audio-session';
 import { setVoice, useLessonPlayer } from '@/audio/lesson-player';
@@ -31,6 +32,7 @@ import {
   sendTestReminder,
 } from '@/notifications/daily-reminder';
 import { useExamSession } from '@/state/exam-session';
+import { useAccount } from '@/state/account';
 import { usePracticeSession } from '@/state/practice-session';
 
 type Notice = 'denied' | 'failed' | 'test-sent' | 'reset-done' | null;
@@ -67,6 +69,8 @@ export default function SettingsScreen() {
   const [pickerOpen, setPickerOpen] = useState(false);
   const [busy, setBusy] = useState(false);
   const voice = useLessonPlayer((s) => s.voice);
+  const account = useAccount((s) => s.user);
+  const signedIn = useAccount((s) => s.status === 'signed-in');
 
   useEffect(() => {
     let cancelled = false;
@@ -294,6 +298,23 @@ export default function SettingsScreen() {
             Lesson audio is narrated by AI-generated voices (Amazon Polly), not by a person.
             Changing the voice stops anything that is playing.
           </Text>
+        </Section>
+
+        <Section title="Account">
+          <Text className="text-sm leading-5 text-slate-600 dark:text-slate-400">
+            {signedIn
+              ? `Signed in as ${account?.email ?? 'your CloudPrep account'}.`
+              : 'Optional. Studying works the same without an account.'}
+          </Text>
+          <Pressable
+            accessibilityRole="button"
+            onPress={() => router.push('/account')}
+            className="min-h-12 items-center justify-center rounded-xl bg-slate-200 py-2 active:opacity-70 dark:bg-slate-800"
+          >
+            <Text className="text-base font-semibold text-slate-900 dark:text-slate-50">
+              {signedIn ? 'Manage account' : 'Sign in or create account'}
+            </Text>
+          </Pressable>
         </Section>
 
         <Section title="Your data">

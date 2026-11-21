@@ -11,6 +11,6 @@ module.exports = defineConfig([
     },
   },
   {
-    ignores: ['dist/*', '.expo/*', 'ios/*', 'android/*'],
+    ignores: ['dist/*', '.expo/*', 'ios/*', 'android/*', 'src/api/schema.d.ts'],
   },
 ]);
