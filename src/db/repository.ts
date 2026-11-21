@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 import type { Database, SqlParam } from '@/db/database';
+import { UUID_SQL } from '@/db/migrations';
 
 export type AnswerMode = 'practice' | 'review' | 'exam';
 export type Confidence = 'low' | 'high';
@@ -129,7 +130,25 @@ function toAttempt(row: AttemptRow): ExamAttempt {
   };
 }
 
-export function createRepository(db: Database) {
+/** Settings key holding when progress for an exam was last reset, on any device. */
+export const resetAtKey = (examId: string) => `progress.resetAt.${examId}`;
+
+/**
+ * `now` stamps `updated_at` on rows whose callers don't pass a time of their own.
+ */
+export function createRepository(db: Database, now: () => number = Date.now) {
+  /** Stores a setting and marks it for sync. The newest write wins across devices. */
+  const setSetting = async (key: string, value: string): Promise<void> => {
+    await db.runAsync(
+      `INSERT INTO settings (key, value, updated_at, dirty) VALUES (?, ?, ?, 1)
+       ON CONFLICT (key) DO UPDATE SET
+         value = excluded.value,
+         updated_at = excluded.updated_at,
+         dirty = 1`,
+      [key, value, now()],
+    );
+  };
+
   return {
     /** Runs `task` in a transaction: either every write in it is saved, or none is. */
     transaction(task: () => Promise<void>): Promise<void> {
@@ -141,9 +160,9 @@ export function createRepository(db: Database) {
     async recordAnswer(answer: NewAnswer): Promise<number> {
       const result = await db.runAsync(
         `INSERT INTO answers
-           (exam_id, question_id, domain, mode, selected_json, is_correct, confidence,
+           (uuid, exam_id, question_id, domain, mode, selected_json, is_correct, confidence,
             exam_attempt_id, answered_at)
-         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+         VALUES (${UUID_SQL}, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
         [
           answer.examId,
           answer.questionId,
@@ -249,9 +268,16 @@ export function createRepository(db: Database) {
       endsAt: number;
     }): Promise<number> {
       const result = await db.runAsync(
-        `INSERT INTO exam_attempts (exam_id, status, started_at, ends_at, question_ids_json)
-         VALUES (?, 'in_progress', ?, ?, ?)`,
-        [attempt.examId, attempt.startedAt, attempt.endsAt, JSON.stringify(attempt.questionIds)],
+        `INSERT INTO exam_attempts
+           (uuid, exam_id, status, started_at, ends_at, question_ids_json, updated_at)
+         VALUES (${UUID_SQL}, ?, 'in_progress', ?, ?, ?, ?)`,
+        [
+          attempt.examId,
+          attempt.startedAt,
+          attempt.endsAt,
+          JSON.stringify(attempt.questionIds),
+          attempt.startedAt,
+        ],
       );
       return result.lastInsertRowId;
     },
@@ -262,9 +288,9 @@ export function createRepository(db: Database) {
       progress: { responses: ExamResponses; flagged: string[] },
     ): Promise<void> {
       await db.runAsync(
-        `UPDATE exam_attempts SET responses_json = ?, flagged_json = ?
+        `UPDATE exam_attempts SET responses_json = ?, flagged_json = ?, updated_at = ?, dirty = 1
          WHERE id = ? AND status = 'in_progress'`,
-        [JSON.stringify(progress.responses), JSON.stringify(progress.flagged), attemptId],
+        [JSON.stringify(progress.responses), JSON.stringify(progress.flagged), now(), attemptId],
       );
     },
 
@@ -274,9 +300,10 @@ export function createRepository(db: Database) {
     ): Promise<void> {
       await db.runAsync(
         `UPDATE exam_attempts
-         SET status = 'submitted', submitted_at = ?, correct_count = ?, total_count = ?
+         SET status = 'submitted', submitted_at = ?, correct_count = ?, total_count = ?,
+             updated_at = ?, dirty = 1
          WHERE id = ? AND status = 'in_progress'`,
-        [result.submittedAt, result.correctCount, result.totalCount, attemptId],
+        [result.submittedAt, result.correctCount, result.totalCount, result.submittedAt, attemptId],
       );
     },
 
@@ -307,10 +334,13 @@ export function createRepository(db: Database) {
     },
 
     /**
-     * Deletes all answers, review schedules and mock exams for one exam. Settings are kept.
+     * Deletes all answers, review schedules, mock exams and lesson reads for one exam. Settings
+     * are kept. The reset time is stored as a synced setting so the reset reaches the server and
+     * every other device.
      */
     async resetProgress(examId: string): Promise<void> {
       await db.withTransactionAsync(async () => {
+        await setSetting(resetAtKey(examId), String(now()));
         await db.runAsync('DELETE FROM answers WHERE exam_id = ?', [examId]);
         await db.runAsync('DELETE FROM review_schedule WHERE exam_id = ?', [examId]);
         await db.runAsync('DELETE FROM exam_attempts WHERE exam_id = ?', [examId]);
@@ -327,7 +357,8 @@ export function createRepository(db: Database) {
      */
     async markLessonRead(examId: string, lessonId: string, readAt: number): Promise<void> {
       await db.runAsync(
-        'INSERT INTO lesson_read_log (exam_id, lesson_id, read_at) VALUES (?, ?, ?)',
+        `INSERT INTO lesson_read_log (uuid, exam_id, lesson_id, read_at)
+         VALUES (${UUID_SQL}, ?, ?, ?)`,
         [examId, lessonId, readAt],
       );
       await db.runAsync(
@@ -364,13 +395,7 @@ export function createRepository(db: Database) {
       return row?.value ?? null;
     },
 
-    async setSetting(key: string, value: string): Promise<void> {
-      await db.runAsync(
-        `INSERT INTO settings (key, value) VALUES (?, ?)
-         ON CONFLICT (key) DO UPDATE SET value = excluded.value`,
-        [key, value],
-      );
-    },
+    setSetting,
   };
 }
 

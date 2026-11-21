@@ -1,6 +1,14 @@
 import type { Database } from '@/db/database';
 
 /**
+ * SQL expression for a random RFC 4122 version 4 UUID. Used to backfill existing rows and to
+ * give every new syncable row its global identity.
+ */
+export const UUID_SQL = `(lower(hex(randomblob(4))) || '-' || lower(hex(randomblob(2))) || '-4' ||
+  substr(lower(hex(randomblob(2))), 2) || '-' || substr('89ab', 1 + (abs(random()) % 4), 1) ||
+  substr(lower(hex(randomblob(2))), 2) || '-' || lower(hex(randomblob(6))))`;
+
+/**
  * Schema migrations, applied in order. The database's `PRAGMA user_version` is the number of
  * migrations already applied. Never edit a migration that has shipped; append a new one.
  *
@@ -73,6 +81,39 @@ export const MIGRATIONS: readonly string[] = [
   CREATE INDEX lesson_read_log_by_exam ON lesson_read_log (exam_id, read_at);
   INSERT INTO lesson_read_log (exam_id, lesson_id, read_at)
     SELECT exam_id, lesson_id, read_at FROM lesson_reads;
+  `,
+  // Sync. `uuid` is a row's identity across devices (local integer ids collide). `dirty = 1`
+  // means the row changed on this device and has not been accepted by the server yet; rows
+  // pulled from the server are stored clean. `updated_at` orders edits of mutable rows.
+  // review_schedule and lesson_reads are not synced: they are rebuilt from answers and the
+  // lesson read log.
+  `
+  ALTER TABLE answers ADD COLUMN uuid TEXT;
+  ALTER TABLE answers ADD COLUMN dirty INTEGER NOT NULL DEFAULT 1 CHECK (dirty IN (0, 1));
+  UPDATE answers SET uuid = ${UUID_SQL};
+  CREATE UNIQUE INDEX answers_by_uuid ON answers (uuid);
+
+  ALTER TABLE exam_attempts ADD COLUMN uuid TEXT;
+  ALTER TABLE exam_attempts ADD COLUMN updated_at INTEGER NOT NULL DEFAULT 0;
+  ALTER TABLE exam_attempts ADD COLUMN dirty INTEGER NOT NULL DEFAULT 1 CHECK (dirty IN (0, 1));
+  UPDATE exam_attempts SET uuid = ${UUID_SQL}, updated_at = COALESCE(submitted_at, started_at);
+  CREATE UNIQUE INDEX exam_attempts_by_uuid ON exam_attempts (uuid);
+
+  ALTER TABLE lesson_read_log ADD COLUMN uuid TEXT;
+  ALTER TABLE lesson_read_log ADD COLUMN dirty INTEGER NOT NULL DEFAULT 1 CHECK (dirty IN (0, 1));
+  UPDATE lesson_read_log SET uuid = ${UUID_SQL};
+  CREATE UNIQUE INDEX lesson_read_log_by_uuid ON lesson_read_log (uuid);
+
+  ALTER TABLE settings ADD COLUMN updated_at INTEGER NOT NULL DEFAULT 0;
+  ALTER TABLE settings ADD COLUMN dirty INTEGER NOT NULL DEFAULT 1 CHECK (dirty IN (0, 1));
+
+  CREATE TABLE sync_state (
+    id INTEGER PRIMARY KEY CHECK (id = 1),
+    device_id TEXT NOT NULL,
+    cursor INTEGER NOT NULL DEFAULT 0,
+    last_synced_at INTEGER
+  );
+  INSERT INTO sync_state (id, device_id) VALUES (1, ${UUID_SQL});
   `,
 ];
 
