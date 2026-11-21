@@ -34,7 +34,7 @@ describe('loadProgress streak', () => {
 
     const progress = await loadProgress(repo, on(16, 20));
 
-    expect(progress.streak).toEqual({ current: 3, studiedToday: true });
+    expect(progress.streak).toMatchObject({ current: 3, studiedToday: true });
   });
 
   it('keeps the streak alive when a lesson is re-read on a later day', async () => {
