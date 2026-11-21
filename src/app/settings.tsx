@@ -18,6 +18,7 @@ import { saveVoice } from '@/audio/audio-session';
 import { setVoice, useLessonPlayer } from '@/audio/lesson-player';
 import { VOICE_NAMES, type VoiceId } from '@/content/lesson-audio';
 import { CLF_C02 } from '@/data/exams/clf-c02';
+import { loadStreak } from '@/data/progress';
 import {
   loadReminderSettings,
   saveReminderSettings,
@@ -97,7 +98,7 @@ export default function SettingsScreen() {
           setNotice('denied');
           next = { ...next, enabled: false };
         } else {
-          await scheduleDailyReminder(next.time);
+          await scheduleDailyReminder(next.time, await loadStreak(repo, Date.now()));
         }
       }
       if (!next.enabled) {

@@ -6,10 +6,13 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { useMiniPlayerPadding } from '@/components/lessons/mini-player';
 
+import { StreakBadge } from '@/components/progress/streak-card';
 import { CLF_C02 } from '@/data/exams/clf-c02';
 import { DUE_TARGET, loadDueQuestions, WEAKEST_TARGET } from '@/data/practice-questions';
+import { loadStreak } from '@/data/progress';
 import { getQuestionBank } from '@/data/question-bank';
 import { useRepository } from '@/db/use-repository';
+import type { Streak } from '@/logic/streak';
 
 let startupMarked = false;
 
@@ -33,6 +36,7 @@ export default function StudyScreen() {
   const bank = getQuestionBank();
   const repo = useRepository();
   const [dueCount, setDueCount] = useState<number | null>(null);
+  const [streak, setStreak] = useState<Streak | null>(null);
 
   // Recount on focus: finishing a session or an exam changes what is due.
   useFocusEffect(
@@ -47,6 +51,11 @@ export default function StudyScreen() {
         .catch(() => {
           if (!cancelled) setDueCount(null);
         });
+      loadStreak(repo, Date.now())
+        .then((loaded) => {
+          if (!cancelled) setStreak(loaded);
+        })
+        .catch(() => undefined);
       return () => {
         cancelled = true;
       };
@@ -69,14 +78,19 @@ export default function StudyScreen() {
           >
             Study
           </Text>
-          <Pressable
-            accessibilityRole="button"
-            hitSlop={12}
-            onPress={() => router.push('/settings')}
-            className="active:opacity-60"
-          >
-            <Text className="text-base font-semibold text-sky-700 dark:text-sky-400">Settings</Text>
-          </Pressable>
+          <View className="flex-row items-center gap-4">
+            {streak && <StreakBadge streak={streak} />}
+            <Pressable
+              accessibilityRole="button"
+              hitSlop={12}
+              onPress={() => router.push('/settings')}
+              className="active:opacity-60"
+            >
+              <Text className="text-base font-semibold text-sky-700 dark:text-sky-400">
+                Settings
+              </Text>
+            </Pressable>
+          </View>
         </View>
         <Text className="mb-2 text-base text-slate-600 dark:text-slate-400">
           {CLF_C02.name} · 10 questions per session

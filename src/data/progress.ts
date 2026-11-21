@@ -19,6 +19,16 @@ export type Progress = {
   loadedAt: number;
 };
 
+/** The study streak on its own, for screens that show only the streak. */
+export async function loadStreak(repo: Repository, now: number): Promise<Streak> {
+  const [timestamps, lessonReads] = await Promise.all([
+    repo.getAnswerTimestamps(CLF_C02.id),
+    repo.getLessonReadTimestamps(CLF_C02.id),
+  ]);
+  // A day counts toward the streak if a question was answered or a lesson was read.
+  return computeStreak([...timestamps, ...lessonReads], now);
+}
+
 /** Everything the Progress tab shows, read from the database in one go. */
 export async function loadProgress(repo: Repository, now: number): Promise<Progress> {
   const examId = CLF_C02.id;

@@ -2,7 +2,9 @@ import * as Notifications from 'expo-notifications';
 import { AndroidImportance, IosAuthorizationStatus } from 'expo-notifications';
 import { Platform } from 'react-native';
 
+import { planReminders, REMINDER_DAYS } from '@/logic/reminder-plan';
 import type { ReminderTime } from '@/logic/reminder-time';
+import type { Streak } from '@/logic/streak';
 
 /**
  * Android decides whether a notification pops up as a banner from its channel's importance,
@@ -11,7 +13,9 @@ import type { ReminderTime } from '@/logic/reminder-time';
  */
 const CHANNEL_ID = 'study-reminder';
 const OLD_CHANNEL_ID = 'daily-reminder';
-const REMINDER_ID = 'daily-reminder';
+/** The repeating reminder of older versions, replaced by one-off reminders that name the streak. */
+const OLD_REMINDER_ID = 'daily-reminder';
+const reminderId = (index: number) => `daily-reminder-${index}`;
 
 /** Marks a notification as the study reminder, so a tap on it opens the Due today queue. */
 export const REMINDER_KIND = 'daily-reminder';
@@ -50,23 +54,31 @@ export async function requestReminderPermission(): Promise<{
   return { granted: isGranted(status), canAskAgain: status.canAskAgain };
 }
 
-/** Schedules the reminder to repeat every day at `time`, replacing any earlier schedule. */
-export async function scheduleDailyReminder(time: ReminderTime): Promise<void> {
+/**
+ * Schedules a reminder for each of the next days at `time`, replacing any earlier schedule. The
+ * texts depend on `streak`, so this runs again whenever the app is opened or left.
+ */
+export async function scheduleDailyReminder(time: ReminderTime, streak: Streak): Promise<void> {
   await cancelDailyReminder();
-  await Notifications.scheduleNotificationAsync({
-    identifier: REMINDER_ID,
-    content,
-    trigger: {
-      type: Notifications.SchedulableTriggerInputTypes.DAILY,
-      hour: time.hour,
-      minute: time.minute,
-      channelId: CHANNEL_ID,
-    },
-  });
+  const plan = planReminders(time, streak, Date.now());
+  await Promise.all(
+    plan.map((reminder, index) =>
+      Notifications.scheduleNotificationAsync({
+        identifier: reminderId(index),
+        content: { title: reminder.title, body: reminder.body, data: { kind: REMINDER_KIND } },
+        trigger: {
+          type: Notifications.SchedulableTriggerInputTypes.DATE,
+          date: reminder.at,
+          channelId: CHANNEL_ID,
+        },
+      }),
+    ),
+  );
 }
 
 export async function cancelDailyReminder(): Promise<void> {
-  await Notifications.cancelScheduledNotificationAsync(REMINDER_ID);
+  const ids = [OLD_REMINDER_ID, ...Array.from({ length: REMINDER_DAYS }, (_, i) => reminderId(i))];
+  await Promise.all(ids.map((id) => Notifications.cancelScheduledNotificationAsync(id)));
 }
 
 /** Shows the reminder once, a few seconds from now, to check that notifications work. */

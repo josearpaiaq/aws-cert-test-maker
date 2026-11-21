@@ -1,0 +1,15 @@
+diff --git a/node_modules/expo-widgets/android/src/main/java/expo/modules/widgets/ExpoWidgetEmittableTree.kt b/node_modules/expo-widgets/android/src/main/java/expo/modules/widgets/ExpoWidgetEmittableTree.kt
+index 3df9e4a..8d99f5c 100644
+--- a/node_modules/expo-widgets/android/src/main/java/expo/modules/widgets/ExpoWidgetEmittableTree.kt
++++ b/node_modules/expo-widgets/android/src/main/java/expo/modules/widgets/ExpoWidgetEmittableTree.kt
+@@ -123,6 +123,10 @@ private class WidgetConverterContext(
+ internal fun ReadableMap.toPeekRoot(context: Context, source: InteractionSource, size: DpSize): Emittable {
+   val converterContext = WidgetConverterContext(context, size)
+   return EmittableColumn().also { root ->
++    // Patched in CloudPrep: a tap anywhere outside a button opens the app.
++    context.packageManager.getLaunchIntentForPackage(context.packageName)?.let { launchIntent ->
++      root.modifier = GlanceModifier.clickable(androidx.glance.appwidget.action.actionStartActivity(launchIntent))
++    }
+     root.children += toPeekNodes(converterContext, source)
+   }
+ }
