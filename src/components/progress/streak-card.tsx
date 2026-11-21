@@ -6,7 +6,7 @@ const dotClass: Record<DayState, string> = {
   studied: 'bg-orange-500',
   frozen: 'bg-sky-400',
   missed: 'bg-slate-200 dark:bg-slate-800',
-  pending: 'border-2 border-dashed border-orange-500',
+  pending: 'border-2 border-dashed border-slate-400 dark:border-slate-600',
 };
 
 const dotLabel: Record<DayState, string> = {
@@ -30,7 +30,6 @@ function statusLine(streak: Streak): string {
 
 /** The streak front and centre: the count, the last 7 days, freezes banked and the best run. */
 export function StreakCard({ streak }: { streak: Streak }) {
-  const atRisk = !streak.studiedToday && streak.current > 0;
   const freezeDetail =
     streak.daysToNextFreeze === null
       ? 'bank full'
@@ -39,9 +38,9 @@ export function StreakCard({ streak }: { streak: Streak }) {
   return (
     <View
       className={`gap-4 rounded-2xl border-2 p-5 ${
-        atRisk
-          ? 'border-amber-500 bg-amber-50 dark:border-amber-400 dark:bg-amber-950'
-          : 'border-orange-200 bg-orange-50 dark:border-orange-900 dark:bg-orange-950'
+        streak.studiedToday
+          ? 'border-orange-200 bg-orange-50 dark:border-orange-900 dark:bg-orange-950'
+          : 'border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900'
       }`}
     >
       <View
@@ -51,7 +50,7 @@ export function StreakCard({ streak }: { streak: Streak }) {
       >
         <Text
           maxFontSizeMultiplier={1.2}
-          className={`text-5xl ${streak.current === 0 ? 'opacity-40' : ''}`}
+          className={`text-5xl ${streak.studiedToday ? '' : 'opacity-40'}`}
         >
           🔥
         </Text>
@@ -66,15 +65,7 @@ export function StreakCard({ streak }: { streak: Streak }) {
               day streak
             </Text>
           </Text>
-          <Text
-            className={`text-base ${
-              atRisk
-                ? 'font-semibold text-amber-800 dark:text-amber-300'
-                : 'text-slate-700 dark:text-slate-300'
-            }`}
-          >
-            {statusLine(streak)}
-          </Text>
+          <Text className="text-base text-slate-700 dark:text-slate-300">{statusLine(streak)}</Text>
         </View>
       </View>
 
@@ -117,24 +108,25 @@ export function StreakCard({ streak }: { streak: Streak }) {
   );
 }
 
-/** A compact streak pill for headers: the count, amber while today's study is still missing. */
+/** A compact streak pill for headers: the count, grey until today's study is done. */
 export function StreakBadge({ streak }: { streak: Streak }) {
-  const atRisk = !streak.studiedToday && streak.current > 0;
   return (
     <View
       accessible
       accessibilityLabel={`${streak.current} day streak. ${statusLine(streak)}`}
       className={`flex-row items-center gap-1 rounded-full px-3 py-1 ${
-        atRisk ? 'bg-amber-100 dark:bg-amber-950' : 'bg-orange-50 dark:bg-orange-950'
+        streak.studiedToday ? 'bg-orange-50 dark:bg-orange-950' : 'bg-slate-100 dark:bg-slate-900'
       }`}
     >
-      <Text maxFontSizeMultiplier={1.3} className={streak.current === 0 ? 'opacity-40' : ''}>
+      <Text maxFontSizeMultiplier={1.3} className={streak.studiedToday ? '' : 'opacity-40'}>
         🔥
       </Text>
       <Text
         maxFontSizeMultiplier={1.3}
         className={`text-base font-semibold tabular-nums ${
-          atRisk ? 'text-amber-800 dark:text-amber-300' : 'text-slate-900 dark:text-slate-50'
+          streak.studiedToday
+            ? 'text-slate-900 dark:text-slate-50'
+            : 'text-slate-500 dark:text-slate-400'
         }`}
       >
         {streak.current}
