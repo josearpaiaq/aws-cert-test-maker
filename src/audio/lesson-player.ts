@@ -37,6 +37,13 @@ export const useLessonPlayer = create<PlayerState>(() => ({
 let playlist: AudioPlaylist | null = null;
 let playlistVoice: VoiceId | null = null;
 let order: string[] = [];
+/**
+ * Track index `playLesson` skipped to, until the native playlist reports it. Status events are
+ * delivered asynchronously, so a freshly created playlist can still report track 0 (or the old
+ * track) after `skipTo`; without this guard the UI showed lesson 1.1 and the lesson screen
+ * followed it there.
+ */
+let pendingIndex: number | null = null;
 let audioModeReady = false;
 let onLessonHeard: (lessonId: string) => void = () => undefined;
 
@@ -65,6 +72,7 @@ function release() {
   playlist = null;
   playlistVoice = null;
   order = [];
+  pendingIndex = null;
   useLessonPlayer.setState({ currentId: null, playing: false, currentTime: 0, duration: 0 });
 }
 
@@ -93,6 +101,10 @@ function ensurePlaylist(voice: VoiceId): AudioPlaylist {
   };
 
   created.addListener('playlistStatusUpdate', (status) => {
+    if (pendingIndex !== null) {
+      if (status.currentIndex !== pendingIndex) return;
+      pendingIndex = null;
+    }
     if (status.didJustFinish) heard(status.currentIndex);
     progress = { index: status.currentIndex, time: status.currentTime, duration: status.duration };
     useLessonPlayer.setState({
@@ -132,7 +144,8 @@ export async function playLesson(lessonId: string): Promise<void> {
   }
 
   const player = ensurePlaylist(voice);
-  player.skipTo(order.indexOf(lessonId));
+  pendingIndex = order.indexOf(lessonId);
+  player.skipTo(pendingIndex);
   player.setActiveForLockScreen(true, metadata(lessonId, voice), {
     showNextTrack: true,
     showPreviousTrack: true,
