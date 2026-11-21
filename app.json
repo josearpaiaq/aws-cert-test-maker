@@ -51,7 +51,27 @@
           "recordAudioAndroid": false
         }
       ],
-      "expo-secure-store"
+      "expo-secure-store",
+      [
+        "expo-widgets",
+        {
+          "enableAndroid": true,
+          "widgets": [
+            {
+              "name": "StreakWidget",
+              "displayName": "Study streak",
+              "description": "Your CloudPrep study streak at a glance.",
+              "android": {
+                "minWidth": 40,
+                "minHeight": 40,
+                "targetCellWidth": 1,
+                "targetCellHeight": 1,
+                "initialLayout": "./src/widgets/streak-widget.tsx"
+              }
+            }
+          ]
+        }
+      ]
     ],
     "experiments": {
       "typedRoutes": true,

@@ -6,21 +6,25 @@ import { loadReminderSettings } from '@/data/reminder-settings';
 import type { Repository } from '@/db/repository';
 import { useRepository } from '@/db/use-repository';
 import { requestReminderPermission, scheduleDailyReminder } from '@/notifications/daily-reminder';
+import { updateStreakWidget } from '@/widgets/update-streak-widget';
 
+/** Refreshes everything that shows the streak outside the app: the widget and the reminders. */
 async function syncReminder(repo: Repository): Promise<void> {
+  const now = Date.now();
+  const streak = await loadStreak(repo, now);
+  updateStreakWidget(streak, now);
+
   const settings = await loadReminderSettings(repo);
   if (!settings.enabled) return;
   const permission = await requestReminderPermission();
-  if (permission.granted) {
-    await scheduleDailyReminder(settings.time, await loadStreak(repo, Date.now()));
-  }
+  if (permission.granted) await scheduleDailyReminder(settings.time, streak);
 }
 
 /**
- * Re-applies the daily reminder at startup and whenever the app goes to the background, so the
- * reminders name the current streak and today's is dropped once the learner has studied. This
- * also moves a reminder scheduled by an older version of the app to the current notification
- * channel. Renders nothing.
+ * Re-applies the daily reminder and updates the streak widget at startup and whenever the app
+ * goes to the background, so both show the current streak and today's reminder is dropped once
+ * the learner has studied. This also moves a reminder scheduled by an older version of the app
+ * to the current notification channel. Renders nothing.
  */
 export function ReminderSync() {
   const repo = useRepository();
